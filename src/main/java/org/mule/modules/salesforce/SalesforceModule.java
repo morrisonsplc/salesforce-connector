@@ -75,6 +75,8 @@ import java.util.Map;
  * error handling, HTTPS connection, etc. are all abstracted from the user to make implementation
  * quick and easy.
  *
+ * {@sample.config ../../../doc/mule-module-sfdc.xml.sample sfdc:config}
+ *
  * @author MuleSoft, Inc.
  */
 @org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "4.0", friendlyName = "Salesforce")
