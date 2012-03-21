@@ -41,6 +41,7 @@ import com.sforce.ws.MessageHandler;
 import com.sforce.ws.transport.SoapConnection;
 import org.apache.log4j.Logger;
 import org.mule.api.ConnectionExceptionCode;
+import org.mule.api.MuleContext;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Connect;
 import org.mule.api.annotations.ConnectionIdentifier;
@@ -885,7 +886,7 @@ public class SalesforceModule {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_streaming/index_Left.htm">Streaming API</a>
      * @since 4.0
      */
-    @Source
+    @Source(primaryNodeOnly = true)
     public void subscribeTopic(String topic, final SourceCallback callback) {
         getBayeuxClient().subscribe("/topic" + topic, new SalesforceBayeuxMessageListener(callback));
     }
