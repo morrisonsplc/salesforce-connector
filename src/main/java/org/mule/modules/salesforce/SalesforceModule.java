@@ -510,6 +510,34 @@ public class SalesforceModule {
     }
 
     /**
+     * Retrieves data from specified objects, whether or not they have been deleted.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:query}
+     *
+     * @param query Query string that specifies the object to query, the fields to return, and any conditions for including a specific object in the query. For more information, see Salesforce Object Query Language (SOQL).
+     * @return An array of {@link SObject}s
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    public List<Map<String, Object>> queryAll(@Placement(group = "Query") String query) throws Exception {
+        QueryResult queryResult = connection.queryAll(query);
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        while (queryResult != null) {
+            for (SObject object : queryResult.getRecords()) {
+                result.add(object.toMap());
+            }
+            if (queryResult.isDone()) {
+                break;
+            }
+            queryResult = connection.queryMore(queryResult.getQueryLocator());
+        }
+
+        return result;
+    }
+
+    /**
      * Executes a query against the specified object and returns the first record that matches the specified criteria.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:query-single}
