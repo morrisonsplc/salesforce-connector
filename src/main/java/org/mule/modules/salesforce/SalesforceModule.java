@@ -165,6 +165,7 @@ public class SalesforceModule {
      * @return An array of {@link SaveResult} if async is false
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_create.htm">create()</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -185,6 +186,7 @@ public class SalesforceModule {
      * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
+     * @since 4.1
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -232,6 +234,7 @@ public class SalesforceModule {
      * @return An array of {@link SaveResult}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_create.htm">create()</a>
+     * @since 4.1
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -314,6 +317,7 @@ public class SalesforceModule {
      * @return An array of {@link SaveResult}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_update.htm">update()</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -334,6 +338,7 @@ public class SalesforceModule {
      * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
+     * @since 4.1
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -357,6 +362,7 @@ public class SalesforceModule {
      * @return a list of {@link UpsertResult}, one for each passed object
      * @throws Exception if a connection error occurs
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_upsert.htm">upsert()</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -383,6 +389,7 @@ public class SalesforceModule {
      * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
+     * @since 4.1
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -401,6 +408,7 @@ public class SalesforceModule {
      * @return Latest {@link BatchInfo} representing status of the batch job result.
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_get_info.htm">getBatchInfo()</a>
+     * @since 4.1
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -418,6 +426,7 @@ public class SalesforceModule {
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_get_results.htm">getBatchResult()</a>
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_interpret_status.htm">BatchInfo status</a>
+     * @since 4.1
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -433,6 +442,7 @@ public class SalesforceModule {
      * @return A {@link DescribeGlobalResult}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_describeglobal.htm">describeGlobal()</a>
+     * @since 4.0
      */
     @Processor
     public DescribeGlobalResult describeGlobal() throws Exception {
@@ -477,6 +487,7 @@ public class SalesforceModule {
      * @return An array of {@link SObject}s
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -535,6 +546,7 @@ public class SalesforceModule {
      * @return A single {@link SObject}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
+     * @since 4.1
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -593,6 +605,7 @@ public class SalesforceModule {
      * @return A list of {@link LeadConvertResult}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_convertlead.htm">convertLead()</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -635,6 +648,7 @@ public class SalesforceModule {
      *            Maximum number of records is 200.
      * @return A list of {@link EmptyRecycleBinResult}
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_emptyrecyclebin.htm">emptyRecycleBin()</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -652,6 +666,7 @@ public class SalesforceModule {
      * @return An array of {@link DeleteResult}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_delete.htm">delete()</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -708,6 +723,7 @@ public class SalesforceModule {
      * @return {@link GetDeletedResult}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getdeletedrange.htm">getDeletedRange()</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -734,6 +750,7 @@ public class SalesforceModule {
      * @return {@link DescribeSObjectResult}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_describesobject.htm">describeSObject()</a>
+     * @since 4.0
      */
     @Processor(name = "describe-sobject")
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -751,6 +768,7 @@ public class SalesforceModule {
      * @return {@link GetDeletedResult}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getdeleted.htm">getDeleted()</a>
+     * @since 4.2
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -801,6 +819,7 @@ public class SalesforceModule {
      *                    the channel. Maximum length: 1200 characters
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/pushtopic.htm">Push Topic</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -846,6 +865,7 @@ public class SalesforceModule {
      * @return {@link GetUserInfoResult}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getuserinfo.htm">getUserInfo()</a>
+     * @since 4.0
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
@@ -861,6 +881,7 @@ public class SalesforceModule {
      * @param topic    The name of the topic to subscribe to
      * @param callback The callback to be called when a message is received
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_streaming/index_Left.htm">Streaming API</a>
+     * @since 4.0
      */
     @Source
     public void subscribeTopic(String topic, final SourceCallback callback) {
