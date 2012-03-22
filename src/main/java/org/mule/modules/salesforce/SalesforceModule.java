@@ -42,20 +42,14 @@ import com.sforce.ws.transport.SoapConnection;
 import org.apache.log4j.Logger;
 import org.mule.api.ConnectionExceptionCode;
 import org.mule.api.MuleContext;
-import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.Connect;
-import org.mule.api.annotations.ConnectionIdentifier;
-import org.mule.api.annotations.Disconnect;
-import org.mule.api.annotations.InvalidateConnectionOn;
-import org.mule.api.annotations.Processor;
-import org.mule.api.annotations.Source;
-import org.mule.api.annotations.ValidateConnection;
+import org.mule.api.annotations.*;
 import org.mule.api.annotations.display.FriendlyName;
 import org.mule.api.annotations.display.Placement;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
 import org.mule.api.callback.SourceCallback;
+import org.mule.api.callback.StopSourceCallback;
 import org.springframework.util.StringUtils;
 
 import java.net.MalformedURLException;
@@ -886,9 +880,16 @@ public class SalesforceModule {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_streaming/index_Left.htm">Streaming API</a>
      * @since 4.0
      */
-    @Source(primaryNodeOnly = true)
-    public void subscribeTopic(String topic, final SourceCallback callback) {
+    @Source(primaryNodeOnly = true, threadingModel = SourceThreadingModel.NONE)
+    public StopSourceCallback subscribeTopic(final String topic, final SourceCallback callback) {
         getBayeuxClient().subscribe("/topic" + topic, new SalesforceBayeuxMessageListener(callback));
+
+        return new StopSourceCallback() {
+            @Override
+            public void stop() throws Exception {
+                getBayeuxClient().unsubscribe("/topic" + topic);
+            }
+        };
     }
 
     /**

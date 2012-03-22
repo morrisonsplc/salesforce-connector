@@ -106,6 +106,12 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     public void handshake() {
         super.handshake(HANDSHAKE_TIMEOUT);
     }
+    
+    public void unsubscribe(String channel) {
+        getChannel(channel).unsubscribe();
+
+        this.subscriptions.remove(channel);
+    }
 
     public void subscribe(String channel, ClientSessionChannel.MessageListener messageListener) {
         this.subscriptions.put(channel, messageListener);
