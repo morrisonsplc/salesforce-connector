@@ -41,8 +41,15 @@ import com.sforce.ws.MessageHandler;
 import com.sforce.ws.transport.SoapConnection;
 import org.apache.log4j.Logger;
 import org.mule.api.ConnectionExceptionCode;
-import org.mule.api.MuleContext;
-import org.mule.api.annotations.*;
+import org.mule.api.annotations.Configurable;
+import org.mule.api.annotations.Connect;
+import org.mule.api.annotations.ConnectionIdentifier;
+import org.mule.api.annotations.Disconnect;
+import org.mule.api.annotations.InvalidateConnectionOn;
+import org.mule.api.annotations.Processor;
+import org.mule.api.annotations.Source;
+import org.mule.api.annotations.SourceThreadingModel;
+import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.display.FriendlyName;
 import org.mule.api.annotations.display.Placement;
 import org.mule.api.annotations.param.ConnectionKey;
@@ -700,6 +707,9 @@ public class SalesforceModule {
                 endTime.add(Calendar.MINUTE, 1);
             }
         }
+        if(LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Getting updated " + type + " objects between " + startTime.getTime() + " and " + endTime.getTime());
+        }
         return connection.getUpdated(type, startTime, endTime);
     }
 
@@ -733,6 +743,9 @@ public class SalesforceModule {
             if (endTime.getTimeInMillis() - startTime.getTimeInMillis() < 60000) {
                 endTime.add(Calendar.MINUTE, 1);
             }
+        }
+        if(LOGGER.isDebugEnabled()) {
+             LOGGER.debug("Getting deleted " + type + " objects between " + startTime.getTime() + " and " + endTime.getTime());
         }
         return connection.getDeleted(type, startTime, endTime);
     }
