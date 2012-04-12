@@ -78,7 +78,7 @@ public class SalesforceBayeuxClientTest {
         SalesforceBayeuxClient bayeuxClient = spy(mockBayeuxClient());
         ClientSessionChannel.MessageListener messageListener = Mockito.mock(ClientSessionChannel.MessageListener.class);
         ClientSessionChannel clientSessionChannel = Mockito.mock(ClientSessionChannel.class);
-        doReturn(true).when(bayeuxClient).isHandshook();
+        doReturn(true).when(bayeuxClient).isConnected();
         doReturn(clientSessionChannel).when(bayeuxClient).getChannel("channel");
 
         bayeuxClient.subscribe("channel", messageListener);
