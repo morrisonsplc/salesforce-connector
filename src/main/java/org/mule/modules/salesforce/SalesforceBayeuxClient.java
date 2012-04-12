@@ -16,7 +16,6 @@ import org.cometd.bayeux.Message;
 import org.cometd.bayeux.client.ClientSessionChannel;
 import org.cometd.client.BayeuxClient;
 import org.cometd.client.transport.ClientTransport;
-import org.cometd.client.transport.LongPollingTransport;
 
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -106,7 +105,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     public void handshake() {
         super.handshake(HANDSHAKE_TIMEOUT);
     }
-    
+
     public void unsubscribe(String channel) {
         getChannel(channel).unsubscribe();
 
