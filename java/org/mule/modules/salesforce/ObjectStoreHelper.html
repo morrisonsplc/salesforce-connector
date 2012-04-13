@@ -74,7 +74,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../../../../favicon.ico" />
 <title>
 
-  SalesforceBayeuxMessageListener
+  ObjectStoreHelper
 
 
 | Mule Salesforce Connector
@@ -254,9 +254,9 @@
     <li><h2>Classes</h2>
       <ul>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/ListUtils.html">ListUtils</a></li>
-          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a></li>
+          <li class="selected api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceBayeuxClient.html">SalesforceBayeuxClient</a></li>
-          <li class="selected api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceBayeuxMessageListener.html">SalesforceBayeuxMessageListener</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceBayeuxMessageListener.html">SalesforceBayeuxMessageListener</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceLongPollingTransport.html">SalesforceLongPollingTransport</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></li>
       </ul>
@@ -314,28 +314,6 @@
   
   
 
-  
-  
-  
-  
-
-  
-  
-  
-  
-
-  
-  
-  
-  
-
-  
-   
-  
-  
-  
-  
-
 
 <div class="sum-details-links">
 
@@ -346,9 +324,12 @@ Summary:
 
 
 
+  <a href="#constants">Constants</a>
+  
 
 
-  <a href="#lfields">Fields</a>
+
+  &#124; <a href="#lfields">Fields</a>
   
 
 
@@ -387,7 +368,7 @@ Summary:
      
     
     class
-<h1>SalesforceBayeuxMessageListener</h1>
+<h1>ObjectStoreHelper</h1>
 
 
 
@@ -398,11 +379,6 @@ Summary:
   
 
   
-  
-      implements 
-      
-        ClientSessionChannel.MessageListener 
-      
   
   
 
@@ -425,7 +401,7 @@ Summary:
         
             <td class="jd-inheritance-space">&nbsp;&nbsp;&nbsp;&#x21b3;</td>
         
-        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.salesforce.SalesforceBayeuxMessageListener</td>
+        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.salesforce.ObjectStoreHelper</td>
     </tr>
     
 
@@ -478,6 +454,29 @@ Summary:
 
 
 
+<!-- =========== ENUM CONSTANT SUMMARY =========== -->
+<table id="constants" class="jd-sumtable"><tr><th colspan="12">Constants</th></tr>
+
+
+    
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol">String</td>
+        <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#LATEST_UPDATE_TIME_BACKUP_KEY">LATEST_UPDATE_TIME_BACKUP_KEY</a></td>
+        <td class="jd-descrcol" width="100%"></td>
+    </tr>
+    
+    
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol">String</td>
+        <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#LATEST_UPDATE_TIME_KEY">LATEST_UPDATE_TIME_KEY</a></td>
+        <td class="jd-descrcol" width="100%"></td>
+    </tr>
+    
+    
+
+</table>
+
+
 
 
 
@@ -491,10 +490,10 @@ Summary:
       <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
-          static
-          final
-          Logger</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceBayeuxMessageListener.html#LOGGER">LOGGER</a></td>
+          
+          
+          String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#keyPrefix">keyPrefix</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -503,9 +502,9 @@ Summary:
           <td class="jd-typecol"><nobr>
           private
           
-          final
-          SourceCallback</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceBayeuxMessageListener.html#callback">callback</a></td>
+          
+          ObjectStore</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#objectStore">objectStore</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -535,7 +534,7 @@ Summary:
             </nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceBayeuxMessageListener.html#SalesforceBayeuxMessageListener(org.mule.api.callback.SourceCallback)">SalesforceBayeuxMessageListener</a></span>(SourceCallback callback)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#ObjectStoreHelper(java.lang.String, org.mule.api.store.ObjectStore)">ObjectStoreHelper</a></span>(String keyPrefix, ObjectStore objectStore)</nobr>
         
   </td></tr>
 
@@ -561,10 +560,74 @@ Summary:
             
             
             
+            String</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getLastUpdateTimeKey()">getLastUpdateTimeKey</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            String</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getLatestUpdateTimeBackupKey()">getLatestUpdateTimeBackupKey</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            Calendar</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getTimestamp()">getTimestamp</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceBayeuxMessageListener.html#onMessage(org.cometd.bayeux.client.ClientSessionChannel, org.cometd.bayeux.Message)">onMessage</a></span>(ClientSessionChannel channel, Message message)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#resetTimestamps()">resetTimestamps</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#updateTimestamp(com.sforce.soap.partner.GetUpdatedResult)">updateTimestamp</a></span>(<a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a> getUpdatedResult)</nobr>
         
   </td></tr>
 
@@ -785,54 +848,6 @@ From class
 </td></tr>
 
 
-
-
-
-
-
-
-
-<tr class="api apilevel-" >
-<td colspan="12">
-  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-org.cometd.bayeux.client.ClientSessionChannel.MessageListener" class="jd-expando-trigger closed"
-          ><img id="inherited-methods-org.cometd.bayeux.client.ClientSessionChannel.MessageListener-trigger"
-          src="../../../../../assets/images/triangle-closed.png"
-          class="jd-expando-trigger-img" /></a>
-From interface
-
-  org.cometd.bayeux.client.ClientSessionChannel.MessageListener
-
-<div id="inherited-methods-org.cometd.bayeux.client.ClientSessionChannel.MessageListener">
-  <div id="inherited-methods-org.cometd.bayeux.client.ClientSessionChannel.MessageListener-list"
-        class="jd-inheritedlinks">
-  </div>
-  <div id="inherited-methods-org.cometd.bayeux.client.ClientSessionChannel.MessageListener-summary" style="display: none;">
-    <table class="jd-sumtable-expando">
-    
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            abstract
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad">onMessage</span>(ClientSessionChannel arg0, Message arg1)</nobr>
-        
-  </td></tr>
-
-
-</table>
-  </div>
-</div>
-</td></tr>
-
-
 </table>
 
 
@@ -856,6 +871,91 @@ From interface
 <!-- Constants -->
 
 
+<!-- ========= ENUM CONSTANTS DETAIL ======== -->
+<h2>Constants</h2>
+
+
+
+
+<A NAME="LATEST_UPDATE_TIME_BACKUP_KEY"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+        static 
+        final 
+        String
+      </span>
+        LATEST_UPDATE_TIME_BACKUP_KEY
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+        <div class="jd-tagdata">
+        <span class="jd-tagtitle">Constant Value: </span>
+        <span>
+            
+                "latestUpdateTimeBackup"
+            
+        </span>
+        </div>
+    
+    </div>
+</div>
+
+
+
+<A NAME="LATEST_UPDATE_TIME_KEY"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+        static 
+        final 
+        String
+      </span>
+        LATEST_UPDATE_TIME_KEY
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+        <div class="jd-tagdata">
+        <span class="jd-tagtitle">Constant Value: </span>
+        <span>
+            
+                "latestUpdateTime"
+            
+        </span>
+        </div>
+    
+    </div>
+</div>
+
+
+
+
 <!-- Fields -->
 
 
@@ -865,17 +965,17 @@ From interface
 
 
 
-<A NAME="LOGGER"></A>
+<A NAME="keyPrefix"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
       <span class="normal">
         private 
-        static 
-        final 
-        Logger
+         
+         
+        String
       </span>
-        LOGGER
+        keyPrefix
     </h4>
       <div class="api-level">
         
@@ -895,17 +995,17 @@ From interface
 
 
 
-<A NAME="callback"></A>
+<A NAME="objectStore"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
       <span class="normal">
         private 
          
-        final 
-        SourceCallback
+         
+        ObjectStore
       </span>
-        callback
+        objectStore
     </h4>
       <div class="api-level">
         
@@ -934,7 +1034,7 @@ From interface
 
 
 
-<A NAME="SalesforceBayeuxMessageListener(org.mule.api.callback.SourceCallback)"></A>
+<A NAME="ObjectStoreHelper(java.lang.String, org.mule.api.store.ObjectStore)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -946,8 +1046,8 @@ From interface
          
         
       </span>
-      <span class="sympad">SalesforceBayeuxMessageListener</span>
-      <span class="normal">(SourceCallback callback)</span>
+      <span class="sympad">ObjectStoreHelper</span>
+      <span class="normal">(String keyPrefix, ObjectStore objectStore)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -964,7 +1064,11 @@ From interface
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
         <tr>
-          <th>callback</td>
+          <th>keyPrefix</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>objectStore</td>
           <td></td>
         </tr>
       </table>
@@ -989,7 +1093,109 @@ From interface
 
 
 
-<A NAME="onMessage(org.cometd.bayeux.client.ClientSessionChannel, org.cometd.bayeux.Message)"></A>
+<A NAME="getLastUpdateTimeKey()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        String
+      </span>
+      <span class="sympad">getLastUpdateTimeKey</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    </div>
+</div>
+
+
+<A NAME="getLatestUpdateTimeBackupKey()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        String
+      </span>
+      <span class="sympad">getLatestUpdateTimeBackupKey</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    </div>
+</div>
+
+
+<A NAME="getTimestamp()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        Calendar
+      </span>
+      <span class="sympad">getTimestamp</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Throws</h5>
+      <table class="jd-tagtable">  
+        <tr>
+            <th>ObjectStoreException</td>
+            <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="resetTimestamps()"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1001,8 +1207,48 @@ From interface
          
         void
       </span>
-      <span class="sympad">onMessage</span>
-      <span class="normal">(ClientSessionChannel channel, Message message)</span>
+      <span class="sympad">resetTimestamps</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Throws</h5>
+      <table class="jd-tagtable">  
+        <tr>
+            <th>ObjectStoreException</td>
+            <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="updateTimestamp(com.sforce.soap.partner.GetUpdatedResult)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">updateTimestamp</span>
+      <span class="normal">(<a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a> getUpdatedResult)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1019,12 +1265,17 @@ From interface
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
         <tr>
-          <th>channel</td>
+          <th>getUpdatedResult</td>
           <td></td>
         </tr>
+      </table>
+  </div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Throws</h5>
+      <table class="jd-tagtable">  
         <tr>
-          <th>message</td>
-          <td></td>
+            <th>ObjectStoreException</td>
+            <td></td>
         </tr>
       </table>
   </div>

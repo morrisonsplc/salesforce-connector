@@ -254,6 +254,7 @@
     <li><h2>Classes</h2>
       <ul>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/ListUtils.html">ListUtils</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceBayeuxClient.html">SalesforceBayeuxClient</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceBayeuxMessageListener.html">SalesforceBayeuxMessageListener</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceLongPollingTransport.html">SalesforceLongPollingTransport</a></li>
@@ -456,6 +457,8 @@ Summary:
               >
           
             
+              <a href="../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleInjectionAdapter.html">SalesforceModuleInjectionAdapter</a>,
+            
               <a href="../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleLifecycleAdapter.html">SalesforceModuleLifecycleAdapter</a>,
             
               <a href="../../../../../java/org/mule/modules/salesforce/config/SalesforceModuleSessionManagerAdapter.html">SalesforceModuleSessionManagerAdapter</a>
@@ -467,10 +470,14 @@ Summary:
               >
   <table class="jd-sumtable-expando">
         <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleInjectionAdapter.html">SalesforceModuleInjectionAdapter</a></td>
+              <td class="jd-descrcol" width="100%">A <code>SalesforceModuleInjectionAdapter</code> is a wrapper around <code><a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code> that allows the injection of several Mule facilities when a MuleContext is set.&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleLifecycleAdapter.html">SalesforceModuleLifecycleAdapter</a></td>
               <td class="jd-descrcol" width="100%">A <code>SalesforceModuleLifecycleAdapter</code> is a wrapper around <code><a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code> that adds lifecycle methods to the pojo.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../java/org/mule/modules/salesforce/config/SalesforceModuleSessionManagerAdapter.html">SalesforceModuleSessionManagerAdapter</a></td>
               <td class="jd-descrcol" width="100%">A <code>SalesforceModuleSessionManagerAdapter</code> is a wrapper around <code><a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code> that adds session management to the pojo.&nbsp;</td>
           </tr>
@@ -492,7 +499,7 @@ Summary:
  over an HTTPS connection. The technical details of this connection such as request headers,
  error handling, HTTPS connection, etc. are all abstracted from the user to make implementation
  quick and easy.
-
+ <p/>
  {@sample.config &lt;sfdc:config name="salesforce-default" username="${salesforce.username}"
              password="${salesforce.password}" securityToken="${salesforce.securityToken}"/&gt;}</p>
 
@@ -596,6 +603,41 @@ Summary:
           private
           
           
+          ObjectStore</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#objectStore">objectStore</a></td>
+          <td class="jd-descrcol" width="100%">A ObjectStore instance to use in this#getUpdatedObjects
+</td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          private
+          
+          
+          <a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a></nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#objectStoreHelper">objectStoreHelper</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          private
+          
+          
+          ObjectStoreManager</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#objectStoreManager">objectStoreManager</a></td>
+          <td class="jd-descrcol" width="100%">Object store manager to obtain a store to support this#getUpdatedObjects
+</td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          private
+          
+          
           String</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#proxyHost">proxyHost</a></td>
           <td class="jd-descrcol" width="100%">Proxy host
@@ -603,7 +645,7 @@ Summary:
       </tr>
       
     
-      <tr class=" api apilevel-" >
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -615,7 +657,7 @@ Summary:
       </tr>
       
     
-      <tr class="alt-color api apilevel-" >
+      <tr class=" api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -627,7 +669,7 @@ Summary:
       </tr>
       
     
-      <tr class=" api apilevel-" >
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -639,7 +681,7 @@ Summary:
       </tr>
       
     
-      <tr class="alt-color api apilevel-" >
+      <tr class=" api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -651,7 +693,7 @@ Summary:
       </tr>
       
     
-      <tr class=" api apilevel-" >
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -1125,6 +1167,24 @@ Summary:
             
             
             
+            List&lt;Map&lt;String,&nbsp;Object&gt;&gt;</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#getUpdatedObjects(java.lang.String, int, java.util.List<java.lang.String>)">getUpdatedObjects</a></span>(String type, int initialTimeWindow, List&lt;String&gt; fields)</nobr>
+        
+        <div class="jd-descrdiv">Retrieves the list of records that have been updated between the last time this method was called and now.</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             <a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
@@ -1136,7 +1196,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1152,7 +1212,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1170,7 +1230,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1186,7 +1246,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1205,7 +1265,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1223,7 +1283,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1241,7 +1301,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1259,7 +1319,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1271,6 +1331,24 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#reconnect()">reconnect</a></span>()</nobr>
         
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#resetUpdatedObjectsTimestamp()">resetUpdatedObjectsTimestamp</a></span>()</nobr>
+        
+        <div class="jd-descrdiv">Resets the timestamp of the last updated object.</div>
+  
   </td></tr>
 
 
@@ -1289,6 +1367,38 @@ Summary:
         
         <div class="jd-descrdiv">Retrieves one or more records based on the specified IDs.</div>
   
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#setObjectStore(org.mule.api.store.ObjectStore)">setObjectStore</a></span>(ObjectStore objectStore)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#setObjectStoreManager(org.mule.api.store.ObjectStoreManager)">setObjectStoreManager</a></span>(ObjectStoreManager objectStoreManager)</nobr>
+        
   </td></tr>
 
 
@@ -1562,13 +1672,29 @@ Summary:
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#setRestConnection(com.sforce.async.RestConnection)">setRestConnection</a></span>(<a href="../../../../../java/com/sforce/async/RestConnection.html">RestConnection</a> restConnection)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#setObjectStoreHelper(org.mule.modules.salesforce.ObjectStoreHelper)">setObjectStoreHelper</a></span>(<a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a> objectStoreHelper)</nobr>
         
   </td></tr>
 
 
 	 
     <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#setRestConnection(com.sforce.async.RestConnection)">setRestConnection</a></span>(<a href="../../../../../java/com/sforce/async/RestConnection.html">RestConnection</a> restConnection)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1584,7 +1710,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1960,6 +2086,98 @@ From class
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p>Login result
+</p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="objectStore"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+         
+         
+        ObjectStore
+      </span>
+        objectStore
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>A ObjectStore instance to use in this#getUpdatedObjects
+</p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="objectStoreHelper"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+         
+         
+        <a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a>
+      </span>
+        objectStoreHelper
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="objectStoreManager"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+         
+         
+        ObjectStoreManager
+      </span>
+        objectStoreManager
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Object store manager to obtain a store to support this#getUpdatedObjects
 </p></div>
 
     
@@ -3454,6 +3672,75 @@ From class
 </div>
 
 
+<A NAME="getUpdatedObjects(java.lang.String, int, java.util.List<java.lang.String>)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        List&lt;Map&lt;String,&nbsp;Object&gt;&gt;
+      </span>
+      <span class="sympad">getUpdatedObjects</span>
+      <span class="normal">(String type, int initialTimeWindow, List&lt;String&gt; fields)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Retrieves the list of records that have been updated between the last time this method was called and now. This
+ method will save the timestamp of the latest date covered by Salesforce
+ <p/>
+ <p/>
+ </p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>type</td>
+          <td>Object type. The specified value must be a valid object for your organization.</td>
+        </tr>
+        <tr>
+          <th>initialTimeWindow</td>
+          <td>Time window (in minutes) to use the first time this method is called</td>
+        </tr>
+        <tr>
+          <th>fields</td>
+          <td>The fields to retrieve for the updated objects</td>
+        </tr>
+      </table>
+  </div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Returns</h5>
+      <ul class="nolist"><li><code><a href="../../../../../java/com/sforce/soap/partner/GetDeletedResult.html">GetDeletedResult</a></code></li></ul>
+  </div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Throws</h5>
+      <table class="jd-tagtable">  
+        <tr>
+            <th></td>
+            <td>Exception</td>
+        </tr>  
+        <tr>
+            <th>Exception</td>
+            <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
 <A NAME="getUpdatedRange(java.lang.String, java.util.Calendar, java.util.Calendar)"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -3925,6 +4212,50 @@ From class
 </div>
 
 
+<A NAME="resetUpdatedObjectsTimestamp()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">resetUpdatedObjectsTimestamp</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Resets the timestamp of the last updated object. After resetting this, a call to this#getUpdatedObjects(String, int) will
+ use the initialTimeWindow to get the updated objects. If no objectStore has been explicitly specified and this#getUpdatedObjects(String, int)
+ has not been called then calling this method has no effect.
+ <p/>
+ </p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Throws</h5>
+      <table class="jd-tagtable">  
+        <tr>
+            <th>ObjectStoreException</td>
+            <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
 <A NAME="retrieve(java.lang.String, java.util.List<java.lang.String>, java.util.List<java.lang.String>)"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -3980,6 +4311,86 @@ From class
         <tr>
             <th>Exception</td>
             <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="setObjectStore(org.mule.api.store.ObjectStore)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setObjectStore</span>
+      <span class="normal">(ObjectStore objectStore)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>objectStore</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="setObjectStoreManager(org.mule.api.store.ObjectStoreManager)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setObjectStoreManager</span>
+      <span class="normal">(ObjectStoreManager objectStoreManager)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>objectStoreManager</td>
+          <td></td>
         </tr>
       </table>
   </div>
@@ -4691,6 +5102,46 @@ From class
       <table class="jd-tagtable">
         <tr>
           <th>loginResult</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="setObjectStoreHelper(org.mule.modules.salesforce.ObjectStoreHelper)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setObjectStoreHelper</span>
+      <span class="normal">(<a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a> objectStoreHelper)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>objectStoreHelper</td>
           <td></td>
         </tr>
       </table>
