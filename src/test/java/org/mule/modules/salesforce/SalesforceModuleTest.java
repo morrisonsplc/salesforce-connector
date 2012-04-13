@@ -21,6 +21,7 @@ import com.sforce.soap.partner.DescribeGlobalResult;
 import com.sforce.soap.partner.DescribeSObjectResult;
 import com.sforce.soap.partner.EmptyRecycleBinResult;
 import com.sforce.soap.partner.GetServerTimestampResult;
+import com.sforce.soap.partner.GetUpdatedResult;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.LeadConvert;
 import com.sforce.soap.partner.LeadConvertResult;
@@ -33,8 +34,13 @@ import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.transport.SoapConnection;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,8 +53,10 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
@@ -72,6 +80,21 @@ public class SalesforceModuleTest {
     public static final String LAST_NAME_FIELD = "LastName";
     public static final String FIRST_NAME = "John";
     public static final String LAST_NAME = "Doe";
+    @Captor
+    private ArgumentCaptor<Calendar> startTimeCaptor;
+    @Captor
+    private ArgumentCaptor<Calendar> endTimeCaptor;
+    @Mock
+    private PartnerConnection connection;
+    @Mock
+    private GetUpdatedResult getUpdatedResult;
+    @Mock
+    private ObjectStoreHelper objectStoreHelper;
+
+    @Before
+    public void setUpTests() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void testCreate() throws Exception {
@@ -230,7 +253,7 @@ public class SalesforceModuleTest {
         SObject sObject1 = Mockito.mock(SObject.class);
         SObject sObject2 = Mockito.mock(SObject.class);
 
-        when(partnerConnection.retrieve(eq("Id,Name"), eq("Account"), eq(new String[] {"id1", "id2" }))).thenReturn(new SObject[] {sObject1, sObject2});
+        when(partnerConnection.retrieve(eq("Id,Name"), eq("Account"), eq(new String[]{"id1", "id2"}))).thenReturn(new SObject[]{sObject1, sObject2});
 
         List<Map<String, Object>> result = module.retrieve("Account", Arrays.asList("id1", "id2"), Arrays.asList("Id", "Name"));
 
@@ -729,4 +752,82 @@ public class SalesforceModuleTest {
         assertEquals(config.getProxyPassword(), "bb");
     }
 
+    @Test
+    public void testGetUpdatedObjectsFirstTimeCalled() throws Exception {
+        SalesforceModule module = Mockito.spy(new SalesforceModule());
+        module.setConnection(connection);
+        when(connection.getConfig()).thenReturn(createConnectorConfig("userX"));
+        module.setObjectStoreHelper(objectStoreHelper);
+        when(objectStoreHelper.getTimestamp()).thenReturn(null);
+        setServerTime(connection, 5, 15);
+
+        when(connection.getUpdated(anyString(), any(Calendar.class), any(Calendar.class))).thenReturn(getUpdatedResult);
+        Calendar latestDateCovered = Calendar.getInstance();
+        when(getUpdatedResult.getLatestDateCovered()).thenReturn(latestDateCovered);
+        when(getUpdatedResult.getIds()).thenReturn(new String[]{"1", "3"});
+
+        List<Map<String, Object>> updatedObjects = new ArrayList<Map<String, Object>>();
+        doReturn(updatedObjects).when(module).retrieve("Account", Arrays.asList("1", "3"), Arrays.asList("Id", "Name"));
+
+        assertSame(updatedObjects, module.getUpdatedObjects("Account", 60, Arrays.asList("Id", "Name")));
+
+        verify(connection).getUpdated(eq("Account"), startTimeCaptor.capture(), endTimeCaptor.capture());
+        assertStartTime(4, 15);
+        assertEndTime(5, 15);
+        verify(objectStoreHelper).updateTimestamp(getUpdatedResult);
+    }
+
+    @Test
+    public void testGetUpdatedObjects() throws Exception {
+        SalesforceModule module = Mockito.spy(new SalesforceModule());
+        module.setConnection(connection);
+        when(connection.getConfig()).thenReturn(createConnectorConfig("userX"));
+        module.setObjectStoreHelper(objectStoreHelper);
+        Calendar lastUpdateTime = createCalendar(4, 15);
+        when(objectStoreHelper.getTimestamp()).thenReturn(lastUpdateTime);
+        setServerTime(connection, 5, 15);
+
+        when(connection.getUpdated(anyString(), any(Calendar.class), any(Calendar.class))).thenReturn(getUpdatedResult);
+        Calendar latestDateCovered = createCalendar(5, 10);
+        when(getUpdatedResult.getLatestDateCovered()).thenReturn(latestDateCovered);
+        when(getUpdatedResult.getIds()).thenReturn(new String[]{"1", "3"});
+
+        List<Map<String, Object>> updatedObjects = new ArrayList<Map<String, Object>>();
+        doReturn(updatedObjects).when(module).retrieve("Account", Arrays.asList("1", "3"), Arrays.asList("Id", "Name"));
+
+        assertSame(updatedObjects, module.getUpdatedObjects("Account", 60, Arrays.asList("Id", "Name")));
+
+        verify(connection).getUpdated(eq("Account"), startTimeCaptor.capture(), endTimeCaptor.capture());
+        assertStartTime(4, 15);
+        assertEndTime(5, 15);
+        verify(objectStoreHelper).updateTimestamp(getUpdatedResult);
+    }
+
+    private void assertEndTime(int hourOfDay, int minute) {
+        assertEquals(hourOfDay, endTimeCaptor.getValue().get(Calendar.HOUR));
+        assertEquals(minute, endTimeCaptor.getValue().get(Calendar.MINUTE));
+    }
+
+    private void assertStartTime(int hourOfDay, int minute) {
+        assertEquals(hourOfDay, startTimeCaptor.getValue().get(Calendar.HOUR));
+        assertEquals(minute, startTimeCaptor.getValue().get(Calendar.MINUTE));
+    }
+
+    private void setServerTime(PartnerConnection connection, int hourOfDay, int minute) throws com.sforce.ws.ConnectionException {
+        GetServerTimestampResult getServerTimetampResult = Mockito.mock(GetServerTimestampResult.class);
+        when(connection.getServerTimestamp()).thenReturn(getServerTimetampResult);
+        when(getServerTimetampResult.getTimestamp()).thenReturn(createCalendar(hourOfDay, minute));
+    }
+
+    private Calendar createCalendar(int hourOfDay, int minute) {
+        Calendar calendar = (Calendar) Calendar.getInstance().clone();
+        calendar.set(2012, 4, 4, hourOfDay, minute, 0);
+        return calendar;
+    }
+
+    private ConnectorConfig createConnectorConfig(String username) {
+        ConnectorConfig connectorConfig = new ConnectorConfig();
+        connectorConfig.setUsername(username);
+        return connectorConfig;
+    }
 }

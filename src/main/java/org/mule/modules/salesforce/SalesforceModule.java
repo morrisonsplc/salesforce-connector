@@ -51,19 +51,25 @@ import org.mule.api.annotations.Source;
 import org.mule.api.annotations.SourceThreadingModel;
 import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.display.FriendlyName;
+import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.display.Placement;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
 import org.mule.api.callback.SourceCallback;
 import org.mule.api.callback.StopSourceCallback;
+import org.mule.api.store.ObjectStore;
+import org.mule.api.store.ObjectStoreException;
+import org.mule.api.store.ObjectStoreManager;
 import org.springframework.util.StringUtils;
 
+import javax.inject.Inject;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +82,7 @@ import java.util.Map;
  * over an HTTPS connection. The technical details of this connection such as request headers,
  * error handling, HTTPS connection, etc. are all abstracted from the user to make implementation
  * quick and easy.
- *
+ * <p/>
  * {@sample.config ../../../doc/mule-module-sfdc.xml.sample sfdc:config}
  *
  * @author MuleSoft, Inc.
@@ -125,7 +131,23 @@ public class SalesforceModule {
     @Configurable
     @Optional
     @Placement(group = "Proxy settings")
+    @Password
     private String proxyPassword;
+
+    /**
+     * Object store manager to obtain a store to support {@link this#getUpdatedObjects}
+     */
+    @Inject
+    private ObjectStoreManager objectStoreManager;
+
+    /**
+     * A ObjectStore instance to use in {@link this#getUpdatedObjects}
+     */
+    @Configurable
+    @Optional
+    private ObjectStore objectStore;
+
+    private ObjectStoreHelper objectStoreHelper;
 
     /**
      * Bayeux client
@@ -703,11 +725,11 @@ public class SalesforceModule {
         if (endTime == null) {
             Calendar serverTime = connection.getServerTimestamp().getTimestamp();
             endTime = (Calendar) serverTime.clone();
-            if (endTime.getTimeInMillis() - startTime.getTimeInMillis() < 60000) {
-                endTime.add(Calendar.MINUTE, 1);
-            }
         }
-        if(LOGGER.isDebugEnabled()) {
+        if (endTime.getTimeInMillis() - startTime.getTimeInMillis() < 60000) {
+            endTime.add(Calendar.MINUTE, 1);
+        }
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Getting updated " + type + " objects between " + startTime.getTime() + " and " + endTime.getTime());
         }
         return connection.getUpdated(type, startTime, endTime);
@@ -744,8 +766,8 @@ public class SalesforceModule {
                 endTime.add(Calendar.MINUTE, 1);
             }
         }
-        if(LOGGER.isDebugEnabled()) {
-             LOGGER.debug("Getting deleted " + type + " objects between " + startTime.getTime() + " and " + endTime.getTime());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Getting deleted " + type + " objects between " + startTime.getTime() + " and " + endTime.getTime());
         }
         return connection.getDeleted(type, startTime, endTime);
     }
@@ -814,6 +836,69 @@ public class SalesforceModule {
 
         endTime.add(Calendar.MINUTE, duration);
         return getUpdatedRange(type, startTime, endTime);
+    }
+
+    /**
+     * Retrieves the list of records that have been updated between the last time this method was called and now. This
+     * method will save the timestamp of the latest date covered by Salesforce
+     * <p/>
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-updated-objects}
+     *
+     * @param type              Object type. The specified value must be a valid object for your organization.
+     * @param initialTimeWindow Time window (in minutes) to use the first time this method is called
+     * @param fields            The fields to retrieve for the updated objects
+     * @return {@link GetDeletedResult}
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    public List<Map<String, Object>> getUpdatedObjects(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
+                                                       @Placement(group = "Information") int initialTimeWindow,
+                                                       @Placement(group = "Fields") List<String> fields) throws Exception {
+
+        Calendar now = (Calendar) connection.getServerTimestamp().getTimestamp().clone();
+        boolean initialTimeWindowUsed = false;
+        ObjectStoreHelper objectStoreHelper = getObjectStoreHelper(connection.getConfig().getUsername());
+        Calendar startTime = objectStoreHelper.getTimestamp();
+        if (startTime == null) {
+            startTime = (Calendar) now.clone();
+            startTime.add(Calendar.MINUTE, -1 * initialTimeWindow);
+            initialTimeWindowUsed = true;
+        }
+
+        GetUpdatedResult getUpdatedResult = getUpdatedRange(type, startTime, now);
+
+        if (getUpdatedResult.getLatestDateCovered().equals(startTime)) {
+            if (!initialTimeWindowUsed && getUpdatedResult.getIds().length > 0) {
+                LOGGER.debug("Ignoring duplicated results from getUpdated() call");
+                return Collections.emptyList();
+            }
+        }
+
+        List<Map<String, Object>> updatedObjects = retrieve(type, Arrays.asList(getUpdatedResult.getIds()), fields);
+        objectStoreHelper.updateTimestamp(getUpdatedResult);
+        return updatedObjects;
+    }
+
+    /**
+     * Resets the timestamp of the last updated object. After resetting this, a call to {@link this#getUpdatedObjects(String, int)} will
+     * use the initialTimeWindow to get the updated objects. If no objectStore has been explicitly specified and {@link this#getUpdatedObjects(String, int)}
+     * has not been called then calling this method has no effect.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:reset-updated-objects-timestamp}
+     *
+     * @throws ObjectStoreException
+     */
+    @Processor
+    public void resetUpdatedObjectsTimestamp() throws ObjectStoreException {
+        if (objectStore == null) {
+            LOGGER.warn("Trying to reset updated objects timestamp but no object store has been set, was getUpdatedObjects ever executed?");
+            return;
+        }
+        ObjectStoreHelper objectStoreHelper = getObjectStoreHelper(connection.getConfig().getUsername());
+        objectStoreHelper.resetTimestamps();
     }
 
     /**
@@ -914,7 +999,7 @@ public class SalesforceModule {
      * @throws ConnectionException if a problem occurred while trying to create the session
      */
     @Connect
-    public synchronized void connect(@ConnectionKey String username, String password, String securityToken)
+    public synchronized void connect(@ConnectionKey String username, @Password String password, String securityToken)
             throws org.mule.api.ConnectionException {
 
         ConnectorConfig connectorConfig = createConnectorConfig(url, username, password + securityToken, proxyHost, proxyPort, proxyUsername, proxyPassword);
@@ -1024,7 +1109,6 @@ public class SalesforceModule {
         }
         return sObject;
     }
-
 
     /**
      * Retrieve host of proxy
@@ -1172,6 +1256,14 @@ public class SalesforceModule {
         return bc;
     }
 
+    public void setObjectStoreManager(ObjectStoreManager objectStoreManager) {
+        this.objectStoreManager = objectStoreManager;
+    }
+
+    public void setObjectStore(ObjectStore objectStore) {
+        this.objectStore = objectStore;
+    }
+
     protected void setConnection(PartnerConnection connection) {
         this.connection = connection;
     }
@@ -1186,5 +1278,22 @@ public class SalesforceModule {
 
     protected void setBayeuxClient(SalesforceBayeuxClient bc) {
         this.bc = bc;
+    }
+
+    protected void setObjectStoreHelper(ObjectStoreHelper objectStoreHelper) {
+        this.objectStoreHelper = objectStoreHelper;
+    }
+
+    private synchronized ObjectStoreHelper getObjectStoreHelper(String username) {
+        if (objectStoreHelper == null) {
+            if (objectStore == null) {
+                objectStore = objectStoreManager.getObjectStore(username, true);
+                if (objectStore == null) {
+                    throw new IllegalStateException("Could not obtain a object store");
+                }
+            }
+            objectStoreHelper = new ObjectStoreHelper(username, objectStore);
+        }
+        return objectStoreHelper;
     }
 }

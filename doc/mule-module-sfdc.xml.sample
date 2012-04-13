@@ -184,3 +184,14 @@
      </sfdc:fields>
 </sfdc:retrieve>
 <!-- END_INCLUDE(sfdc:retrieve) -->
+<!-- BEGIN_INCLUDE(sfdc:get-updated-objects) -->
+<sfdc:get-updated-objects type="Account" initialTimeWindow="120">
+     <sfdc:fields>
+         <sfdc:field>Id</sfdc:field>
+         <sfdc:field>Name</sfdc:field>
+     </sfdc:fields>
+</sfdc:get-updated-objects>
+<!-- END_INCLUDE(sfdc:get-updated-objects) -->
+<!-- BEGIN_INCLUDE(sfdc:reset-updated-objects-timestamp) -->
+<sfdc:reset-updated-objects-timestamp />
+<!-- END_INCLUDE(sfdc:reset-updated-objects-timestampreset-updated-objects-timestamp) -->
