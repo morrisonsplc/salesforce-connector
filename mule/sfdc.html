@@ -2583,12 +2583,17 @@ attribute on each operation.</p>
  method will save the timestamp of the latest date covered by Salesforce
  <p/>
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;sfdc:get-updated-objects type="Account" initialTimeWindow="120"&gt;
-     &lt;sfdc:fields&gt;
-         &lt;sfdc:field&gt;Id&lt;/sfdc:field&gt;
-         &lt;sfdc:field&gt;Name&lt;/sfdc:field&gt;
-     &lt;/sfdc:fields&gt;
-&lt;/sfdc:get-updated-objects&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;flow name="getSalesforceUpdatedAccountObjects"&gt;
+    &lt;poll frequency="600000" &gt;
+        &lt;sfdc:get-updated-objects type="Account" initialTimeWindow="120"&gt;
+            &lt;sfdc:fields&gt;
+                &lt;sfdc:field&gt;Id&lt;/sfdc:field&gt;
+                &lt;sfdc:field&gt;Name&lt;/sfdc:field&gt;
+            &lt;/sfdc:fields&gt;
+        &lt;/sfdc:get-updated-objects&gt;
+    &lt;/poll&gt;
+    &lt;vm:outbound-endpoint path="persistentQueue" exchange-pattern="one-way" connector-ref="persistentVmConnector" /&gt;
+&lt;/flow&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
