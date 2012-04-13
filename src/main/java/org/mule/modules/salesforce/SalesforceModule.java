@@ -840,8 +840,10 @@ public class SalesforceModule {
 
     /**
      * Retrieves the list of records that have been updated between the last time this method was called and now. This
-     * method will save the timestamp of the latest date covered by Salesforce
-     * <p/>
+     * method will save the timestamp of the latest date covered by Salesforce represented by {@link GetUpdatedResult#latestDateCovered}.
+     * IMPORTANT: In order to use this method in a reliable way user must ensure that right after this method returns the result is
+     * stored in a persistent way since the timestamp of the latest . In order to reset the latest update time
+     * use {@link org.mule.modules.salesforce.SalesforceModule#resetUpdatedObjectsTimestamp()}
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-updated-objects}
      *
