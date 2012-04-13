@@ -16,7 +16,6 @@ import org.cometd.bayeux.Message;
 import org.cometd.bayeux.client.ClientSessionChannel;
 import org.cometd.client.BayeuxClient;
 import org.cometd.client.transport.ClientTransport;
-import org.cometd.client.transport.LongPollingTransport;
 
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -61,7 +60,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
         this.subscriptions = Collections.synchronizedMap(new HashMap<String, ClientSessionChannel.MessageListener>());
         setCookies();
 
-        getChannel(Channel.META_HANDSHAKE).addListener(new ClientSessionChannel.MessageListener() {
+        getChannel(Channel.META_CONNECT).addListener(new ClientSessionChannel.MessageListener() {
             public void onMessage(ClientSessionChannel channel, Message message) {
                 if (message.isSuccessful()) {
                     for (String subscriptionChannel : subscriptions.keySet()) {
@@ -106,7 +105,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     public void handshake() {
         super.handshake(HANDSHAKE_TIMEOUT);
     }
-    
+
     public void unsubscribe(String channel) {
         getChannel(channel).unsubscribe();
 
@@ -116,7 +115,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     public void subscribe(String channel, ClientSessionChannel.MessageListener messageListener) {
         this.subscriptions.put(channel, messageListener);
 
-        if (isHandshook()) {
+        if (isConnected()) {
             getChannel(channel).subscribe(messageListener);
         }
     }
