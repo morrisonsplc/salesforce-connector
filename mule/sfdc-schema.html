@@ -1889,8 +1889,10 @@ the oldest records, as long as they have been in the recycle bin for at least tw
   &lt;xs:element xmlns=&quot;http://www.mulesoft.org/schema/mule/sfdc&quot; xmlns:mule=&quot;http://www.mulesoft.org/schema/mule/core&quot; name=&quot;get-updated-objects&quot; substitutionGroup=&quot;mule:abstract-message-processor&quot; type=&quot;GetUpdatedObjectsType&quot;&gt;
     &lt;xs:annotation&gt;
       &lt;xs:documentation&gt;Retrieves the list of records that have been updated between the last time this method was called and now. This
-method will save the timestamp of the latest date covered by Salesforce
-&amp;lt;p/&amp;gt;
+method will save the timestamp of the latest date covered by Salesforce represented by .
+IMPORTANT: In order to use this method in a reliable way user must ensure that right after this method returns the result is
+stored in a persistent way since the timestamp of the latest . In order to reset the latest update time
+use 
 &amp;lt;p/&amp;gt;&lt;/xs:documentation&gt;
     &lt;/xs:annotation&gt;
   &lt;/xs:element&gt;
