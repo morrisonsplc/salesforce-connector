@@ -196,7 +196,7 @@ public class SalesforceModule {
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
     public List<SaveResult> create(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
-                                   @Placement(group = "sObject Field Mappings") List<Map<String, Object>> objects) throws Exception {
+                                   @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(connection.create(toSObjectList(type, objects)));
     }
 
@@ -217,7 +217,7 @@ public class SalesforceModule {
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
     public BatchInfo createBulk(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
-                                @Placement(group = "sObject Field Mappings") List<Map<String, Object>> objects) throws Exception {
+                                @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.insert, type), objects);
     }
 
@@ -265,7 +265,7 @@ public class SalesforceModule {
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
     public SaveResult createSingle(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
-                                   @Placement(group = "sObject Field Mappings") Map<String, Object> object) throws Exception {
+                                   @Placement(group = "sObject Field Mappings") @FriendlyName("sObject") Map<String, Object> object) throws Exception {
         SaveResult[] saveResults = connection.create(new SObject[]{toSObject(type, object)});
         if (saveResults.length > 0) {
             return saveResults[0];
@@ -348,7 +348,7 @@ public class SalesforceModule {
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
     public List<SaveResult> update(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
-                                   @Placement(group = "Salesforce sObjects list") List<Map<String, Object>> objects) throws Exception {
+                                   @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(connection.update(toSObjectList(type, objects)));
     }
 
@@ -369,7 +369,7 @@ public class SalesforceModule {
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
     public BatchInfo updateBulk(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
-                                @Placement(group = "Salesforce sObjects list") List<Map<String, Object>> objects) throws Exception {
+                                @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.update, type), objects);
     }
 
@@ -394,7 +394,7 @@ public class SalesforceModule {
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
     public List<UpsertResult> upsert(@Placement(group = "Information") String externalIdFieldName,
                                      @Placement(group = "Information") @FriendlyName("sObject Type") String type,
-                                     @Placement(group = "Salesforce sObjects list") List<Map<String, Object>> objects) throws Exception {
+                                     @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(connection.upsert(externalIdFieldName, toSObjectList(type, objects)));
     }
 
@@ -421,7 +421,7 @@ public class SalesforceModule {
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
     public BatchInfo upsertBulk(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Information", order = 2) String externalIdFieldName,
-                                @Placement(group = "Salesforce sObjects list") List<Map<String, Object>> objects) throws Exception {
+                                @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName), objects);
     }
 
@@ -701,6 +701,29 @@ public class SalesforceModule {
     }
 
     /**
+     * Deletes one or more records from your organization's data. 
+     * The deleted records are not stored in the Recycle Bin. 
+     * Instead, they become immediately eligible for deletion.
+     * <p/>
+     * This call uses the Bulk API. The creation will be done in asynchronous fashion.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:hard-delete-bulk}
+     *
+     * @param objects An array of one or more sObjects objects.
+     * @param type    Type of object to update
+     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
+     * @since 4.3
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    public BatchInfo hardDeleteBulk(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
+    								@Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") List<Map<String, Object>> objects) throws Exception {
+    	return createBatchAndCompleteRequest(createJobInfo(OperationEnum.hardDelete, type), objects);
+    }
+    
+    /**
      * Retrieves the list of individual records that have been created/updated within the given timespan for the specified object.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-updated-range}
@@ -784,7 +807,7 @@ public class SalesforceModule {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_describesobject.htm">describeSObject()</a>
      * @since 4.0
      */
-    @Processor(name = "describe-sobject")
+    @Processor(name = "describe-sobject", friendlyName = "Describe sObject")
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
     public DescribeSObjectResult describeSObject(@Placement(group = "Type") @FriendlyName("sObject Type") String type) throws Exception {
         return connection.describeSObject(type);
