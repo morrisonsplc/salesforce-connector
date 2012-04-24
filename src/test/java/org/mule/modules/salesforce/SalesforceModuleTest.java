@@ -76,6 +76,7 @@ public class SalesforceModuleTest {
     public static final String CONTACT_ID = "002";
     public static final String OPPORTUNITY_NAME = "NAME";
     public static final String CONVERTED_STATUS = "STATUS";
+    public static final String ID_FIELD = "id";
     public static final String FIRST_NAME_FIELD = "FirstName";
     public static final String LAST_NAME_FIELD = "LastName";
     public static final String FIRST_NAME = "John";
@@ -394,19 +395,8 @@ public class SalesforceModuleTest {
 
     @Test
     public void testCreateBulk() throws Exception {
-        SalesforceModule module = new SalesforceModule();
-        SaveResult saveResult = Mockito.mock(SaveResult.class);
-        PartnerConnection partnerConnection = Mockito.mock(PartnerConnection.class);
-        when(partnerConnection.create(Mockito.argThat(new SObjectArrayMatcher()))).thenReturn(new SaveResult[]{saveResult});
-        module.setConnection(partnerConnection);
-        RestConnection restConnection = Mockito.mock(RestConnection.class);
-        module.setRestConnection(restConnection);
-        JobInfo jobInfo = Mockito.mock(JobInfo.class);
-        BatchRequest batchRequest = Mockito.mock(BatchRequest.class);
-        BatchInfo batchInfo = Mockito.mock(BatchInfo.class);
-        doReturn(jobInfo).when(restConnection).createJob(any(JobInfo.class));
-        doReturn(batchRequest).when(restConnection).createBatch(any(JobInfo.class));
-        doReturn(batchInfo).when(batchRequest).completeRequest();
+    	SalesforceModule module = new SalesforceModule();
+        BatchInfo batchInfo = setupBulkConnection(module);
 
         Map<String, Object> sObject = new HashMap<String, Object>();
         sObject.put(FIRST_NAME_FIELD, FIRST_NAME);
@@ -421,17 +411,8 @@ public class SalesforceModuleTest {
 
     @Test
     public void testUpdateBulk() throws Exception {
-        SalesforceModule module = new SalesforceModule();
-        PartnerConnection partnerConnection = Mockito.mock(PartnerConnection.class);
-        module.setConnection(partnerConnection);
-        RestConnection restConnection = Mockito.mock(RestConnection.class);
-        module.setRestConnection(restConnection);
-        JobInfo jobInfo = Mockito.mock(JobInfo.class);
-        BatchRequest batchRequest = Mockito.mock(BatchRequest.class);
-        BatchInfo batchInfo = Mockito.mock(BatchInfo.class);
-        doReturn(jobInfo).when(restConnection).createJob(any(JobInfo.class));
-        doReturn(batchRequest).when(restConnection).createBatch(any(JobInfo.class));
-        doReturn(batchInfo).when(batchRequest).completeRequest();
+    	SalesforceModule module = new SalesforceModule();
+        BatchInfo batchInfo = setupBulkConnection(module);
 
         Map<String, Object> sObject = new HashMap<String, Object>();
         sObject.put(FIRST_NAME_FIELD, FIRST_NAME);
@@ -447,16 +428,7 @@ public class SalesforceModuleTest {
     @Test
     public void testUpsertBulk() throws Exception {
         SalesforceModule module = new SalesforceModule();
-        PartnerConnection partnerConnection = Mockito.mock(PartnerConnection.class);
-        module.setConnection(partnerConnection);
-        RestConnection restConnection = Mockito.mock(RestConnection.class);
-        module.setRestConnection(restConnection);
-        JobInfo jobInfo = Mockito.mock(JobInfo.class);
-        BatchRequest batchRequest = Mockito.mock(BatchRequest.class);
-        BatchInfo batchInfo = Mockito.mock(BatchInfo.class);
-        doReturn(jobInfo).when(restConnection).createJob(any(JobInfo.class));
-        doReturn(batchRequest).when(restConnection).createBatch(any(JobInfo.class));
-        doReturn(batchInfo).when(batchRequest).completeRequest();
+        BatchInfo batchInfo = setupBulkConnection(module);
 
         Map<String, Object> sObject = new HashMap<String, Object>();
         sObject.put(FIRST_NAME_FIELD, FIRST_NAME);
@@ -465,6 +437,21 @@ public class SalesforceModuleTest {
         sObjectList.add(sObject);
 
         BatchInfo returnedBatchInfo = module.upsertBulk(MOCK_OBJET_TYPE, "X_c", sObjectList);
+
+        assertEquals(batchInfo, returnedBatchInfo);
+    }
+    
+    @Test
+    public void testHardDeleteBulk() throws Exception {
+    	SalesforceModule module = new SalesforceModule();
+        BatchInfo batchInfo = setupBulkConnection(module);
+
+        Map<String, Object> sObject = new HashMap<String, Object>();
+        sObject.put(ID_FIELD, ACCOUNT_ID);
+        List<Map<String, Object>> sObjectList = new ArrayList<Map<String, Object>>();
+        sObjectList.add(sObject);
+
+        BatchInfo returnedBatchInfo = module.hardDeleteBulk(MOCK_OBJET_TYPE, sObjectList);
 
         assertEquals(batchInfo, returnedBatchInfo);
     }
@@ -801,6 +788,21 @@ public class SalesforceModuleTest {
         assertStartTime(4, 15);
         assertEndTime(5, 15);
         verify(objectStoreHelper).updateTimestamp(getUpdatedResult);
+    }
+    
+    private BatchInfo setupBulkConnection(SalesforceModule salesforceModule) throws AsyncApiException {
+    	PartnerConnection partnerConnection = Mockito.mock(PartnerConnection.class);
+    	salesforceModule.setConnection(partnerConnection);
+        RestConnection restConnection = Mockito.mock(RestConnection.class);
+        salesforceModule.setRestConnection(restConnection);
+        JobInfo jobInfo = Mockito.mock(JobInfo.class);
+        BatchRequest batchRequest = Mockito.mock(BatchRequest.class);
+        BatchInfo batchInfo = Mockito.mock(BatchInfo.class);
+        doReturn(jobInfo).when(restConnection).createJob(any(JobInfo.class));
+        doReturn(batchRequest).when(restConnection).createBatch(any(JobInfo.class));
+        doReturn(batchInfo).when(batchRequest).completeRequest();
+        
+        return batchInfo;
     }
 
     private void assertEndTime(int hourOfDay, int minute) {

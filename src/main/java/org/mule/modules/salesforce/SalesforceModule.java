@@ -701,6 +701,29 @@ public class SalesforceModule {
     }
 
     /**
+     * Deletes one or more records from your organization's data. 
+     * The deleted records are not stored in the Recycle Bin. 
+     * Instead, they become immediately eligible for deletion.
+     * <p/>
+     * This call uses the Bulk API. The creation will be done in asynchronous fashion.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:hard-delete-bulk}
+     *
+     * @param objects An array of one or more sObjects objects.
+     * @param type    Type of object to update
+     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
+     * @since 4.3
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    public BatchInfo hardDeleteBulk(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
+    								@Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") List<Map<String, Object>> objects) throws Exception {
+    	return createBatchAndCompleteRequest(createJobInfo(OperationEnum.hardDelete, type), objects);
+    }
+    
+    /**
      * Retrieves the list of individual records that have been created/updated within the given timespan for the specified object.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-updated-range}
