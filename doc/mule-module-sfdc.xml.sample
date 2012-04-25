@@ -136,7 +136,7 @@
 <!-- Update Name of the Account -->
 <sfdc:update type="Account">
     <sfdc:objects>
-        <sfdc:object ref="#[payload]"/>
+        <sfdc:object value-ref="#[payload]"/>
     </sfdc:objects>
 </sfdc:update>
 <!-- END_INCLUDE(sfdc:update) -->
@@ -145,7 +145,7 @@
 <!-- Update Name of the Account -->
 <sfdc:update-bulk type="Account">
     <sfdc:objects>
-        <sfdc:object ref="#[payload]"/>
+        <sfdc:object value-ref="#[payload]"/>
     </sfdc:objects>
 </sfdc:update-bulk>
 <!-- END_INCLUDE(sfdc:update-bulk) -->
@@ -204,7 +204,7 @@
 <!-- Hard Delete Accounts -->
 <sfdc:hard-delete-bulk type="Account">
     <sfdc:objects>
-        <sfdc:object ref="#[payload]"/>
+        <sfdc:object value-ref="#[payload]"/>
     </sfdc:objects>
 </sfdc:hard-delete-bulk>
 <!-- END_INCLUDE(sfdc:hard-delete-bulk) -->
