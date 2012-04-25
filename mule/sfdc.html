@@ -2988,7 +2988,7 @@ attribute on each operation.</p>
  <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;!-- Hard Delete Accounts --&gt;
 &lt;sfdc:hard-delete-bulk type="Account"&gt;
     &lt;sfdc:objects&gt;
-        &lt;sfdc:object ref="#[payload]"/&gt;
+        &lt;sfdc:object value-ref="#[payload]"/&gt;
     &lt;/sfdc:objects&gt;
 &lt;/sfdc:hard-delete-bulk&gt;</pre></div></p></div>
   <div class="jd-tagdata">
@@ -3818,7 +3818,7 @@ attribute on each operation.</p>
 &lt;!-- Update Name of the Account --&gt;
 &lt;sfdc:update type="Account"&gt;
     &lt;sfdc:objects&gt;
-        &lt;sfdc:object ref="#[payload]"/&gt;
+        &lt;sfdc:object value-ref="#[payload]"/&gt;
     &lt;/sfdc:objects&gt;
 &lt;/sfdc:update&gt;</pre></div></p></div>
   <div class="jd-tagdata">
@@ -3947,7 +3947,7 @@ attribute on each operation.</p>
 &lt;!-- Update Name of the Account --&gt;
 &lt;sfdc:update-bulk type="Account"&gt;
     &lt;sfdc:objects&gt;
-        &lt;sfdc:object ref="#[payload]"/&gt;
+        &lt;sfdc:object value-ref="#[payload]"/&gt;
     &lt;/sfdc:objects&gt;
 &lt;/sfdc:update-bulk&gt;</pre></div></p></div>
   <div class="jd-tagdata">
