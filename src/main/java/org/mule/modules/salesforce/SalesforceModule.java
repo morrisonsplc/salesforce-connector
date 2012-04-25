@@ -355,6 +355,25 @@ public class SalesforceModule {
     /**
      * Updates one or more existing records in your organization's data.
      * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:update-single}
+     *
+     * @param object The object to be updated.
+     * @param type    Type of object to update
+     * @return A {@link SaveResult}
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_update.htm">update()</a>
+     * @since 4.0
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    public SaveResult updateSingle(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
+                                   @Placement(group = "Salesforce Object") @FriendlyName("sObject") @Optional @Default("#[payload]") Map<String, Object> object) throws Exception {
+        return connection.update(new SObject[] { toSObject(type, object) })[0];
+    }
+
+    /**
+     * Updates one or more existing records in your organization's data.
+     * <p/>
      * This call uses the Bulk API. The creation will be done in asynchronous fashion.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:update-bulk}
