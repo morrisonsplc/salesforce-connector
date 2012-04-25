@@ -574,6 +574,16 @@ Summary:
 	 
     <tr class="alt-color api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../mule/sfdc.html#update-single">&lt;sfdc:update-single&gt;</a></nobr>
+        
+        <div class="jd-descrdiv">Updates one or more existing records in your organization's data.</div>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc.html#upsert">&lt;sfdc:upsert&gt;</a></nobr>
         
         <div class="jd-descrdiv"><a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_upsert.htm">Upserts</a>
@@ -583,7 +593,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc.html#upsert-bulk">&lt;sfdc:upsert-bulk&gt;</a></nobr>
         
@@ -2988,7 +2998,7 @@ attribute on each operation.</p>
  <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;!-- Hard Delete Accounts --&gt;
 &lt;sfdc:hard-delete-bulk type="Account"&gt;
     &lt;sfdc:objects&gt;
-        &lt;sfdc:object value-ref="#[payload]"/&gt;
+        &lt;sfdc:object ref="#[payload]"/&gt;
     &lt;/sfdc:objects&gt;
 &lt;/sfdc:hard-delete-bulk&gt;</pre></div></p></div>
   <div class="jd-tagdata">
@@ -3818,7 +3828,7 @@ attribute on each operation.</p>
 &lt;!-- Update Name of the Account --&gt;
 &lt;sfdc:update type="Account"&gt;
     &lt;sfdc:objects&gt;
-        &lt;sfdc:object value-ref="#[payload]"/&gt;
+        &lt;sfdc:object ref="#[payload]"/&gt;
     &lt;/sfdc:objects&gt;
 &lt;/sfdc:update&gt;</pre></div></p></div>
   <div class="jd-tagdata">
@@ -3947,7 +3957,7 @@ attribute on each operation.</p>
 &lt;!-- Update Name of the Account --&gt;
 &lt;sfdc:update-bulk type="Account"&gt;
     &lt;sfdc:objects&gt;
-        &lt;sfdc:object value-ref="#[payload]"/&gt;
+        &lt;sfdc:object ref="#[payload]"/&gt;
     &lt;/sfdc:objects&gt;
 &lt;/sfdc:update-bulk&gt;</pre></div></p></div>
   <div class="jd-tagdata">
@@ -4033,6 +4043,127 @@ attribute on each operation.</p>
     <div class="jd-tagdata">
         <h5 class="jd-tagtitle">API Information</h5>
         <ul class="nolist"><li><a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a></li></ul>
+    </div>
+  
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Exception Payloads</h5>
+      <table class="jd-sumtable">
+        <tr><th>Payload Class</th><th>Description</th></tr>
+        
+        <tr>
+            <td></td>
+            <td>Exception</td>
+        </tr>
+        <tr>
+            <td>Exception</td>
+            <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="update-single"></A>
+
+<div class="jd-details api apilevel-">
+    <h4 class="jd-details-title">
+      <span class="sympad">&lt;sfdc:update-single&gt;</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Updates one or more existing records in your organization's data.
+ <p/>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;sfdc:update-single type="Account" object-ref="#[payload]"/&gt;</pre></div></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Attributes</h5>
+
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
+          
+          
+                
+                <tr class=" api apilevel-" >
+                    <td class="jd-linkcol"><nobr>type</nobr></td>
+                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol" width="100%">Type of object to update</td>
+                </tr>
+                
+                
+          
+                
+          
+          
+          <tr><th colspan="12">Connection Parameters<br/><span style="font-weight: 200;">This are only required if you didn't specified them at the configuration element. They are also useful for overriding the values of the configurations or even if you need to extract them from the Mule message since they support expression evaluation.</span></th></tr>
+            
+                <tr class="alt-color api apilevel-" >
+                    <td class="jd-linkcol"><nobr>username</nobr></td>
+                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Username used to initialize the session</td>
+                </tr>
+                
+            
+                <tr class=" api apilevel-" >
+                    <td class="jd-linkcol"><nobr>password</nobr></td>
+                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Password used to authenticate the user</td>
+                </tr>
+                
+            
+                <tr class="alt-color api apilevel-" >
+                    <td class="jd-linkcol"><nobr>securityToken</nobr></td>
+                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>User's security token</td>
+                </tr>
+                
+            
+          
+          
+          
+            <tr><th colspan="12">Retry and Reconnect<br/><span style="font-weight: 200;">This message processor supports automatic retry and reconnect. If the API call fail for a known error then the API will be automatically retried. This does not happen on every type of error, only a few that has been selected and are known to be recoverable from.</span></th></tr>
+            <tr class=" api apilevel-" >
+                <td class="jd-linkcol"><nobr>retryMax</nobr></td>
+                <td class="jd-descrcol">1</td>
+                <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
+            </tr>
+            
+          
+          
+        </table>
+  </div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Child Elements</h5>
+        <table id="lconfig" class="jd-sumtable">
+          
+          
+            
+          
+            
+            <tr><th colspan="12"><nobr>&lt;sfdc:object&gt;</nobr></br><span style="font-weight: normal;"><i>Optional.&nbsp;</i>The object to be updated.</span></th></tr>
+            
+            
+          
+      </table>
+  </div>
+  
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Return Payload</h5>
+      <ul class="nolist"><li>A <code><a href="../java/com/sforce/soap/partner/SaveResult.html">SaveResult</a></code></li></ul>
+  </div>
+    
+    <div class="jd-tagdata">
+        <h5 class="jd-tagtitle">API Information</h5>
+        <ul class="nolist"><li><a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_update.htm">update()</a></li></ul>
     </div>
   
   <div class="jd-tagdata">
