@@ -301,8 +301,10 @@ public class XmlObject implements XMLizable {
             for (XmlObject child : children) {
                 if (child.getValue() != null) {
                     map.put(child.getName().getLocalPart(), child.getValue());
-                } else {
+                } else if( child.getChildren().hasNext() ) {
                     map.put(child.getName().getLocalPart(), child.toMap());
+                } else {
+                    map.put(child.getName().getLocalPart(), null);
                 }
             }
         }
