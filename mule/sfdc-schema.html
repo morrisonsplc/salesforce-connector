@@ -2139,6 +2139,11 @@ has not been called then calling this method has no effect.
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
+        &lt;xs:attribute name=&quot;type&quot; use=&quot;required&quot; type=&quot;xs:string&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;The object type for which the timestamp should be resetted.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
         &lt;xs:attribute name=&quot;retryMax&quot; default=&quot;1&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;Specify how many times this operation can be retried automatically.&lt;/xs:documentation&gt;

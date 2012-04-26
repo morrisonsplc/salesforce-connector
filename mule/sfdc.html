@@ -2603,7 +2603,7 @@ attribute on each operation.</p>
  method will save the timestamp of the latest date covered by Salesforce represented by latestDateCovered.
  IMPORTANT: In order to use this method in a reliable way user must ensure that right after this method returns the result is
  stored in a persistent way since the timestamp of the latest . In order to reset the latest update time
- use <code><a href="../java/org/mule/modules/salesforce/SalesforceModule.html#resetUpdatedObjectsTimestamp()">resetUpdatedObjectsTimestamp()</a></code>
+ use org.mule.modules.salesforce.SalesforceModule#resetUpdatedObjectsTimestamp()
  <p/>
  <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;flow name="getSalesforceUpdatedAccountObjects"&gt;
     &lt;poll frequency="600000" &gt;
@@ -3603,8 +3603,7 @@ attribute on each operation.</p>
   <div class="jd-tagdata jd-tagdescr"><p>Resets the timestamp of the last updated object. After resetting this, a call to this#getUpdatedObjects(String, int) will
  use the initialTimeWindow to get the updated objects. If no objectStore has been explicitly specified and this#getUpdatedObjects(String, int)
  has not been called then calling this method has no effect.
- <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>INCLUDE_ERROR</pre></div></p></div>
+ <p/></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -3616,24 +3615,34 @@ attribute on each operation.</p>
           <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td></tr>
           
           
+                
+                <tr class=" api apilevel-" >
+                    <td class="jd-linkcol"><nobr>type</nobr></td>
+                    <td class="jd-descrcol"></td>
+                    <td class="jd-descrcol" width="100%">The object type for which the timestamp should be resetted.
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>INCLUDE_ERROR</pre></div></td>
+                </tr>
+                
+                
+          
           
           <tr><th colspan="12">Connection Parameters<br/><span style="font-weight: 200;">This are only required if you didn't specified them at the configuration element. They are also useful for overriding the values of the configurations or even if you need to extract them from the Mule message since they support expression evaluation.</span></th></tr>
             
-                <tr class=" api apilevel-" >
+                <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>username</nobr></td>
                     <td class="jd-descrcol"></td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Username used to initialize the session</td>
                 </tr>
                 
             
-                <tr class="alt-color api apilevel-" >
+                <tr class=" api apilevel-" >
                     <td class="jd-linkcol"><nobr>password</nobr></td>
                     <td class="jd-descrcol"></td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Password used to authenticate the user</td>
                 </tr>
                 
             
-                <tr class=" api apilevel-" >
+                <tr class="alt-color api apilevel-" >
                     <td class="jd-linkcol"><nobr>securityToken</nobr></td>
                     <td class="jd-descrcol"></td>
                     <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>User's security token</td>
@@ -3644,7 +3653,7 @@ attribute on each operation.</p>
           
           
             <tr><th colspan="12">Retry and Reconnect<br/><span style="font-weight: 200;">This message processor supports automatic retry and reconnect. If the API call fail for a known error then the API will be automatically retried. This does not happen on every type of error, only a few that has been selected and are known to be recoverable from.</span></th></tr>
-            <tr class="alt-color api apilevel-" >
+            <tr class=" api apilevel-" >
                 <td class="jd-linkcol"><nobr>retryMax</nobr></td>
                 <td class="jd-descrcol">1</td>
                 <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify how many times this operation can be retried automatically</td>
@@ -3658,6 +3667,8 @@ attribute on each operation.</p>
       <h5 class="jd-tagtitle">Child Elements</h5>
         <table id="lconfig" class="jd-sumtable">
           
+          
+            
           
       </table>
   </div>

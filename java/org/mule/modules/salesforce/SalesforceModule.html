@@ -1363,7 +1363,7 @@ Summary:
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#resetUpdatedObjectsTimestamp()">resetUpdatedObjectsTimestamp</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceModule.html#resetUpdatedObjectsTimestamp(java.lang.String)">resetUpdatedObjectsTimestamp</a></span>(String type)</nobr>
         
         <div class="jd-descrdiv">Resets the timestamp of the last updated object.</div>
   
@@ -3737,7 +3737,7 @@ From class
  method will save the timestamp of the latest date covered by Salesforce represented by latestDateCovered.
  IMPORTANT: In order to use this method in a reliable way user must ensure that right after this method returns the result is
  stored in a persistent way since the timestamp of the latest . In order to reset the latest update time
- use <code><a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#resetUpdatedObjectsTimestamp()">resetUpdatedObjectsTimestamp()</a></code>
+ use org.mule.modules.salesforce.SalesforceModule#resetUpdatedObjectsTimestamp()
  <p/>
  </p></div>
   <div class="jd-tagdata">
@@ -4317,7 +4317,7 @@ From class
 </div>
 
 
-<A NAME="resetUpdatedObjectsTimestamp()"></A>
+<A NAME="resetUpdatedObjectsTimestamp(java.lang.String)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -4330,7 +4330,7 @@ From class
         void
       </span>
       <span class="sympad">resetUpdatedObjectsTimestamp</span>
-      <span class="normal">()</span>
+      <span class="normal">(String type)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -4345,8 +4345,17 @@ From class
   <div class="jd-tagdata jd-tagdescr"><p>Resets the timestamp of the last updated object. After resetting this, a call to this#getUpdatedObjects(String, int) will
  use the initialTimeWindow to get the updated objects. If no objectStore has been explicitly specified and this#getUpdatedObjects(String, int)
  has not been called then calling this method has no effect.
- <p/>
- </p></div>
+ <p/></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>type</td>
+          <td>The object type for which the timestamp should be resetted.
+ </td>
+        </tr>
+      </table>
+  </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Throws</h5>
       <table class="jd-tagtable">  

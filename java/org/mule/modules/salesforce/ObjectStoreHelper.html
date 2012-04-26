@@ -563,7 +563,7 @@ Summary:
             String</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getLastUpdateTimeKey()">getLastUpdateTimeKey</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getLastUpdateTimeKey(java.lang.String)">getLastUpdateTimeKey</a></span>(String type)</nobr>
         
   </td></tr>
 
@@ -579,7 +579,7 @@ Summary:
             String</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getLatestUpdateTimeBackupKey()">getLatestUpdateTimeBackupKey</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getLatestUpdateTimeBackupKey(java.lang.String)">getLatestUpdateTimeBackupKey</a></span>(String type)</nobr>
         
   </td></tr>
 
@@ -595,7 +595,7 @@ Summary:
             Calendar</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getTimestamp()">getTimestamp</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getTimestamp(java.lang.String)">getTimestamp</a></span>(String type)</nobr>
         
   </td></tr>
 
@@ -611,7 +611,7 @@ Summary:
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#resetTimestamps()">resetTimestamps</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#resetTimestamps(java.lang.String)">resetTimestamps</a></span>(String type)</nobr>
         
   </td></tr>
 
@@ -627,7 +627,7 @@ Summary:
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#updateTimestamp(com.sforce.soap.partner.GetUpdatedResult)">updateTimestamp</a></span>(<a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a> getUpdatedResult)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#updateTimestamp(com.sforce.soap.partner.GetUpdatedResult, java.lang.String)">updateTimestamp</a></span>(<a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a> getUpdatedResult, String type)</nobr>
         
   </td></tr>
 
@@ -1093,7 +1093,7 @@ From class
 
 
 
-<A NAME="getLastUpdateTimeKey()"></A>
+<A NAME="getLastUpdateTimeKey(java.lang.String)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1106,7 +1106,7 @@ From class
         String
       </span>
       <span class="sympad">getLastUpdateTimeKey</span>
-      <span class="normal">()</span>
+      <span class="normal">(String type)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1119,12 +1119,21 @@ From class
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>type</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
 
     </div>
 </div>
 
 
-<A NAME="getLatestUpdateTimeBackupKey()"></A>
+<A NAME="getLatestUpdateTimeBackupKey(java.lang.String)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1137,7 +1146,7 @@ From class
         String
       </span>
       <span class="sympad">getLatestUpdateTimeBackupKey</span>
-      <span class="normal">()</span>
+      <span class="normal">(String type)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1150,12 +1159,21 @@ From class
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>type</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
 
     </div>
 </div>
 
 
-<A NAME="getTimestamp()"></A>
+<A NAME="getTimestamp(java.lang.String)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1168,7 +1186,7 @@ From class
         Calendar
       </span>
       <span class="sympad">getTimestamp</span>
-      <span class="normal">()</span>
+      <span class="normal">(String type)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1181,6 +1199,15 @@ From class
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>type</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Throws</h5>
       <table class="jd-tagtable">  
@@ -1195,7 +1222,7 @@ From class
 </div>
 
 
-<A NAME="resetTimestamps()"></A>
+<A NAME="resetTimestamps(java.lang.String)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1208,7 +1235,7 @@ From class
         void
       </span>
       <span class="sympad">resetTimestamps</span>
-      <span class="normal">()</span>
+      <span class="normal">(String type)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1221,6 +1248,15 @@ From class
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>type</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Throws</h5>
       <table class="jd-tagtable">  
@@ -1235,7 +1271,7 @@ From class
 </div>
 
 
-<A NAME="updateTimestamp(com.sforce.soap.partner.GetUpdatedResult)"></A>
+<A NAME="updateTimestamp(com.sforce.soap.partner.GetUpdatedResult, java.lang.String)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1248,7 +1284,7 @@ From class
         void
       </span>
       <span class="sympad">updateTimestamp</span>
-      <span class="normal">(<a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a> getUpdatedResult)</span>
+      <span class="normal">(<a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a> getUpdatedResult, String type)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1266,6 +1302,10 @@ From class
       <table class="jd-tagtable">
         <tr>
           <th>getUpdatedResult</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>type</td>
           <td></td>
         </tr>
       </table>
