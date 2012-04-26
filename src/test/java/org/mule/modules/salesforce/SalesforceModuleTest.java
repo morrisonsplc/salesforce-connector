@@ -745,7 +745,7 @@ public class SalesforceModuleTest {
         module.setConnection(connection);
         when(connection.getConfig()).thenReturn(createConnectorConfig("userX"));
         module.setObjectStoreHelper(objectStoreHelper);
-        when(objectStoreHelper.getTimestamp()).thenReturn(null);
+        when(objectStoreHelper.getTimestamp("Account")).thenReturn(null);
         setServerTime(connection, 5, 15);
 
         when(connection.getUpdated(anyString(), any(Calendar.class), any(Calendar.class))).thenReturn(getUpdatedResult);
@@ -761,7 +761,7 @@ public class SalesforceModuleTest {
         verify(connection).getUpdated(eq("Account"), startTimeCaptor.capture(), endTimeCaptor.capture());
         assertStartTime(4, 15);
         assertEndTime(5, 15);
-        verify(objectStoreHelper).updateTimestamp(getUpdatedResult);
+        verify(objectStoreHelper).updateTimestamp(getUpdatedResult, "Account");
     }
 
     @Test
@@ -771,7 +771,7 @@ public class SalesforceModuleTest {
         when(connection.getConfig()).thenReturn(createConnectorConfig("userX"));
         module.setObjectStoreHelper(objectStoreHelper);
         Calendar lastUpdateTime = createCalendar(4, 15);
-        when(objectStoreHelper.getTimestamp()).thenReturn(lastUpdateTime);
+        when(objectStoreHelper.getTimestamp("Account")).thenReturn(lastUpdateTime);
         setServerTime(connection, 5, 15);
 
         when(connection.getUpdated(anyString(), any(Calendar.class), any(Calendar.class))).thenReturn(getUpdatedResult);
@@ -787,7 +787,7 @@ public class SalesforceModuleTest {
         verify(connection).getUpdated(eq("Account"), startTimeCaptor.capture(), endTimeCaptor.capture());
         assertStartTime(4, 15);
         assertEndTime(5, 15);
-        verify(objectStoreHelper).updateTimestamp(getUpdatedResult);
+        verify(objectStoreHelper).updateTimestamp(getUpdatedResult, "Account");
     }
     
     private BatchInfo setupBulkConnection(SalesforceModule salesforceModule) throws AsyncApiException {

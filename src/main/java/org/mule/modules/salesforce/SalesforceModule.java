@@ -905,7 +905,7 @@ public class SalesforceModule {
         Calendar now = (Calendar) connection.getServerTimestamp().getTimestamp().clone();
         boolean initialTimeWindowUsed = false;
         ObjectStoreHelper objectStoreHelper = getObjectStoreHelper(connection.getConfig().getUsername());
-        Calendar startTime = objectStoreHelper.getTimestamp();
+        Calendar startTime = objectStoreHelper.getTimestamp(type);
         if (startTime == null) {
             startTime = (Calendar) now.clone();
             startTime.add(Calendar.MINUTE, -1 * initialTimeWindow);
@@ -922,7 +922,7 @@ public class SalesforceModule {
         }
 
         List<Map<String, Object>> updatedObjects = retrieve(type, Arrays.asList(getUpdatedResult.getIds()), fields);
-        objectStoreHelper.updateTimestamp(getUpdatedResult);
+        objectStoreHelper.updateTimestamp(getUpdatedResult, type);
         return updatedObjects;
     }
 
@@ -931,18 +931,19 @@ public class SalesforceModule {
      * use the initialTimeWindow to get the updated objects. If no objectStore has been explicitly specified and {@link this#getUpdatedObjects(String, int)}
      * has not been called then calling this method has no effect.
      * <p/>
+     * @param type The object type for which the timestamp should be resetted.
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:reset-updated-objects-timestamp}
      *
      * @throws ObjectStoreException
      */
     @Processor
-    public void resetUpdatedObjectsTimestamp() throws ObjectStoreException {
+    public void resetUpdatedObjectsTimestamp(@Placement(group = "Information") @FriendlyName("sObject Type") String type) throws ObjectStoreException {
         if (objectStore == null) {
             LOGGER.warn("Trying to reset updated objects timestamp but no object store has been set, was getUpdatedObjects ever executed?");
             return;
         }
         ObjectStoreHelper objectStoreHelper = getObjectStoreHelper(connection.getConfig().getUsername());
-        objectStoreHelper.resetTimestamps();
+        objectStoreHelper.resetTimestamps(type);
     }
 
     /**

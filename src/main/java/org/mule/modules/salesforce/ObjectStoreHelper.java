@@ -28,40 +28,40 @@ public class ObjectStoreHelper {
         this.objectStore = objectStore;
     }
 
-    public void updateTimestamp(GetUpdatedResult getUpdatedResult) throws ObjectStoreException {
-        if (objectStore.contains(getLastUpdateTimeKey())) {
-            if (objectStore.contains(getLatestUpdateTimeBackupKey())) {
-                objectStore.remove(getLatestUpdateTimeBackupKey());
+    public void updateTimestamp(GetUpdatedResult getUpdatedResult, String type) throws ObjectStoreException {
+        if (objectStore.contains(getLastUpdateTimeKey(type))) {
+            if (objectStore.contains(getLatestUpdateTimeBackupKey(type))) {
+                objectStore.remove(getLatestUpdateTimeBackupKey(type));
             }
-            objectStore.store(getLatestUpdateTimeBackupKey(), objectStore.retrieve(getLastUpdateTimeKey()));
-            objectStore.remove(getLastUpdateTimeKey());
+            objectStore.store(getLatestUpdateTimeBackupKey(type), objectStore.retrieve(getLastUpdateTimeKey(type)));
+            objectStore.remove(getLastUpdateTimeKey(type));
         }
-        objectStore.store(getLastUpdateTimeKey(), getUpdatedResult.getLatestDateCovered());
+        objectStore.store(getLastUpdateTimeKey(type), getUpdatedResult.getLatestDateCovered());
     }
 
-    public Calendar getTimestamp() throws ObjectStoreException {
-        if (objectStore.contains(getLastUpdateTimeKey())) {
-            return (Calendar) objectStore.retrieve(getLastUpdateTimeKey());
-        } else if (objectStore.contains(getLatestUpdateTimeBackupKey())) {
-            return (Calendar) objectStore.retrieve(getLatestUpdateTimeBackupKey());
+    public Calendar getTimestamp(String type) throws ObjectStoreException {
+        if (objectStore.contains(getLastUpdateTimeKey(type))) {
+            return (Calendar) objectStore.retrieve(getLastUpdateTimeKey(type));
+        } else if (objectStore.contains(getLatestUpdateTimeBackupKey(type))) {
+            return (Calendar) objectStore.retrieve(getLatestUpdateTimeBackupKey(type));
         }
         return null;
     }
 
-    public void resetTimestamps() throws ObjectStoreException {
-        if (objectStore.contains(getLastUpdateTimeKey())) {
-            objectStore.remove(getLastUpdateTimeKey());
+    public void resetTimestamps(String type) throws ObjectStoreException {
+        if (objectStore.contains(getLastUpdateTimeKey(type))) {
+            objectStore.remove(getLastUpdateTimeKey(type));
         }
-        if (objectStore.contains(getLatestUpdateTimeBackupKey())) {
-            objectStore.remove(getLatestUpdateTimeBackupKey());
+        if (objectStore.contains(getLatestUpdateTimeBackupKey(type))) {
+            objectStore.remove(getLatestUpdateTimeBackupKey(type));
         }
     }
 
-    public String getLastUpdateTimeKey() {
-        return keyPrefix + LATEST_UPDATE_TIME_KEY;
+    public String getLastUpdateTimeKey(String type) {
+        return keyPrefix + '/' + type + '/' + LATEST_UPDATE_TIME_KEY;
     }
 
-    public String getLatestUpdateTimeBackupKey() {
-        return keyPrefix + LATEST_UPDATE_TIME_BACKUP_KEY;
+    public String getLatestUpdateTimeBackupKey(String type) {
+        return keyPrefix + '/' + type + '/' + LATEST_UPDATE_TIME_BACKUP_KEY;
     }
 }

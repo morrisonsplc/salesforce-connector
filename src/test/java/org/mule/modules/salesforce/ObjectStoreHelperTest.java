@@ -34,6 +34,7 @@ import static org.mockito.Mockito.when;
 
 public class ObjectStoreHelperTest {
 
+    private static final String TYPE = "Account";
     private ObjectStore objectStore;
     @Mock
     private GetUpdatedResult getUpdatedResult;
@@ -55,7 +56,7 @@ public class ObjectStoreHelperTest {
     @Test
     public void testUpdateTimestampObjectStoreEmtpy() throws Exception {
         when(getUpdatedResult.getLatestDateCovered()).thenReturn(timestampInSalesforceResponse);
-        objectStoreHelper.updateTimestamp(getUpdatedResult);
+        objectStoreHelper.updateTimestamp(getUpdatedResult, TYPE);
         assertLastUpdateTimeIs(timestampInSalesforceResponse);
     }
 
@@ -63,7 +64,7 @@ public class ObjectStoreHelperTest {
     public void testUpdateTimestampOnlyBackupTimestampAvailable() throws Exception {
         when(getUpdatedResult.getLatestDateCovered()).thenReturn(timestampInSalesforceResponse);
         storeLastUpdateTimeBackup(timestamp1);
-        objectStoreHelper.updateTimestamp(getUpdatedResult);
+        objectStoreHelper.updateTimestamp(getUpdatedResult, TYPE);
         assertLastUpdateTimeIs(timestampInSalesforceResponse);
         assertLastUpdateTimeBackupIs(timestamp1);
     }
@@ -73,7 +74,7 @@ public class ObjectStoreHelperTest {
         when(getUpdatedResult.getLatestDateCovered()).thenReturn(timestampInSalesforceResponse);
         storeLastUpdateTime(timestamp1);
         storeLastUpdateTimeBackup(timestamp2);
-        objectStoreHelper.updateTimestamp(getUpdatedResult);
+        objectStoreHelper.updateTimestamp(getUpdatedResult, TYPE);
         assertLastUpdateTimeIs(timestampInSalesforceResponse);
         assertLastUpdateTimeBackupIs(timestamp1);
     }
@@ -85,9 +86,9 @@ public class ObjectStoreHelperTest {
         when(getUpdatedResult.getLatestDateCovered()).thenReturn(timestampInSalesforceResponse);
         storeLastUpdateTime(timestamp1);
         storeLastUpdateTimeBackup(timestamp2);
-        doThrow(new ObjectStoreException()).when(objectStore).store(eq(objectStoreHelper.getLastUpdateTimeKey()), Matchers.<Serializable>anyObject());
+        doThrow(new ObjectStoreException()).when(objectStore).store(eq(objectStoreHelper.getLastUpdateTimeKey(TYPE)), Matchers.<Serializable>anyObject());
         try {
-            objectStoreHelper.updateTimestamp(getUpdatedResult);
+            objectStoreHelper.updateTimestamp(getUpdatedResult, TYPE);
             fail("ObjectStoreException should have been thrown");
         } catch (ObjectStoreException ose) {
             assertLastUpdateTimeBackupIs(timestamp1);
@@ -96,26 +97,26 @@ public class ObjectStoreHelperTest {
 
     @Test
     public void testGetTimestampEmptyStore() throws Exception {
-        assertNull(objectStoreHelper.getTimestamp());
+        assertNull(objectStoreHelper.getTimestamp(TYPE));
     }
 
     @Test
     public void testGetTimestamp() throws Exception {
         storeLastUpdateTime(timestamp1);
-        assertEquals(timestamp1, objectStoreHelper.getTimestamp());
+        assertEquals(timestamp1, objectStoreHelper.getTimestamp(TYPE));
     }
 
     @Test
     public void testGetTimestampOnlyBackupAvailable() throws Exception {
         storeLastUpdateTimeBackup(timestamp2);
-        assertEquals(timestamp2, objectStoreHelper.getTimestamp());
+        assertEquals(timestamp2, objectStoreHelper.getTimestamp(TYPE));
     }
 
     @Test
     public void testResetTimestamps() throws Exception {
         storeLastUpdateTime(timestamp1);
         storeLastUpdateTimeBackup(timestamp2);
-        objectStoreHelper.resetTimestamps();
+        objectStoreHelper.resetTimestamps(TYPE);
         assertFalse(objectStore.contains(lastUpdateTimeKey()));
         assertFalse(objectStore.contains(lastUpdateTimeBackupKey()));
     }
@@ -133,7 +134,7 @@ public class ObjectStoreHelperTest {
     }
 
     private String lastUpdateTimeKey() {
-        return objectStoreHelper.getLastUpdateTimeKey();
+        return objectStoreHelper.getLastUpdateTimeKey(TYPE);
     }
 
     private void storeLastUpdateTimeBackup(Calendar timestamp) throws ObjectStoreException {
@@ -141,6 +142,6 @@ public class ObjectStoreHelperTest {
     }
 
     private String lastUpdateTimeBackupKey() {
-        return objectStoreHelper.getLatestUpdateTimeBackupKey();
+        return objectStoreHelper.getLatestUpdateTimeBackupKey(TYPE);
     }
 }
