@@ -10,6 +10,41 @@
 
 package org.mule.modules.salesforce;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.apache.log4j.Logger;
+import org.mule.api.ConnectionExceptionCode;
+import org.mule.api.annotations.Configurable;
+import org.mule.api.annotations.Connect;
+import org.mule.api.annotations.ConnectionIdentifier;
+import org.mule.api.annotations.Disconnect;
+import org.mule.api.annotations.InvalidateConnectionOn;
+import org.mule.api.annotations.Processor;
+import org.mule.api.annotations.Source;
+import org.mule.api.annotations.SourceThreadingModel;
+import org.mule.api.annotations.ValidateConnection;
+import org.mule.api.annotations.display.FriendlyName;
+import org.mule.api.annotations.display.Password;
+import org.mule.api.annotations.display.Placement;
+import org.mule.api.annotations.param.ConnectionKey;
+import org.mule.api.annotations.param.Default;
+import org.mule.api.annotations.param.Optional;
+import org.mule.api.callback.SourceCallback;
+import org.mule.api.callback.StopSourceCallback;
+import org.mule.api.store.ObjectStore;
+import org.mule.api.store.ObjectStoreException;
+import org.mule.api.store.ObjectStoreManager;
+import org.springframework.util.StringUtils;
+
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.AsyncExceptionCode;
 import com.sforce.async.BatchInfo;
@@ -39,39 +74,6 @@ import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.MessageHandler;
 import com.sforce.ws.transport.SoapConnection;
-import org.apache.log4j.Logger;
-import org.mule.api.ConnectionExceptionCode;
-import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.Connect;
-import org.mule.api.annotations.ConnectionIdentifier;
-import org.mule.api.annotations.Disconnect;
-import org.mule.api.annotations.InvalidateConnectionOn;
-import org.mule.api.annotations.Processor;
-import org.mule.api.annotations.Source;
-import org.mule.api.annotations.SourceThreadingModel;
-import org.mule.api.annotations.ValidateConnection;
-import org.mule.api.annotations.display.FriendlyName;
-import org.mule.api.annotations.display.Password;
-import org.mule.api.annotations.display.Placement;
-import org.mule.api.annotations.param.ConnectionKey;
-import org.mule.api.annotations.param.Default;
-import org.mule.api.annotations.param.Optional;
-import org.mule.api.callback.SourceCallback;
-import org.mule.api.callback.StopSourceCallback;
-import org.mule.api.store.ObjectStore;
-import org.mule.api.store.ObjectStoreException;
-import org.mule.api.store.ObjectStoreManager;
-import org.springframework.util.StringUtils;
-
-import javax.inject.Inject;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The Salesforce Connector will allow to connect to the Salesforce application. Almost every operation that can be
@@ -87,7 +89,7 @@ import java.util.Map;
  *
  * @author MuleSoft, Inc.
  */
-@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "4.0", friendlyName = "Salesforce")
+@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "4.0", friendlyName = "Salesforce", minMuleVersion="3.3")
 public class SalesforceModule {
     private static final Logger LOGGER = Logger.getLogger(SalesforceModule.class);
 
@@ -195,11 +197,68 @@ public class SalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
-    public List<SaveResult> create(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
+    public List<SaveResult> create(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(connection.create(toSObjectList(type, objects)));
     }
 
+    
+    /**
+     * Creates a Job in order to perform one or more batches through Bulk API Operations.
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-job}
+     * 
+     * @param operation The {@link OperationEnum} that will be executed by the job.
+     * @param type The type of Salesforce object that the job will process.
+     * @param externalIdFieldName Contains the name of the field on this object with the external ID field attribute
+     *                            for custom objects or the idLookup field property for standard objects 
+     *                            (only required for Upsert Operations).
+     * @return A {@link JobInfo} that identifies the created Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
+     * @since 4.4
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = AsyncApiException.class)
+    public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName) throws Exception {
+        return createJobInfo(operation, type, externalIdFieldName);
+    }
+    
+    /**
+     * Closes an open Job given its ID.
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:close-job}
+     * 
+     * @param jobId The Job ID identifying the Job to be closed.
+     * @return A {@link JobInfo} that identifies the closed Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
+     * @throws Exception
+     * @api.doc <a href="www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_close.htm">closeJob()</a>
+     * @since 4.4
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = AsyncApiException.class)
+    public JobInfo closeJob(String jobId) throws Exception {
+        return restConnection.closeJob(jobId);
+    }
+    
+    /**
+     * Creates a Batch using the given objects within the specified Job.
+     * <p/>
+     * This call uses the Bulk API. The operation will be done in asynchronous fashion.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-batch}
+     * 
+     * @param jobInfo The {@link JobInfo} in which the batch will be created.
+     * @param objects A list of one or more sObjects objects.
+     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
+     * @since 4.4
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    public BatchInfo createBatch(JobInfo jobInfo, @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+        return createBatchAndCompleteRequest(jobInfo, objects);
+    }
+    
     /**
      * Adds one or more new records to your organization's data.
      * <p/>
@@ -215,20 +274,21 @@ public class SalesforceModule {
      * @since 4.1
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
-    public BatchInfo createBulk(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    public BatchInfo createBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                 @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+        
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.insert, type), objects);
     }
 
-    private BatchInfo createBatchAndCompleteRequest(JobInfo jobInfo, List<Map<String, Object>> objects) throws SoapConnection.SessionTimedOutException {
+    private BatchInfo createBatchAndCompleteRequest(JobInfo jobInfo, List<Map<String, Object>> objects) throws ConnectionException {
         try {
             BatchRequest batchRequest = restConnection.createBatch(jobInfo);
             batchRequest.addSObjects(toAsyncSObjectList(objects));
             return batchRequest.completeRequest();
         } catch (AsyncApiException e) {
             if (e.getExceptionCode() == AsyncExceptionCode.InvalidSessionId) {
-                throw new SoapConnection.SessionTimedOutException(e.getMessage(), e);
+                throw new ConnectionException(e.getMessage(), e);
             }
         }
 
@@ -264,7 +324,7 @@ public class SalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
-    public SaveResult createSingle(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
+    public SaveResult createSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "sObject Field Mappings") @FriendlyName("sObject") @Default("#[payload]") Map<String, Object> object) throws Exception {
         SaveResult[] saveResults = connection.create(new SObject[]{toSObject(type, object)});
         if (saveResults.length > 0) {
@@ -347,7 +407,7 @@ public class SalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
-    public List<SaveResult> update(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
+    public List<SaveResult> update(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(connection.update(toSObjectList(type, objects)));
     }
@@ -366,7 +426,7 @@ public class SalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
-    public SaveResult updateSingle(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
+    public SaveResult updateSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "Salesforce Object") @FriendlyName("sObject") @Optional @Default("#[payload]") Map<String, Object> object) throws Exception {
         return connection.update(new SObject[] { toSObject(type, object) })[0];
     }
@@ -386,8 +446,8 @@ public class SalesforceModule {
      * @since 4.1
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
-    public BatchInfo updateBulk(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    public BatchInfo updateBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.update, type), objects);
     }
@@ -437,7 +497,7 @@ public class SalesforceModule {
      * @since 4.1
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public BatchInfo upsertBulk(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Information", order = 2) String externalIdFieldName,
                                 @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
@@ -736,9 +796,9 @@ public class SalesforceModule {
      * @since 4.3
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
-    public BatchInfo hardDeleteBulk(@Placement(group = "Type") @FriendlyName("sObject Type") String type,
-    								@Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") List<Map<String, Object>> objects) throws Exception {
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    public BatchInfo hardDeleteBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
+    								@Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
     	return createBatchAndCompleteRequest(createJobInfo(OperationEnum.hardDelete, type), objects);
     }
     
@@ -828,7 +888,7 @@ public class SalesforceModule {
      */
     @Processor(name = "describe-sobject", friendlyName = "Describe sObject")
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
-    public DescribeSObjectResult describeSObject(@Placement(group = "Type") @FriendlyName("sObject Type") String type) throws Exception {
+    public DescribeSObjectResult describeSObject(@Placement(group = "Information") @FriendlyName("sObject Type") String type) throws Exception {
         return connection.describeSObject(type);
     }
 
@@ -1020,6 +1080,7 @@ public class SalesforceModule {
      *
      * @param topic    The name of the topic to subscribe to
      * @param callback The callback to be called when a message is received
+     * @return {@link StopSourceCallBack}
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_streaming/index_Left.htm">Streaming API</a>
      * @since 4.0
      */
