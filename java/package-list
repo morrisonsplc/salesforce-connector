@@ -17,4 +17,5 @@ org.mule.modules.salesforce.config
 org.mule.modules.salesforce.config.spring
 org.mule.modules.salesforce.processors
 org.mule.modules.salesforce.sources
+org.mule.modules.salesforce.transformers
 
