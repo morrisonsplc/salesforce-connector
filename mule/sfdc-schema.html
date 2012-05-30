@@ -655,9 +655,9 @@ This call uses the Bulk API. The operation will be done in asynchronous fashion.
     &lt;xs:complexContent&gt;
       &lt;xs:extension xmlns:mule=&quot;http://www.mulesoft.org/schema/mule/core&quot; base=&quot;mule:abstractMessageProcessorType&quot;&gt;
         &lt;xs:sequence&gt;
-          &lt;xs:element name=&quot;objects&quot; maxOccurs=&quot;1&quot; minOccurs=&quot;1&quot;&gt;
+          &lt;xs:element name=&quot;objects&quot; maxOccurs=&quot;1&quot; minOccurs=&quot;0&quot;&gt;
             &lt;xs:annotation&gt;
-              &lt;xs:documentation&gt;A list of one or more sObjects objects.&lt;/xs:documentation&gt;
+              &lt;xs:documentation&gt;A list of one or more sObjects objects. This parameter defaults to paylaod content.&lt;/xs:documentation&gt;
             &lt;/xs:annotation&gt;
             &lt;xs:complexType&gt;
               &lt;xs:sequence&gt;
