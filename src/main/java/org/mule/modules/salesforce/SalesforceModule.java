@@ -247,7 +247,7 @@ public class SalesforceModule {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-batch}
      * 
      * @param jobInfo The {@link JobInfo} in which the batch will be created.
-     * @param objects A list of one or more sObjects objects.
+     * @param objects A list of one or more sObjects objects. This parameter defaults to paylaod content.
      * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
@@ -255,7 +255,7 @@ public class SalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
-    public BatchInfo createBatch(JobInfo jobInfo, @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+    public BatchInfo createBatch(JobInfo jobInfo, @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(jobInfo, objects);
     }
     
