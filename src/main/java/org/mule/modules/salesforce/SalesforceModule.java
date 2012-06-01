@@ -215,7 +215,7 @@ public class SalesforceModule {
      * @return A {@link JobInfo} that identifies the created Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
-     * @since 4.4
+     * @since 4.3
      */
     @Processor
     @InvalidateConnectionOn(exception = AsyncApiException.class)
@@ -231,7 +231,7 @@ public class SalesforceModule {
      * @return A {@link JobInfo} that identifies the closed Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception
      * @api.doc <a href="www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_close.htm">closeJob()</a>
-     * @since 4.4
+     * @since 4.3
      */
     @Processor
     @InvalidateConnectionOn(exception = AsyncApiException.class)
@@ -251,7 +251,7 @@ public class SalesforceModule {
      * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
-     * @since 4.4
+     * @since 4.3
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
