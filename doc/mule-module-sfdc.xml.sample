@@ -200,3 +200,29 @@
 <!-- BEGIN_INCLUDE(sfdc:reset-updated-objects-timestamp) -->
 <sfdc:reset-updated-objects-timestamp />
 <!-- END_INCLUDE(sfdc:reset-updated-objects-timestampreset-updated-objects-timestamp) -->
+<!-- BEGIN_INCLUDE(sfdc:hard-delete-bulk) -->
+<!-- Hard Delete Accounts -->
+<sfdc:hard-delete-bulk type="Account">
+    <sfdc:objects>
+        <sfdc:object ref="#[payload]"/>
+    </sfdc:objects>
+</sfdc:hard-delete-bulk>
+<!-- END_INCLUDE(sfdc:hard-delete-bulk) -->
+<!-- BEGIN_INCLUDE(sfdc:create-job) -->
+<!-- Creating a job for Inserting Accounts -->
+<sfdc:create-job operation="insert" type="Account" />
+<!-- Creating a job for Deleting Accounts -->
+<sfdc:create-job operation="delete" type="Account" />
+<!-- Creating a job for Upserting Accounts -->
+<sfdc:create-job operation="upsert" type="Account" externalIdFieldName="InternalAccountCode" />
+<!-- END_INCLUDE(sfdc:create-job) -->
+<!-- BEGIN_INCLUDE(sfdc:close-job) -->
+<sfdc:close-job jobId="ID" />
+<!-- END_INCLUDE(sfdc:close-job) -->
+<!-- BEGIN_INCLUDE(sfdc:create-batch) -->
+<sfdc:create-batch jobInfo-ref="#[ref]">
+    <sfdc:objects>
+        <sfdc:object ref="#[payload]" />
+    </sfdc:objects>
+</sfdc:create-batch>
+<!-- END_INCLUDE(sfdc:create-batch) -->
