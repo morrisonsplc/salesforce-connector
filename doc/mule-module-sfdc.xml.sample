@@ -91,7 +91,7 @@
 </sfdc:upsert-bulk>
 <!-- END_INCLUDE(sfdc:upsert-bulk) -->
 <!-- BEGIN_INCLUDE(sfdc:batch-info) -->
-<sfdc:batch-info batchId="ID" />
+<sfdc:batch-info batchInfo-ref="[map-payload:batchInfo]" />
 <!-- END_INCLUDE(sfdc:batch-info) -->
 <!-- BEGIN_INCLUDE(sfdc:batch-result) -->
 <sfdc:batch-result batchId="ID" />
