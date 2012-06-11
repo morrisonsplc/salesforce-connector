@@ -58,6 +58,8 @@ import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
 import org.mule.api.callback.SourceCallback;
 import org.mule.api.callback.StopSourceCallback;
+import org.mule.api.config.MuleProperties;
+import org.mule.api.registry.Registry;
 import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
@@ -168,6 +170,9 @@ public class SalesforceModule {
      * Login result
      */
     private LoginResult loginResult;
+
+    @Inject
+    private Registry registry;
 
     /**
      * Adds one or more new records to your organization's data.
@@ -1309,6 +1314,10 @@ public class SalesforceModule {
         this.objectStore = objectStore;
     }
 
+    public void setRegistry(Registry registry) {
+        this.registry = registry;
+    }
+
     protected void setConnection(PartnerConnection connection) {
         this.connection = connection;
     }
@@ -1332,9 +1341,12 @@ public class SalesforceModule {
     private synchronized ObjectStoreHelper getObjectStoreHelper(String username) {
         if (objectStoreHelper == null) {
             if (objectStore == null) {
-                objectStore = objectStoreManager.getObjectStore(username, true);
+                objectStore = registry.lookupObject(MuleProperties.DEFAULT_USER_OBJECT_STORE_NAME);
                 if (objectStore == null) {
-                    throw new IllegalStateException("Could not obtain a object store");
+                    objectStore = objectStoreManager.getObjectStore(username, true);
+                }
+                if (objectStore == null) {
+                    throw new IllegalArgumentException("Unable to acquire an object store.");
                 }
             }
             objectStoreHelper = new ObjectStoreHelper(username, objectStore);
