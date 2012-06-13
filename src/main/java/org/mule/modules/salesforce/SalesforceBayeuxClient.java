@@ -62,11 +62,13 @@ public class SalesforceBayeuxClient extends BayeuxClient {
 
         getChannel(Channel.META_CONNECT).addListener(new ClientSessionChannel.MessageListener() {
             public void onMessage(ClientSessionChannel channel, Message message) {
-                if (message.isSuccessful()) {
+                if (message.isSuccessful() && subscriptions.size() > 0) {
                     for (String subscriptionChannel : subscriptions.keySet()) {
                         LOGGER.info("Subscribing to channel: " + subscriptionChannel);
                         getChannel(subscriptionChannel).subscribe(subscriptions.get(subscriptionChannel));
                     }
+                    // Removing the subscriptions already made so it doesn't re-subscribe on reconnect
+                    subscriptions.clear();
                 }
             }
         });
@@ -113,10 +115,11 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     }
 
     public void subscribe(String channel, ClientSessionChannel.MessageListener messageListener) {
-        this.subscriptions.put(channel, messageListener);
-
         if (isConnected()) {
+            LOGGER.info("Subscribing to channel: " + channel);
             getChannel(channel).subscribe(messageListener);
+        } else {
+            this.subscriptions.put(channel, messageListener);
         }
     }
 }
