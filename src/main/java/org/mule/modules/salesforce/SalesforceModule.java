@@ -1079,13 +1079,21 @@ public class SalesforceModule {
      * @param username      Username used to initialize the session
      * @param password      Password used to authenticate the user
      * @param securityToken User's security token
+     * @param urlOverride   Salesforce URL to use. This is an optional parameter.
      * @throws ConnectionException if a problem occurred while trying to create the session
      */
     @Connect
-    public synchronized void connect(@ConnectionKey String username, @Password String password, String securityToken)
+    public synchronized void connect(@ConnectionKey String username, @Password String password, String securityToken, @Optional String urlOverride)
             throws org.mule.api.ConnectionException {
 
-        ConnectorConfig connectorConfig = createConnectorConfig(url, username, password + securityToken, proxyHost, proxyPort, proxyUsername, proxyPassword);
+        URL actualUrl;
+        try {
+            actualUrl = (urlOverride == null) ? this.url : new URL(urlOverride);
+        } catch (MalformedURLException e) {
+            throw new org.mule.api.ConnectionException(ConnectionExceptionCode.UNKNOWN_HOST, null, e.getMessage(), e);
+        }
+
+        ConnectorConfig connectorConfig = createConnectorConfig(actualUrl, username, password + securityToken, proxyHost, proxyPort, proxyUsername, proxyPassword);
         connectorConfig.addMessageHandler(new MessageHandler() {
             @Override
             public void handleRequest(URL endpoint, byte[] request) {
