@@ -76,6 +76,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * The Salesforce Connector will allow to connect to the Salesforce application. Almost every operation that can be
  * done via the Salesforce's API can be done thru this connector. This connector will also work if your Salesforce
@@ -267,14 +268,14 @@ public class SalesforceModule {
      * <p/>
      * This call uses the Bulk API. The operation will be done in asynchronous fashion.
      * <p/>
-     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-batch}
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-batch-for-query}
      *
      * @param jobInfo   The {@link JobInfo} in which the batch will be created.
      * @param query     The query to be executed.
      * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
-     * @since 4.2.2
+     * @since 4.5
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
