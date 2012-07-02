@@ -65,6 +65,8 @@ import org.mule.api.store.ObjectStoreManager;
 import org.springframework.util.StringUtils;
 
 import javax.inject.Inject;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -204,7 +206,6 @@ public class SalesforceModule {
         return Arrays.asList(connection.create(toSObjectList(type, objects)));
     }
 
-
     /**
      * Creates a Job in order to perform one or more batches through Bulk API Operations.
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-job}
@@ -249,7 +250,7 @@ public class SalesforceModule {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-batch}
      *
      * @param jobInfo The {@link JobInfo} in which the batch will be created.
-     * @param objects A list of one or more sObjects objects. This parameter defaults to paylaod content.
+     * @param objects A list of one or more sObjects objects. This parameter defaults to payload content.
      * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
@@ -261,6 +262,27 @@ public class SalesforceModule {
         return createBatchAndCompleteRequest(jobInfo, objects);
     }
 
+    /**
+     * Creates a Batch using the given query.
+     * <p/>
+     * This call uses the Bulk API. The operation will be done in asynchronous fashion.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-batch}
+     *
+     * @param jobInfo   The {@link JobInfo} in which the batch will be created.
+     * @param query     The query to be executed.
+     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
+     * @since 4.2.2
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    public BatchInfo createBatchForQuery(JobInfo jobInfo, @Optional @Default("#[payload]") String query) throws Exception {
+        InputStream queryStream = new ByteArrayInputStream(query.getBytes());
+        return createBatchForQuery(jobInfo, queryStream);
+    }
+    
     /**
      * Adds one or more new records to your organization's data.
      * <p/>
@@ -294,6 +316,17 @@ public class SalesforceModule {
             }
         }
 
+        return null;
+    }
+
+    private BatchInfo createBatchForQuery(JobInfo jobInfo, InputStream query) throws ConnectionException {
+        try {
+            return restConnection.createBatchFromStream(jobInfo, query);
+        } catch (AsyncApiException e) {
+            if (e.getExceptionCode() == AsyncExceptionCode.InvalidSessionId) {
+                throw new ConnectionException(e.getMessage(), e);
+            }
+        }
         return null;
     }
 
