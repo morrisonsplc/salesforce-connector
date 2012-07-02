@@ -1693,11 +1693,9 @@ attribute on each operation.</p>
  <p/>
  This call uses the Bulk API. The operation will be done in asynchronous fashion.
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;sfdc:create-batch jobInfo-ref="#[ref]"&gt;
-    &lt;sfdc:objects&gt;
-        &lt;sfdc:object ref="#[payload]" /&gt;
-    &lt;/sfdc:objects&gt;
-&lt;/sfdc:create-batch&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;sfdc:create-batch-for-query jobInfo-ref="#[ref]"&gt;
+    &lt;sfdc:query ref="#[payload]" /&gt;
+&lt;/sfdc:create-batch-for-query&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
