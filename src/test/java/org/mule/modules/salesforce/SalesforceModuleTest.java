@@ -26,6 +26,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -171,6 +172,43 @@ public class SalesforceModuleTest {
         Mockito.when(exception.getExceptionCode()).thenReturn(AsyncExceptionCode.InvalidSessionId);
         Mockito.when(restConnection.createBatch(jobInfo)).thenThrow(exception);
         module.createBatch(jobInfo, objects);
+    }
+
+    @Test
+    public void testCreateBatchForQuery() throws Exception {
+        SalesforceModule module = new SalesforceModule();
+        RestConnection restConnection = Mockito.mock(RestConnection.class);
+        ArgumentCaptor<JobInfo> expectedJobInfo = ArgumentCaptor.forClass(JobInfo.class);
+        module.setRestConnection(restConnection);
+
+        JobInfo actualJobInfo = new JobInfo();
+        String query = "SELECT Id FROM Contact";
+
+        BatchInfo expectedBatchInfo = new BatchInfo();
+        Mockito.when(restConnection.createBatchFromStream(expectedJobInfo.capture(),
+                Mockito.isA(InputStream.class))).thenReturn(expectedBatchInfo);
+        BatchInfo actualBatchInfo = module.createBatchForQuery(actualJobInfo, query);
+
+        assertEquals(expectedBatchInfo, actualBatchInfo);
+        assertEquals(expectedJobInfo.getValue(), actualJobInfo);
+    }
+
+    @Test(expected = ConnectionException.class)
+    public void testCreateBatchForQueryWithConnectionException() throws Exception {
+        SalesforceModule module = new SalesforceModule();
+        RestConnection restConnection = Mockito.mock(RestConnection.class);
+        ArgumentCaptor<JobInfo> expectedJobInfo = ArgumentCaptor.forClass(JobInfo.class);
+        AsyncApiException exception = Mockito.mock(AsyncApiException.class);
+        module.setRestConnection(restConnection);
+
+        JobInfo actualJobInfo = new JobInfo();
+        String query = "SELECT Id FROM Contact";
+
+        Mockito.when(exception.getExceptionCode()).thenReturn(AsyncExceptionCode.InvalidSessionId);
+        Mockito.when(restConnection.createBatchFromStream(expectedJobInfo.capture(),
+                Mockito.isA(InputStream.class))).thenThrow(exception);
+        module.createBatchForQuery(actualJobInfo, query);
+        assertEquals(expectedJobInfo.getValue(), actualJobInfo);
     }
     
     @Test
