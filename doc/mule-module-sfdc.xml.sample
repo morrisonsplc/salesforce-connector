@@ -229,3 +229,8 @@
     </sfdc:objects>
 </sfdc:create-batch>
 <!-- END_INCLUDE(sfdc:create-batch) -->
+<!-- BEGIN_INCLUDE(sfdc:create-batch-for-query) -->
+<sfdc:create-batch-for-query jobInfo-ref="#[ref]">
+    <sfdc:query ref="#[payload]" />
+</sfdc:create-batch-for-query>
+<!-- END_INCLUDE(sfdc:create-batch-for-query) -->
