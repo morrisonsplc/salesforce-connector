@@ -879,6 +879,21 @@ public class SalesforceModuleTest {
         
         return batchInfo;
     }
+    
+    private BatchInfo setupBulkConnection(SalesforceModule salesforceModule) throws AsyncApiException {
+    	PartnerConnection partnerConnection = Mockito.mock(PartnerConnection.class);
+    	salesforceModule.setConnection(partnerConnection);
+        RestConnection restConnection = Mockito.mock(RestConnection.class);
+        salesforceModule.setRestConnection(restConnection);
+        JobInfo jobInfo = Mockito.mock(JobInfo.class);
+        BatchRequest batchRequest = Mockito.mock(BatchRequest.class);
+        BatchInfo batchInfo = Mockito.mock(BatchInfo.class);
+        doReturn(jobInfo).when(restConnection).createJob(any(JobInfo.class));
+        doReturn(batchRequest).when(restConnection).createBatch(any(JobInfo.class));
+        doReturn(batchInfo).when(batchRequest).completeRequest();
+        
+        return batchInfo;
+    }
 
     private void assertEndTime(int hourOfDay, int minute) {
         assertEquals(hourOfDay, endTimeCaptor.getValue().get(Calendar.HOUR));

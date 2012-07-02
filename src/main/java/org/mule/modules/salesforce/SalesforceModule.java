@@ -7,7 +7,6 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-
 package org.mule.modules.salesforce;
 
 import com.sforce.async.AsyncApiException;
@@ -205,11 +204,11 @@ public class SalesforceModule {
         return Arrays.asList(connection.create(toSObjectList(type, objects)));
     }
 
-    
+
     /**
      * Creates a Job in order to perform one or more batches through Bulk API Operations.
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-job}
-     * 
+     *
      * @param operation The {@link OperationEnum} that will be executed by the job.
      * @param type The type of Salesforce object that the job will process.
      * @param externalIdFieldName Contains the name of the field on this object with the external ID field attribute
@@ -225,11 +224,11 @@ public class SalesforceModule {
     public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName) throws Exception {
         return createJobInfo(operation, type, externalIdFieldName);
     }
-    
+
     /**
      * Closes an open Job given its ID.
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:close-job}
-     * 
+     *
      * @param jobId The Job ID identifying the Job to be closed.
      * @return A {@link JobInfo} that identifies the closed Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception
@@ -241,14 +240,14 @@ public class SalesforceModule {
     public JobInfo closeJob(String jobId) throws Exception {
         return restConnection.closeJob(jobId);
     }
-    
+
     /**
      * Creates a Batch using the given objects within the specified Job.
      * <p/>
      * This call uses the Bulk API. The operation will be done in asynchronous fashion.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-batch}
-     * 
+     *
      * @param jobInfo The {@link JobInfo} in which the batch will be created.
      * @param objects A list of one or more sObjects objects. This parameter defaults to paylaod content.
      * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
@@ -261,7 +260,7 @@ public class SalesforceModule {
     public BatchInfo createBatch(JobInfo jobInfo, @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(jobInfo, objects);
     }
-    
+
     /**
      * Adds one or more new records to your organization's data.
      * <p/>
@@ -280,7 +279,7 @@ public class SalesforceModule {
     @InvalidateConnectionOn(exception = ConnectionException.class)
     public BatchInfo createBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                 @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
-        
+
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.insert, type), objects);
     }
 
@@ -801,10 +800,10 @@ public class SalesforceModule {
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
     public BatchInfo hardDeleteBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
-    								@Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
-    	return createBatchAndCompleteRequest(createJobInfo(OperationEnum.hardDelete, type), objects);
+                                    @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+        return createBatchAndCompleteRequest(createJobInfo(OperationEnum.hardDelete, type), objects);
     }
-    
+
     /**
      * Retrieves the list of individual records that have been created/updated within the given timespan for the specified object.
      * <p/>

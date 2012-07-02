@@ -67,7 +67,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
                         LOGGER.info("Subscribing to channel: " + subscriptionChannel);
                         getChannel(subscriptionChannel).subscribe(subscriptions.get(subscriptionChannel));
                     }
-                    //Removing the subscriptions already made so it doesn't re-subscribe on reconnect
+                    // Removing the subscriptions already made so it doesn't re-subscribe on reconnect
                     subscriptions.clear();
                 }
             }
@@ -118,8 +118,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
         if (isConnected()) {
             LOGGER.info("Subscribing to channel: " + channel);
             getChannel(channel).subscribe(messageListener);
-        } else
-        {
+        } else {
             this.subscriptions.put(channel, messageListener);
         }
     }
