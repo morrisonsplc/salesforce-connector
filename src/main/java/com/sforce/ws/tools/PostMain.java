@@ -25,14 +25,9 @@
  */
 package com.sforce.ws.tools;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.io.*;
 
 /**
  * This is a util class that can be used to post a message
@@ -105,7 +100,7 @@ public class PostMain {
      * Usage: post <endpoint> <request-file>
      *
      * @param args <endpoint> <request-file>
-     * @throws java.io.IOException failed to post
+     * @throws IOException failed to post
      */
     public static void main(final String[] args) throws IOException {
         if (args.length < 2) {

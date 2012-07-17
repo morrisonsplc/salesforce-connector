@@ -25,19 +25,17 @@
  */
 package com.sforce.ws.tools;
 
-import com.sforce.ws.bind.NameMapper;
-import com.sforce.ws.bind.TypeMapper;
-import com.sforce.ws.wsdl.Collection;
-import com.sforce.ws.wsdl.ComplexType;
-import com.sforce.ws.wsdl.Element;
-import com.sforce.ws.wsdl.Schema;
-import com.sforce.ws.wsdl.Types;
-
-import javax.xml.namespace.QName;
 import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import javax.xml.namespace.QName;
+
+import com.sforce.ws.bind.NameMapper;
+import com.sforce.ws.bind.TypeMapper;
+import com.sforce.ws.wsdl.Collection;
+import com.sforce.ws.wsdl.*;
 
 /**
  * This class contains util methods used by type.template.

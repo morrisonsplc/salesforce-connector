@@ -31,11 +31,11 @@ import org.mozilla.javascript.Scriptable;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,7 +81,7 @@ public class Template {
      *
      * @param in  name of the template file.
      * @param out name of the output file. If null, the output will be redirected to System.out
-     * @throws java.io.IOException       failed to read/write file
+     * @throws IOException       failed to read/write file
      * @throws TemplateException failed to exec template
      */
     public void exec(String in, String out) throws IOException, TemplateException {

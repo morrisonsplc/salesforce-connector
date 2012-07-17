@@ -25,12 +25,12 @@
  */
 package com.sforce.ws.wsdl;
 
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.parser.PullParserException;
 import com.sforce.ws.parser.XmlInputStream;
+import com.sforce.ws.parser.PullParserException;
+import com.sforce.ws.ConnectionException;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 
 /**
  * WsdlParser

@@ -17,7 +17,7 @@ public class BatchInfoList implements com.sforce.ws.bind.XMLizable {
     public BatchInfoList() {
     }
 
-    private static final String NAMESPACE = RestConnection.NAMESPACE;
+    private static final String NAMESPACE = BulkConnection.NAMESPACE;
 
     /**
      * element  : batchInfo of type {urn:partner.soap.sforce.com}Error
@@ -79,7 +79,7 @@ public class BatchInfoList implements com.sforce.ws.bind.XMLizable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        java.lang.StringBuilder sb = new java.lang.StringBuilder();
         sb.append("[BatchInfoList ");
         sb.append(" batchInfo=");
         sb.append("'").append(com.sforce.ws.util.Verbose.toString(batchInfo)).append("'\n");

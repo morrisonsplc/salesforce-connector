@@ -3,34 +3,19 @@
  */
 package com.sforce.async;
 
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
-import com.sforce.ws.MessageHandler;
-import com.sforce.ws.MessageHandlerWithHeaders;
-import com.sforce.ws.bind.TypeMapper;
-import com.sforce.ws.parser.PullParserException;
-import com.sforce.ws.parser.XmlInputStream;
-import com.sforce.ws.parser.XmlOutputStream;
-import com.sforce.ws.transport.JdkHttpTransport;
-import com.sforce.ws.transport.Transport;
-import com.sforce.ws.util.FileUtil;
-
-import javax.xml.namespace.QName;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.*;
+import java.util.zip.*;
+
+import javax.xml.namespace.QName;
+
+import com.sforce.ws.*;
+import com.sforce.ws.bind.TypeMapper;
+import com.sforce.ws.parser.*;
+import com.sforce.ws.transport.JdkHttpTransport;
+import com.sforce.ws.util.FileUtil;
 
 /**
  * RestConnection
@@ -38,7 +23,7 @@ import java.util.zip.ZipOutputStream;
  * @author mcheenath
  * @since 160
  */
-public class RestConnection {
+public class BulkConnection {
 
     public static final String NAMESPACE = "http://www.force.com/2009/06/asyncapi/dataload";
     public static final String SESSION_ID = "X-SFDC-Session";
@@ -56,16 +41,22 @@ public class RestConnection {
     private HashMap<String, String> headers = new HashMap<String, String>();
     public static final TypeMapper typeMapper = new TypeMapper();
 
-    public RestConnection(ConnectorConfig config) throws AsyncApiException {
-        if (config == null) { throw new AsyncApiException("config can not be null", AsyncExceptionCode.ClientInputError); }
+    public BulkConnection(ConnectorConfig config) throws AsyncApiException {
+        if (config == null) {
+            throw new AsyncApiException("config can not be null", AsyncExceptionCode.ClientInputError);
+        }
 
-        if (config.getRestEndpoint() == null) { throw new AsyncApiException("rest endpoint cannot be null",
-                AsyncExceptionCode.ClientInputError); }
+        if (config.getRestEndpoint() == null) {
+            throw new AsyncApiException("rest endpoint cannot be null",
+                AsyncExceptionCode.ClientInputError);
+        }
 
         this.config = config;
 
-        if (config.getSessionId() == null) { throw new AsyncApiException("session ID not found",
-                AsyncExceptionCode.ClientInputError); }
+        if (config.getSessionId() == null) {
+            throw new AsyncApiException("session ID not found",
+                AsyncExceptionCode.ClientInputError);
+        }
     }
 
     public JobInfo createJob(String object, String operation) throws AsyncApiException {
@@ -83,7 +74,7 @@ public class RestConnection {
 
     private JobInfo createOrUpdateJob(JobInfo job, String endpoint) throws AsyncApiException {
         try {
-            Transport transport = newTransport(config);
+            JdkHttpTransport transport = new JdkHttpTransport(config);
             OutputStream out = transport.connect(endpoint, getHeaders(XML_CONTENT_TYPE));
             XmlOutputStream xout = new AsyncXmlOutputStream(out, true);
             job.write(JOB_QNAME, xout, typeMapper);
@@ -148,7 +139,7 @@ public class RestConnection {
             throws AsyncApiException {
         try {
             String endpoint = getRestEndpoint();
-            Transport transport = newTransport(config);
+            JdkHttpTransport transport = new JdkHttpTransport(config);
             endpoint = endpoint + "job/" + jobInfo.getId() + "/batch";
             String contentType = getContentTypeString(jobInfo.getContentType(), isZip);
             HashMap<String, String> httpHeaders = getHeaders(contentType);
@@ -159,6 +150,7 @@ public class RestConnection {
             FileUtil.copy(input, out);
 
             InputStream result = transport.getContent();
+            if (!transport.isSuccessful()) parseAndThrowException(result);
             return BatchRequest.loadBatchInfo(result);
         } catch (IOException e) {
             throw new AsyncApiException("Failed to create batch", AsyncExceptionCode.ClientInputError, e);
@@ -227,7 +219,7 @@ public class RestConnection {
         try {
             String endpoint = getRestEndpoint();
             endpoint = endpoint + "job/" + jobInfo.getId() + "/batch";
-            Transport transport = newTransport(config);
+            JdkHttpTransport transport = new JdkHttpTransport(config);
             ZipOutputStream zipOut = new ZipOutputStream(transport.connect(endpoint, getHeaders(getContentTypeString(
                     jobInfo.getContentType(), true)), false));
 
@@ -297,7 +289,7 @@ public class RestConnection {
     public BatchRequest createBatch(JobInfo job) throws AsyncApiException {
         try {
             String endpoint = getRestEndpoint();
-            Transport transport = newTransport(config);
+            JdkHttpTransport transport = new JdkHttpTransport(config);
             endpoint = endpoint + "job/" + job.getId() + "/batch";
             ContentType ct = job.getContentType();
             if (ct != null && ct != ContentType.XML) { throw new AsyncApiException(
@@ -313,7 +305,8 @@ public class RestConnection {
     public BatchInfoList getBatchInfoList(String jobId) throws AsyncApiException {
         try {
             String endpoint = getRestEndpoint() + "job/" + jobId + "/batch/";
-            InputStream stream = doHttpGet(endpoint);
+            URL url = new URL(endpoint);
+            InputStream stream = doHttpGet(url);
 
             XmlInputStream xin = new XmlInputStream();
             xin.setInput(stream, "UTF-8");
@@ -332,7 +325,8 @@ public class RestConnection {
     public BatchInfo getBatchInfo(String jobId, String batchId) throws AsyncApiException {
         try {
             String endpoint = getRestEndpoint() + "job/" + jobId + "/batch/" + batchId;
-            InputStream stream = doHttpGet(endpoint);
+            URL url = new URL(endpoint);
+            InputStream stream = doHttpGet(url);
 
             XmlInputStream xin = new XmlInputStream();
             xin.setInput(stream, "UTF-8");
@@ -351,7 +345,8 @@ public class RestConnection {
     public BatchResult getBatchResult(String jobId, String batchId) throws AsyncApiException {
         try {
             String endpoint = getRestEndpoint() + "job/" + jobId + "/batch/" + batchId + "/result";
-            InputStream stream = doHttpGet(endpoint);
+            URL url = new URL(endpoint);
+            InputStream stream = doHttpGet(url);
 
             XmlInputStream xin = new XmlInputStream();
             xin.setInput(stream, "UTF-8");
@@ -370,16 +365,54 @@ public class RestConnection {
     public InputStream getBatchResultStream(String jobId, String batchId) throws AsyncApiException {
         try {
             String endpoint = getRestEndpoint() + "job/" + jobId + "/batch/" + batchId + "/result";
-            return doHttpGet(endpoint);
+            URL url = new URL(endpoint);
+            return doHttpGet(url);
         } catch (IOException e) {
             throw new AsyncApiException("Failed to get result ", AsyncExceptionCode.ClientInputError, e);
         }
     }
 
-    private InputStream doHttpGet(String url) throws IOException, AsyncApiException {
-        
-        Transport transport = newTransport(config);
-        HttpURLConnection connection = transport.createConnection(url, null);
+    public InputStream getBatchRequestInputStream(String jobId, String batchId) throws AsyncApiException {
+        try {
+            String endpoint = getRestEndpoint() + "job/" + jobId + "/batch/" + batchId + "/request";
+            URL url = new URL(endpoint);
+            return doHttpGet(url);
+        } catch(IOException e) {
+            throw new AsyncApiException("Failed to get request ", AsyncExceptionCode.ClientInputError, e);
+        }
+    }
+
+    public QueryResultList getQueryResultList(String jobId, String batchId) throws AsyncApiException {
+        InputStream stream = getBatchResultStream(jobId, batchId);
+
+        try {
+            XmlInputStream xin = new XmlInputStream();
+            xin.setInput(stream, "UTF-8");
+            QueryResultList result = new QueryResultList();
+            result.load(xin, typeMapper);
+            return result;
+        } catch (ConnectionException e) {
+            throw new AsyncApiException("Failed to parse query result list ", AsyncExceptionCode.ClientInputError, e);
+        } catch (PullParserException e) {
+            throw new AsyncApiException("Failed to parse query result list ", AsyncExceptionCode.ClientInputError, e);
+        } catch (IOException e) {
+            throw new AsyncApiException("Failed to parse query result list ", AsyncExceptionCode.ClientInputError, e);
+        }
+    }
+
+    public InputStream getQueryResultStream(String jobId, String batchId, String resultId) throws AsyncApiException {
+        try {
+            String endpoint = getRestEndpoint() + "job/" + jobId + "/batch/" + batchId + "/result" + "/" + resultId;
+            URL url = new URL(endpoint);
+            return doHttpGet(url);
+        } catch (IOException e) {
+            throw new AsyncApiException("Failed to get result ", AsyncExceptionCode.ClientInputError, e);
+        }
+    }
+    
+
+    private InputStream doHttpGet(URL url) throws IOException, AsyncApiException {
+        HttpURLConnection connection = JdkHttpTransport.createConnection(config, url, null);
         connection.setRequestProperty(SESSION_ID, config.getSessionId());
 
         boolean success = true;
@@ -396,7 +429,6 @@ public class RestConnection {
             in = new GZIPInputStream(in);
         }
 
-        URL theURL = transport.createURL(url);
         if (config.isTraceMessage() || config.hasMessageHandlers()) {
             byte[] bytes = FileUtil.toBytes(in);
             in = new ByteArrayInputStream(bytes);
@@ -406,16 +438,32 @@ public class RestConnection {
                 while (it.hasNext()) {
                     MessageHandler handler = it.next();
                     if (handler instanceof MessageHandlerWithHeaders) {
-                        ((MessageHandlerWithHeaders)handler).handleRequest(theURL, new byte[0], null);
-                        ((MessageHandlerWithHeaders)handler).handleResponse(theURL, bytes, connection.getHeaderFields());
+                        ((MessageHandlerWithHeaders)handler).handleRequest(url, new byte[0], null);
+                        ((MessageHandlerWithHeaders)handler).handleResponse(url, bytes, connection.getHeaderFields());
                     } else {
-                        handler.handleRequest(theURL, new byte[0]);
-                        handler.handleResponse(theURL, bytes);
+                        handler.handleRequest(url, new byte[0]);
+                        handler.handleResponse(url, bytes);
                     }
                 }
             }
 
             if (config.isTraceMessage()) {
+                config.getTraceStream().println(url.toExternalForm());
+
+                Map<String, List<String>> headers = connection.getHeaderFields();
+                for (Map.Entry<String, List<String>>entry : headers.entrySet()) {
+                    StringBuffer sb = new StringBuffer();
+                    List<String> values = entry.getValue();
+
+                    if (values != null) {
+                        for (String v : values) {
+                            sb.append(v);
+                        }
+                    }
+
+                    config.getTraceStream().println(entry.getKey() + ": " + sb.toString());
+                }
+
                 new JdkHttpTransport.TeeInputStream(config, bytes);
             }
         }
@@ -431,8 +479,9 @@ public class RestConnection {
         try {
             String endpoint = getRestEndpoint();
             endpoint += "/job/" + jobId;
+            URL url = new URL(endpoint);
 
-            InputStream in = doHttpGet(endpoint);
+            InputStream in = doHttpGet(url);
             JobInfo result = new JobInfo();
             XmlInputStream xin = new XmlInputStream();
             xin.setInput(in, "UTF-8");
@@ -469,17 +518,5 @@ public class RestConnection {
 
     public ConnectorConfig getConfig() {
         return config;
-    }
-
-    private Transport newTransport(ConnectorConfig config) throws AsyncApiException {
-        try {
-            Transport t = (Transport) config.getTransport().newInstance();
-            t.setConfig(config);
-            return t;
-        } catch (InstantiationException e) {
-            throw new AsyncApiException("Failed to create new Transport " + config.getTransport(), AsyncExceptionCode.Unknown, e);
-        } catch (IllegalAccessException e) {
-            throw new AsyncApiException("Failed to create new Transport " + config.getTransport(), AsyncExceptionCode.Unknown, e);
-        }
     }
 }

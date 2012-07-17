@@ -21,15 +21,15 @@ public class BatchInfo implements com.sforce.ws.bind.XMLizable {
 
   private boolean id__is_set = false;
 
-  private String id;
+  private java.lang.String id;
 
-  public String getId() {
+  public java.lang.String getId() {
     return id;
   }
 
   
 
-  public void setId(String id) {
+  public void setId(java.lang.String id) {
     this.id = id;
     id__is_set = true;
   }
@@ -43,15 +43,15 @@ public class BatchInfo implements com.sforce.ws.bind.XMLizable {
 
   private boolean jobId__is_set = false;
 
-  private String jobId;
+  private java.lang.String jobId;
 
-  public String getJobId() {
+  public java.lang.String getJobId() {
     return jobId;
   }
 
   
 
-  public void setJobId(String jobId) {
+  public void setJobId(java.lang.String jobId) {
     this.jobId = jobId;
     jobId__is_set = true;
   }
@@ -87,15 +87,15 @@ public class BatchInfo implements com.sforce.ws.bind.XMLizable {
 
   private boolean stateMessage__is_set = false;
 
-  private String stateMessage;
+  private java.lang.String stateMessage;
 
-  public String getStateMessage() {
+  public java.lang.String getStateMessage() {
     return stateMessage;
   }
 
   
 
-  public void setStateMessage(String stateMessage) {
+  public void setStateMessage(java.lang.String stateMessage) {
     this.stateMessage = stateMessage;
     stateMessage__is_set = true;
   }
@@ -289,11 +289,11 @@ public class BatchInfo implements com.sforce.ws.bind.XMLizable {
    
     __in.peekTag();
     if (__typeMapper.isElement(__in, id__typeInfo)) {
-      setId(__typeMapper.readString(__in, id__typeInfo, String.class));
+      setId(__typeMapper.readString(__in, id__typeInfo, java.lang.String.class));
     }
     __in.peekTag();
     if (__typeMapper.isElement(__in, jobId__typeInfo)) {
-      setJobId(__typeMapper.readString(__in, jobId__typeInfo, String.class));
+      setJobId(__typeMapper.readString(__in, jobId__typeInfo, java.lang.String.class));
     }
     __in.peekTag();
     if (__typeMapper.isElement(__in, state__typeInfo)) {
@@ -301,7 +301,7 @@ public class BatchInfo implements com.sforce.ws.bind.XMLizable {
     }
     __in.peekTag();
     if (__typeMapper.isElement(__in, stateMessage__typeInfo)) {
-      setStateMessage(__typeMapper.readString(__in, stateMessage__typeInfo, String.class));
+      setStateMessage(__typeMapper.readString(__in, stateMessage__typeInfo, java.lang.String.class));
     }
     __in.peekTag();
     if (__typeMapper.isElement(__in, createdDate__typeInfo)) {
@@ -335,7 +335,7 @@ public class BatchInfo implements com.sforce.ws.bind.XMLizable {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
+    java.lang.StringBuilder sb = new java.lang.StringBuilder();
     sb.append("[BatchInfo ");
     
     sb.append(" id=");
