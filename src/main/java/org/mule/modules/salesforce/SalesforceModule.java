@@ -1015,7 +1015,7 @@ public class SalesforceModule {
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:publish-topic}
      *
-     * @param name        Descriptive name of the push topic, such as MyNewCases or TeamUpdatedContacts. The
+     * @param topicName   Descriptive name of the push topic, such as MyNewCases or TeamUpdatedContacts. The
      *                    maximum length is 25 characters. This value identifies the channel.
      * @param description Description of what kinds of records are returned by the query. Limit: 400 characters
      * @param query       The SOQL query statement that determines which records' changes trigger events to be sent to
@@ -1026,10 +1026,10 @@ public class SalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
-    public void publishTopic(@Placement(group = "Information") String name,
+    public void publishTopic(@Placement(group = "Information") String topicName,
                              @Placement(group = "Information") String query,
                              @Placement(group = "Information") @Optional String description) throws Exception {
-        QueryResult result = connection.query("SELECT Id FROM PushTopic WHERE Name = '" + name + "'");
+        QueryResult result = connection.query("SELECT Id FROM PushTopic WHERE Name = '" + topicName + "'");
         if (result.getSize() == 0) {
             SObject pushTopic = new SObject();
             pushTopic.setType("PushTopic");
@@ -1038,7 +1038,7 @@ public class SalesforceModule {
                 pushTopic.setField("Description", description);
             }
 
-            pushTopic.setField("Name", name);
+            pushTopic.setField("Name", topicName);
             pushTopic.setField("Query", query);
 
             SaveResult[] saveResults = connection.create(new SObject[]{pushTopic});
