@@ -209,6 +209,14 @@
     <li class="api apilevel-">
   <a href="../../../../../../java/com/sforce/async/package-summary.html">com.sforce.async</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/bulk/package-summary.html">com.sforce.bulk</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/rest/package-summary.html">com.sforce.rest</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/rest/pojo/package-summary.html">com.sforce.rest.pojo</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/rest/tools/package-summary.html">com.sforce.rest.tools</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../java/com/sforce/soap/partner/package-summary.html">com.sforce.soap.partner</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/com/sforce/soap/partner/fault/package-summary.html">com.sforce.soap.partner.fault</a></li>
@@ -259,6 +267,7 @@
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/config/BatchInfoMessageProcessor.html">BatchInfoMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/config/BatchResultDefinitionParser.html">BatchResultDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/config/BatchResultMessageProcessor.html">BatchResultMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/config/BatchResultStreamDefinitionParser.html">BatchResultStreamDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/config/BatchSplitterMessageProcessor.html">BatchSplitterMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/config/CloseJobDefinitionParser.html">CloseJobDefinitionParser</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/config/ConvertLeadDefinitionParser.html">ConvertLeadDefinitionParser</a></li>
@@ -671,6 +680,18 @@ Summary:
           private
           
           
+          <a href="../../../../../../java/com/sforce/async/BulkConnection.html">BulkConnection</a></nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#bulkConnection">bulkConnection</a></td>
+          <td class="jd-descrcol" width="100%">REST connection to the bulk API
+</td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          private
+          
+          
           <a href="../../../../../../java/com/sforce/soap/partner/PartnerConnection.html">PartnerConnection</a></nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#connection">connection</a></td>
           <td class="jd-descrcol" width="100%">Partner connection
@@ -678,7 +699,7 @@ Summary:
       </tr>
       
     
-      <tr class=" api apilevel-" >
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -690,7 +711,7 @@ Summary:
       </tr>
       
     
-      <tr class="alt-color api apilevel-" >
+      <tr class=" api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -702,7 +723,7 @@ Summary:
       </tr>
       
     
-      <tr class=" api apilevel-" >
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -713,7 +734,7 @@ Summary:
       </tr>
       
     
-      <tr class="alt-color api apilevel-" >
+      <tr class=" api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -725,7 +746,7 @@ Summary:
       </tr>
       
     
-      <tr class=" api apilevel-" >
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -737,7 +758,7 @@ Summary:
       </tr>
       
     
-      <tr class="alt-color api apilevel-" >
+      <tr class=" api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -749,7 +770,7 @@ Summary:
       </tr>
       
     
-      <tr class=" api apilevel-" >
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -761,7 +782,7 @@ Summary:
       </tr>
       
     
-      <tr class="alt-color api apilevel-" >
+      <tr class=" api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -773,7 +794,7 @@ Summary:
       </tr>
       
     
-      <tr class=" api apilevel-" >
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -781,18 +802,6 @@ Summary:
           Registry</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#registry">registry</a></td>
           <td class="jd-descrcol" width="100%"></td>
-      </tr>
-      
-    
-      <tr class="alt-color api apilevel-" >
-          <td class="jd-typecol"><nobr>
-          private
-          
-          
-          <a href="../../../../../../java/com/sforce/async/RestConnection.html">RestConnection</a></nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#restConnection">restConnection</a></td>
-          <td class="jd-descrcol" width="100%">REST connection to the bulk API
-</td>
       </tr>
       
     
@@ -955,6 +964,26 @@ From class
             
             
             
+            InputStream</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#batchResultStream(com.sforce.async.BatchInfo)">batchResultStream</a></span>(<a href="../../../../../../java/com/sforce/async/BatchInfo.html">BatchInfo</a> batchInfo)</nobr>
+        
+        <div class="jd-descrdiv">Returns an InputStream with the results of a submitted <code><a href="../../../../../../java/com/sforce/async/BatchInfo.html">BatchInfo</a></code>
+ <p/>
+ </div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             <a href="../../../../../../java/com/sforce/async/JobInfo.html">JobInfo</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
@@ -966,7 +995,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             synchronized
@@ -984,7 +1013,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1002,7 +1031,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1020,7 +1049,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1038,7 +1067,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1056,7 +1085,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1074,7 +1103,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1092,7 +1121,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1102,7 +1131,7 @@ From class
             <a href="../../../../../../java/com/sforce/async/JobInfo.html">JobInfo</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#createJob(com.sforce.async.OperationEnum, java.lang.String, java.lang.String)">createJob</a></span>(<a href="../../../../../../java/com/sforce/async/OperationEnum.html">OperationEnum</a> operation, String type, String externalIdFieldName)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#createJob(com.sforce.async.OperationEnum, java.lang.String, java.lang.String, com.sforce.async.ContentType)">createJob</a></span>(<a href="../../../../../../java/com/sforce/async/OperationEnum.html">OperationEnum</a> operation, String type, String externalIdFieldName, <a href="../../../../../../java/com/sforce/async/ContentType.html">ContentType</a> contentType)</nobr>
         
         <div class="jd-descrdiv">Creates a Job in order to perform one or more batches through Bulk API Operations.</div>
   
@@ -1110,7 +1139,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1128,7 +1157,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1146,7 +1175,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1164,7 +1193,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1182,7 +1211,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             synchronized
@@ -1200,7 +1229,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1219,7 +1248,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1230,6 +1259,22 @@ From class
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#getBayeuxClient()">getBayeuxClient</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            <a href="../../../../../../java/com/sforce/async/BulkConnection.html">BulkConnection</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#getBulkConnection()">getBulkConnection</a></span>()</nobr>
         
   </td></tr>
 
@@ -1668,13 +1713,29 @@ From class
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#setConnection(com.sforce.soap.partner.PartnerConnection)">setConnection</a></span>(<a href="../../../../../../java/com/sforce/soap/partner/PartnerConnection.html">PartnerConnection</a> connection)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#setBulkConnection(com.sforce.async.BulkConnection)">setBulkConnection</a></span>(<a href="../../../../../../java/com/sforce/async/BulkConnection.html">BulkConnection</a> bulkConnection)</nobr>
         
   </td></tr>
 
 
 	 
     <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#setConnection(com.sforce.soap.partner.PartnerConnection)">setConnection</a></span>(<a href="../../../../../../java/com/sforce/soap/partner/PartnerConnection.html">PartnerConnection</a> connection)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1690,7 +1751,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1706,7 +1767,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1722,7 +1783,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1738,7 +1799,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1756,7 +1817,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1774,7 +1835,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1792,7 +1853,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1810,22 +1871,6 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#setRegistry(org.mule.api.registry.Registry)">setRegistry</a></span>(Registry registry)</nobr>
-        
-  </td></tr>
-
-
-	 
     <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
@@ -1836,7 +1881,7 @@ From class
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#setRestConnection(com.sforce.async.RestConnection)">setRestConnection</a></span>(<a href="../../../../../../java/com/sforce/async/RestConnection.html">RestConnection</a> restConnection)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/SalesforceModule.html#setRegistry(org.mule.api.registry.Registry)">setRegistry</a></span>(Registry registry)</nobr>
         
   </td></tr>
 

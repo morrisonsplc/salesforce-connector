@@ -209,6 +209,14 @@
     <li class="api apilevel-">
   <a href="../../../../../java/com/sforce/async/package-summary.html">com.sforce.async</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../java/com/sforce/bulk/package-summary.html">com.sforce.bulk</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../java/com/sforce/rest/package-summary.html">com.sforce.rest</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../java/com/sforce/rest/pojo/package-summary.html">com.sforce.rest.pojo</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../java/com/sforce/rest/tools/package-summary.html">com.sforce.rest.tools</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../java/com/sforce/soap/partner/package-summary.html">com.sforce.soap.partner</a></li>
     <li class="api apilevel-">
   <a href="../../../../../java/com/sforce/soap/partner/fault/package-summary.html">com.sforce.soap.partner.fault</a></li>
@@ -272,11 +280,6 @@
               
               
               
-    <li><h2>Exceptions</h2>
-      <ul>
-          <li class="api apilevel-"><a href="../../../../../java/com/sforce/ws/transport/SoapConnection.SessionTimedOutException.html">SoapConnection.SessionTimedOutException</a></li>
-      </ul>
-    </li>
               
             </ul><br/>
           </div><!-- end classes -->
@@ -357,9 +360,6 @@ Summary:
   &#124; <a href="#pubmethods">Methods</a>
   
 
-
-  &#124; <a href="#promethods">Protected Methods</a>
-  
 
 
   &#124; <a href="#inhmethods">Inherited Methods</a>
@@ -675,8 +675,6 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../com/sforce/ws/transport/JdkHttpTransport.html#connect(java.lang.String, java.util.HashMap<java.lang.String, java.lang.String>)">connect</a></span>(String uri, HashMap&lt;String,&nbsp;String&gt; httpHeaders)</nobr>
         
-        <div class="jd-descrdiv">Connect to the specified endpoint.</div>
-  
   </td></tr>
 
 
@@ -693,8 +691,6 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../com/sforce/ws/transport/JdkHttpTransport.html#connect(java.lang.String, java.util.HashMap<java.lang.String, java.lang.String>, boolean)">connect</a></span>(String uri, HashMap&lt;String,&nbsp;String&gt; httpHeaders, boolean enableCompression)</nobr>
         
-        <div class="jd-descrdiv">Connect to the specified endpoint.</div>
-  
   </td></tr>
 
 
@@ -722,16 +718,13 @@ Summary:
             
             
             
-            
+            static
             
             HttpURLConnection</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../com/sforce/ws/transport/JdkHttpTransport.html#createConnection(java.lang.String, java.util.HashMap<java.lang.String, java.lang.String>)">createConnection</a></span>(String url, HashMap&lt;String,&nbsp;String&gt; httpHeaders)</nobr>
+        <span class="sympad"><a href="../../../../../com/sforce/ws/transport/JdkHttpTransport.html#createConnection(com.sforce.ws.ConnectorConfig, java.net.URL, java.util.HashMap<java.lang.String, java.lang.String>)">createConnection</a></span>(<a href="../../../../../java/com/sforce/ws/ConnectorConfig.html">ConnectorConfig</a> config, URL url, HashMap&lt;String,&nbsp;String&gt; httpHeaders)</nobr>
         
-        <div class="jd-descrdiv">Create a connection
-</div>
-  
   </td></tr>
 
 
@@ -741,16 +734,13 @@ Summary:
             
             
             
+            static
             
-            
-            URL</nobr>
+            HttpURLConnection</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../com/sforce/ws/transport/JdkHttpTransport.html#createURL(java.lang.String)">createURL</a></span>(String url)</nobr>
+        <span class="sympad"><a href="../../../../../com/sforce/ws/transport/JdkHttpTransport.html#createConnection(com.sforce.ws.ConnectorConfig, java.net.URL, java.util.HashMap<java.lang.String, java.lang.String>, boolean)">createConnection</a></span>(<a href="../../../../../java/com/sforce/ws/ConnectorConfig.html">ConnectorConfig</a> config, URL url, HashMap&lt;String,&nbsp;String&gt; httpHeaders, boolean enableCompression)</nobr>
         
-        <div class="jd-descrdiv">Create a URL
-</div>
-  
   </td></tr>
 
 
@@ -810,31 +800,6 @@ Summary:
 </table>
 
 
-
-
-<!-- ========== METHOD SUMMARY =========== -->
-<table id="promethods" class="jd-sumtable"><tr><th colspan="12">Protected Methods</th></tr>
-
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            HttpURLConnection</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../com/sforce/ws/transport/JdkHttpTransport.html#openConnection(java.lang.String, java.net.Proxy)">openConnection</a></span>(String url, Proxy proxy)</nobr>
-        
-  </td></tr>
-
-
-
-</table>
 
 
 
@@ -1078,83 +1043,9 @@ From interface
             OutputStream</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../com/sforce/ws/transport/Transport.html#connect(java.lang.String, java.util.HashMap<java.lang.String, java.lang.String>)">connect</a></span>(String url, HashMap&lt;String,&nbsp;String&gt; headers)</nobr>
-        
-        <div class="jd-descrdiv">Connect to the specified endpoint.</div>
-  
-  </td></tr>
-
-
-	 
-    <tr class=" api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            abstract
-            
-            
-            
-            
-            OutputStream</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../com/sforce/ws/transport/Transport.html#connect(java.lang.String, java.util.HashMap<java.lang.String, java.lang.String>, boolean)">connect</a></span>(String url, HashMap&lt;String,&nbsp;String&gt; headers, boolean compress)</nobr>
-        
-        <div class="jd-descrdiv">Connect to the specified endpoint.</div>
-  
-  </td></tr>
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            abstract
-            
-            
-            
-            
-            OutputStream</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../com/sforce/ws/transport/Transport.html#connect(java.lang.String, java.lang.String)">connect</a></span>(String url, String soapAction)</nobr>
         
         <div class="jd-descrdiv">Connect to the specified endpoint.</div>
-  
-  </td></tr>
-
-
-	 
-    <tr class=" api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            abstract
-            
-            
-            
-            
-            HttpURLConnection</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../com/sforce/ws/transport/Transport.html#createConnection(java.lang.String, java.util.HashMap<java.lang.String, java.lang.String>)">createConnection</a></span>(String url, HashMap&lt;String,&nbsp;String&gt; httpHeaders)</nobr>
-        
-        <div class="jd-descrdiv">Create a connection
-</div>
-  
-  </td></tr>
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            abstract
-            
-            
-            
-            
-            URL</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../com/sforce/ws/transport/Transport.html#createURL(java.lang.String)">createURL</a></span>(String url)</nobr>
-        
-        <div class="jd-descrdiv">Create a URL
-</div>
   
   </td></tr>
 
@@ -1489,23 +1380,19 @@ From interface
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Connect to the specified endpoint.</p></div>
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
         <tr>
           <th>uri</td>
-          <td>Endpoint address</td>
+          <td></td>
         </tr>
         <tr>
           <th>httpHeaders</td>
-          <td>Header map</td>
+          <td></td>
         </tr>
       </table>
-  </div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Returns</h5>
-      <ul class="nolist"><li>output stream that can be used to send response</li></ul>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Throws</h5>
@@ -1546,27 +1433,23 @@ From interface
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Connect to the specified endpoint.</p></div>
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
         <tr>
           <th>uri</td>
-          <td>Endpoint address</td>
+          <td></td>
         </tr>
         <tr>
           <th>httpHeaders</td>
-          <td>Header map</td>
+          <td></td>
         </tr>
         <tr>
           <th>enableCompression</td>
           <td></td>
         </tr>
       </table>
-  </div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Returns</h5>
-      <ul class="nolist"><li>output stream that can be used to send response</li></ul>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Throws</h5>
@@ -1639,20 +1522,20 @@ From interface
 </div>
 
 
-<A NAME="createConnection(java.lang.String, java.util.HashMap<java.lang.String, java.lang.String>)"></A>
+<A NAME="createConnection(com.sforce.ws.ConnectorConfig, java.net.URL, java.util.HashMap<java.lang.String, java.lang.String>)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
       <span class="normal">
         public 
-         
+        static 
          
          
          
         HttpURLConnection
       </span>
       <span class="sympad">createConnection</span>
-      <span class="normal">(String url, HashMap&lt;String,&nbsp;String&gt; httpHeaders)</span>
+      <span class="normal">(<a href="../../../../../java/com/sforce/ws/ConnectorConfig.html">ConnectorConfig</a> config, URL url, HashMap&lt;String,&nbsp;String&gt; httpHeaders)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1664,11 +1547,14 @@ From interface
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Create a connection
-</p></div>
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
+        <tr>
+          <th>config</td>
+          <td></td>
+        </tr>
         <tr>
           <th>url</td>
           <td></td>
@@ -1693,20 +1579,20 @@ From interface
 </div>
 
 
-<A NAME="createURL(java.lang.String)"></A>
+<A NAME="createConnection(com.sforce.ws.ConnectorConfig, java.net.URL, java.util.HashMap<java.lang.String, java.lang.String>, boolean)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
       <span class="normal">
         public 
+        static 
          
          
          
-         
-        URL
+        HttpURLConnection
       </span>
-      <span class="sympad">createURL</span>
-      <span class="normal">(String url)</span>
+      <span class="sympad">createConnection</span>
+      <span class="normal">(<a href="../../../../../java/com/sforce/ws/ConnectorConfig.html">ConnectorConfig</a> config, URL url, HashMap&lt;String,&nbsp;String&gt; httpHeaders, boolean enableCompression)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1718,13 +1604,24 @@ From interface
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Create a URL
-</p></div>
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
         <tr>
+          <th>config</td>
+          <td></td>
+        </tr>
+        <tr>
           <th>url</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>httpHeaders</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>enableCompression</td>
           <td></td>
         </tr>
       </table>
@@ -1733,7 +1630,7 @@ From interface
       <h5 class="jd-tagtitle">Throws</h5>
       <table class="jd-tagtable">  
         <tr>
-            <th>MalformedURLException</td>
+            <th>IOException</td>
             <td></td>
         </tr>
       </table>
@@ -1868,64 +1765,6 @@ From interface
 
 
 <!-- ========= METHOD DETAIL ======== -->
-
-<h2>Protected Methods</h2>
-
-
-
-<A NAME="openConnection(java.lang.String, java.net.Proxy)"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        protected 
-         
-         
-         
-         
-        HttpURLConnection
-      </span>
-      <span class="sympad">openConnection</span>
-      <span class="normal">(String url, Proxy proxy)</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>url</td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>proxy</td>
-          <td></td>
-        </tr>
-      </table>
-  </div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Throws</h5>
-      <table class="jd-tagtable">  
-        <tr>
-            <th>IOException</td>
-            <td></td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
 
 
 

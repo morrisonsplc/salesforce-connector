@@ -210,6 +210,14 @@
     <li class="api apilevel-">
   <a href="../../../../../../java/com/sforce/async/package-summary.html">com.sforce.async</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/bulk/package-summary.html">com.sforce.bulk</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/rest/package-summary.html">com.sforce.rest</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/rest/pojo/package-summary.html">com.sforce.rest.pojo</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/rest/tools/package-summary.html">com.sforce.rest.tools</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../java/com/sforce/soap/partner/package-summary.html">com.sforce.soap.partner</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/com/sforce/soap/partner/fault/package-summary.html">com.sforce.soap.partner.fault</a></li>
@@ -258,6 +266,7 @@
       <ul>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html">BatchInfoMessageProcessor</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchResultMessageProcessor.html">BatchResultMessageProcessor</a></li>
+        <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchResultStreamMessageProcessor.html">BatchResultStreamMessageProcessor</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CloseJobMessageProcessor.html">CloseJobMessageProcessor</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/ConvertLeadMessageProcessor.html">ConvertLeadMessageProcessor</a></li>
         <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateBatchForQueryMessageProcessor.html">CreateBatchForQueryMessageProcessor</a></li>
@@ -370,126 +379,130 @@
               <td class="jd-descrcol" width="100%">BatchResultMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#batchResult(com.sforce.async.BatchInfo)">batchResult(com.sforce.async.BatchInfo)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
         <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchResultStreamMessageProcessor.html">BatchResultStreamMessageProcessor</a></td>
+              <td class="jd-descrcol" width="100%">BatchResultStreamMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#batchResultStream(com.sforce.async.BatchInfo)">batchResultStream(com.sforce.async.BatchInfo)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CloseJobMessageProcessor.html">CloseJobMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">CloseJobMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#closeJob(java.lang.String)">closeJob(java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/ConvertLeadMessageProcessor.html">ConvertLeadMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">ConvertLeadMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#convertLead(java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.Boolean, java.lang.String, java.lang.String, java.lang.Boolean)">convertLead(java.lang.String, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.Boolean, java.lang.String, java.lang.String, java.lang.Boolean)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateBatchForQueryMessageProcessor.html">CreateBatchForQueryMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">CreateBatchForQueryMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#createBatchForQuery(com.sforce.async.JobInfo, java.lang.String)">createBatchForQuery(com.sforce.async.JobInfo, java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateBatchMessageProcessor.html">CreateBatchMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">CreateBatchMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#createBatch(com.sforce.async.JobInfo, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">createBatch(com.sforce.async.JobInfo, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html">CreateBulkMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">CreateBulkMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#createBulk(java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">createBulk(java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
-              <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateJobMessageProcessor.html">CreateJobMessageProcessor</a></td>
-              <td class="jd-descrcol" width="100%">CreateJobMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#createJob(com.sforce.async.OperationEnum, java.lang.String, java.lang.String)">createJob(com.sforce.async.OperationEnum, java.lang.String, java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
-          </tr>
         <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateJobMessageProcessor.html">CreateJobMessageProcessor</a></td>
+              <td class="jd-descrcol" width="100%">CreateJobMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#createJob(com.sforce.async.OperationEnum, java.lang.String, java.lang.String, com.sforce.async.ContentType)">createJob(com.sforce.async.OperationEnum, java.lang.String, java.lang.String, com.sforce.async.ContentType)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateMessageProcessor.html">CreateMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">CreateMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#create(java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">create(java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateSingleMessageProcessor.html">CreateSingleMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">CreateSingleMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#createSingle(java.lang.String, java.util.Map<java.lang.String, java.lang.Object>)">createSingle(java.lang.String, java.util.Map)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/DeleteMessageProcessor.html">DeleteMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">DeleteMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#delete(java.util.List<java.lang.String>)">delete(java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/DescribeGlobalMessageProcessor.html">DescribeGlobalMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">DescribeGlobalMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#describeGlobal()">describeGlobal()</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/DescribeSObjectMessageProcessor.html">DescribeSObjectMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">DescribeSObjectMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#describeSObject(java.lang.String)">describeSObject(java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/EmptyRecycleBinMessageProcessor.html">EmptyRecycleBinMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">EmptyRecycleBinMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#emptyRecycleBin(java.util.List<java.lang.String>)">emptyRecycleBin(java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/GetDeletedMessageProcessor.html">GetDeletedMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetDeletedMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#getDeleted(java.lang.String, int)">getDeleted(java.lang.String, int)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/GetDeletedRangeMessageProcessor.html">GetDeletedRangeMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetDeletedRangeMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#getDeletedRange(java.lang.String, java.util.Calendar, java.util.Calendar)">getDeletedRange(java.lang.String, java.util.Calendar, java.util.Calendar)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/GetSessionIdMessageProcessor.html">GetSessionIdMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetSessionIdMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#getSessionId()">getSessionId()</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/GetUpdatedMessageProcessor.html">GetUpdatedMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetUpdatedMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#getUpdated(java.lang.String, int)">getUpdated(java.lang.String, int)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/GetUpdatedObjectsMessageProcessor.html">GetUpdatedObjectsMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetUpdatedObjectsMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#getUpdatedObjects(java.lang.String, int, java.util.List<java.lang.String>)">getUpdatedObjects(java.lang.String, int, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/GetUpdatedRangeMessageProcessor.html">GetUpdatedRangeMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetUpdatedRangeMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#getUpdatedRange(java.lang.String, java.util.Calendar, java.util.Calendar)">getUpdatedRange(java.lang.String, java.util.Calendar, java.util.Calendar)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/GetUserInfoMessageProcessor.html">GetUserInfoMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">GetUserInfoMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#getUserInfo()">getUserInfo()</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/HardDeleteBulkMessageProcessor.html">HardDeleteBulkMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">HardDeleteBulkMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#hardDeleteBulk(java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">hardDeleteBulk(java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/PublishTopicMessageProcessor.html">PublishTopicMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">PublishTopicMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#publishTopic(java.lang.String, java.lang.String, java.lang.String)">publishTopic(java.lang.String, java.lang.String, java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QueryAllMessageProcessor.html">QueryAllMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">QueryAllMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#queryAll(java.lang.String)">queryAll(java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QueryMessageProcessor.html">QueryMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">QueryMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#query(java.lang.String)">query(java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QuerySingleMessageProcessor.html">QuerySingleMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">QuerySingleMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#querySingle(java.lang.String)">querySingle(java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/ResetUpdatedObjectsTimestampMessageProcessor.html">ResetUpdatedObjectsTimestampMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">ResetUpdatedObjectsTimestampMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#resetUpdatedObjectsTimestamp(java.lang.String)">resetUpdatedObjectsTimestamp(java.lang.String)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/RetrieveMessageProcessor.html">RetrieveMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">RetrieveMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#retrieve(java.lang.String, java.util.List<java.lang.String>, java.util.List<java.lang.String>)">retrieve(java.lang.String, java.util.List, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateBulkMessageProcessor.html">UpdateBulkMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpdateBulkMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#updateBulk(java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">updateBulk(java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateMessageProcessor.html">UpdateMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpdateMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#update(java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">update(java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateSingleMessageProcessor.html">UpdateSingleMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpdateSingleMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#updateSingle(java.lang.String, java.util.Map<java.lang.String, java.lang.Object>)">updateSingle(java.lang.String, java.util.Map)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpsertBulkMessageProcessor.html">UpsertBulkMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpsertBulkMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#upsertBulk(java.lang.String, java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">upsertBulk(java.lang.String, java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpsertMessageProcessor.html">UpsertMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpsertMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#upsert(java.lang.String, java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">upsert(java.lang.String, java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>.&nbsp;</td>
           </tr>
