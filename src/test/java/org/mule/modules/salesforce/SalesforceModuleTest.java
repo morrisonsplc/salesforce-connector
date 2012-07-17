@@ -46,6 +46,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -569,6 +570,18 @@ public class SalesforceModuleTest {
         BatchInfo returnedBatchInfo = module.hardDeleteBulk(MOCK_OBJET_TYPE, sObjectList);
 
         assertEquals(batchInfo, returnedBatchInfo);
+    }
+
+    @Test
+    public void testBatchResultStream() throws Exception {
+        SalesforceModule module = new SalesforceModule();
+        BatchInfo batchInfo = setupBulkConnection(module);
+        BulkConnection bulkConnection = module.getBulkConnection();
+        InputStream expectedIs = new ByteArrayInputStream(new byte[1]);
+
+        when(bulkConnection.getBatchResultStream(batchInfo.getJobId(), batchInfo.getId())).thenReturn(expectedIs);
+        InputStream actualIs = module.batchResultStream(batchInfo);
+        assertEquals(expectedIs, actualIs);
     }
 
     @Test

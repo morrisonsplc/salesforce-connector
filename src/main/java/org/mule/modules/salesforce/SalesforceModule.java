@@ -216,7 +216,8 @@ public class SalesforceModule {
      * @param externalIdFieldName   Contains the name of the field on this object with the external ID field attribute
      *                              for custom objects or the idLookup field property for standard objects
      *                              (only required for Upsert Operations).
-     * @param contentType           The Content Type for this Job results.
+     * @param contentType           The Content Type for this Job results. When specifying a content type different from
+     *                              XML use {@link #batchResultStream(com.sforce.async.BatchInfo)} batchResultStream} method to retrieve results.
      * @return A {@link JobInfo} that identifies the created Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
@@ -535,6 +536,23 @@ public class SalesforceModule {
     @InvalidateConnectionOn(exception = ConnectionException.class)
     public BatchResult batchResult(BatchInfo batchInfo) throws Exception {
         return bulkConnection.getBatchResult(batchInfo.getJobId(), batchInfo.getId());
+    }
+
+    /**
+     * Returns an {@link InputStream} with the results of a submitted {@link BatchInfo}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:batch-result-stream}
+     * @param batchInfo  the {@link BatchInfo} being monitored
+     * @return {@link InputStream} with the results of the Batch.
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_get_results.htm">getBatchResult()</a>
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_interpret_status.htm">BatchInfo status</a>
+     * @since 4.5
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    public InputStream batchResultStream(BatchInfo batchInfo) throws Exception {
+        return bulkConnection.getBatchResultStream(batchInfo.getJobId(), batchInfo.getId());
     }
 
     /**
@@ -943,7 +961,7 @@ public class SalesforceModule {
      * method will save the timestamp of the latest date covered by Salesforce represented by {@link GetUpdatedResult#latestDateCovered}.
      * IMPORTANT: In order to use this method in a reliable way user must ensure that right after this method returns the result is
      * stored in a persistent way since the timestamp of the latest . In order to reset the latest update time
-     * use {@link org.mule.modules.salesforce.SalesforceModule#resetUpdatedObjectsTimestamp()}
+     * use {@link #resetUpdatedObjectsTimestamp(String) resetUpdatedObjectsTimestamp}
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-updated-objects}
      *
@@ -1260,6 +1278,10 @@ public class SalesforceModule {
 
     public PartnerConnection getConnection() {
         return connection;
+    }
+
+    public BulkConnection getBulkConnection() {
+        return bulkConnection;
     }
 
     public LoginResult getLoginResult() {
