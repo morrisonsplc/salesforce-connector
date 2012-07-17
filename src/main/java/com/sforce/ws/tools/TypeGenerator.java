@@ -25,6 +25,9 @@
  */
 package com.sforce.ws.tools;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.sforce.ws.bind.NameMapper;
 import com.sforce.ws.bind.TypeMapper;
 import com.sforce.ws.template.Template;
@@ -32,9 +35,6 @@ import com.sforce.ws.template.TemplateException;
 import com.sforce.ws.util.FileUtil;
 import com.sforce.ws.wsdl.Schema;
 import com.sforce.ws.wsdl.Types;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * TypeGenerator

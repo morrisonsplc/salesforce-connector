@@ -32,14 +32,14 @@ public class JobInfo implements com.sforce.ws.bind.XMLizable {
 
     private boolean id__is_set = false;
 
-    private String id;
+    private java.lang.String id;
 
-    public String getId() {
+    public java.lang.String getId() {
         return id;
     }
 
 
-    public void setId(String id) {
+    public void setId(java.lang.String id) {
         this.id = id;
         id__is_set = true;
     }
@@ -76,14 +76,14 @@ public class JobInfo implements com.sforce.ws.bind.XMLizable {
 
     private boolean object__is_set = false;
 
-    private String object;
+    private java.lang.String object;
 
-    public String getObject() {
+    public java.lang.String getObject() {
         return object;
     }
 
 
-    public void setObject(String object) {
+    public void setObject(java.lang.String object) {
         this.object = object;
         object__is_set = true;
     }
@@ -98,14 +98,14 @@ public class JobInfo implements com.sforce.ws.bind.XMLizable {
 
     private boolean createdById__is_set = false;
 
-    private String createdById;
+    private java.lang.String createdById;
 
-    public String getCreatedById() {
+    public java.lang.String getCreatedById() {
         return createdById;
     }
 
 
-    public void setCreatedById(String createdById) {
+    public void setCreatedById(java.lang.String createdById) {
         this.createdById = createdById;
         createdById__is_set = true;
     }
@@ -186,14 +186,14 @@ public class JobInfo implements com.sforce.ws.bind.XMLizable {
 
     private boolean externalIdFieldName__is_set = false;
 
-    private String externalIdFieldName;
+    private java.lang.String externalIdFieldName;
 
-    public String getExternalIdFieldName() {
+    public java.lang.String getExternalIdFieldName() {
         return externalIdFieldName;
     }
 
 
-    public void setExternalIdFieldName(String externalIdFieldName) {
+    public void setExternalIdFieldName(java.lang.String externalIdFieldName) {
         this.externalIdFieldName = externalIdFieldName;
         externalIdFieldName__is_set = true;
     }
@@ -413,13 +413,13 @@ public class JobInfo implements com.sforce.ws.bind.XMLizable {
 
     private boolean assignmentRuleId__is_set = false;
 
-    private String assignmentRuleId;
+    private java.lang.String assignmentRuleId;
 
-    public String getAssignmentRuleId() {
+    public java.lang.String getAssignmentRuleId() {
         return assignmentRuleId;
     }
 
-    public void setAssignmentRuleId(String assignmentRuleId) {
+    public void setAssignmentRuleId(java.lang.String assignmentRuleId) {
         this.assignmentRuleId = assignmentRuleId;
         assignmentRuleId__is_set = true;
     }
@@ -679,7 +679,7 @@ public class JobInfo implements com.sforce.ws.bind.XMLizable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        java.lang.StringBuilder sb = new java.lang.StringBuilder();
         sb.append("[JobInfo ");
 
         sb.append(" id=");

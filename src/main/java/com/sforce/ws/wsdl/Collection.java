@@ -26,7 +26,6 @@
 package com.sforce.ws.wsdl;
 
 import com.sforce.ws.parser.XmlInputStream;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 

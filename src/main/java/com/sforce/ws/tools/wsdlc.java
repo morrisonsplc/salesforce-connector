@@ -25,39 +25,21 @@
  */
 package com.sforce.ws.tools;
 
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.jar.*;
+
 import com.sforce.ws.bind.NameMapper;
 import com.sforce.ws.bind.TypeMapper;
 import com.sforce.ws.template.Template;
 import com.sforce.ws.template.TemplateException;
 import com.sforce.ws.util.FileUtil;
 import com.sforce.ws.util.Verbose;
-import com.sforce.ws.wsdl.ComplexType;
-import com.sforce.ws.wsdl.Definitions;
-import com.sforce.ws.wsdl.Schema;
-import com.sforce.ws.wsdl.SfdcApiType;
-import com.sforce.ws.wsdl.SimpleType;
-import com.sforce.ws.wsdl.Types;
-import com.sforce.ws.wsdl.WsdlFactory;
-import com.sforce.ws.wsdl.WsdlParseException;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarOutputStream;
-import java.util.jar.Manifest;
+import com.sforce.ws.wsdl.*;
 
 /**
  * wsdlc is a tool that can generate java stubs from WSDL.

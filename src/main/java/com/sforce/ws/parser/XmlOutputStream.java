@@ -25,11 +25,11 @@
  */
 package com.sforce.ws.parser;
 
-import com.sforce.ws.wsdl.Constants;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+
+import com.sforce.ws.wsdl.Constants;
 
 /**
  * This is a minimal XML output stream, that can be used to write XML.
@@ -50,6 +50,12 @@ public class XmlOutputStream {
             serializer.setProperty(serializer.PROPERTY_SERIALIZER_INDENTATION, " ");
         }
     }
+    
+    public XmlOutputStream(OutputStream out, String prettyPrintIndentation) throws IOException {
+        this.out = out;
+        serializer.setOutput(out, "UTF-8");
+        serializer.setProperty(serializer.PROPERTY_SERIALIZER_INDENTATION, prettyPrintIndentation);
+    }    
 
     public String getPrefix(String namespace) {
         return serializer.getPrefix(namespace, false);

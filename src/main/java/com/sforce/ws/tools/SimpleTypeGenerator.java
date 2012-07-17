@@ -25,15 +25,12 @@
  */
 package com.sforce.ws.tools;
 
-import com.sforce.ws.bind.TypeMapper;
-import com.sforce.ws.wsdl.Enumeration;
-import com.sforce.ws.wsdl.Schema;
-import com.sforce.ws.wsdl.SimpleType;
-import com.sforce.ws.wsdl.Types;
-
 import java.io.File;
 import java.util.Iterator;
 import java.util.regex.Pattern;
+
+import com.sforce.ws.bind.TypeMapper;
+import com.sforce.ws.wsdl.*;
 
 /**
  * SimpleTypeGenerator

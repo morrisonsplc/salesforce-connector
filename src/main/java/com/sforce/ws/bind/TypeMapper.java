@@ -25,19 +25,6 @@
  */
 package com.sforce.ws.bind;
 
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
-import com.sforce.ws.parser.XmlInputStream;
-import com.sforce.ws.parser.XmlOutputStream;
-import com.sforce.ws.types.Time;
-import com.sforce.ws.util.Base64;
-import com.sforce.ws.wsdl.Constants;
-import com.sforce.ws.wsdl.Restriction;
-import com.sforce.ws.wsdl.SfdcApiType;
-import com.sforce.ws.wsdl.SimpleType;
-import com.sforce.ws.wsdl.Types;
-
-import javax.xml.namespace.QName;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -46,6 +33,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import javax.xml.namespace.QName;
+
+import com.sforce.ws.ConnectionException;
+import com.sforce.ws.types.Time;
+import com.sforce.ws.util.Base64;
+import com.sforce.ws.ConnectorConfig;
+import com.sforce.ws.parser.XmlInputStream;
+import com.sforce.ws.parser.XmlOutputStream;
+import com.sforce.ws.wsdl.Constants;
+import com.sforce.ws.wsdl.Restriction;
+import com.sforce.ws.wsdl.SfdcApiType;
+import com.sforce.ws.wsdl.SimpleType;
+import com.sforce.ws.wsdl.Types;
 
 /**
  * This class is used at runtime to bind xml document to java object and java objects
@@ -235,7 +236,7 @@ public class TypeMapper {
      * @param typeNS namespace of the type
      * @param type   name of the type
      *
-     * @throws java.io.IOException failed to write
+     * @throws IOException failed to write
      */
     public void writeXsiType(XmlOutputStream out, String typeNS, String type) throws IOException {
         String prefix = out.getPrefix(typeNS);

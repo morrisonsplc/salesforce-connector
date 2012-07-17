@@ -27,12 +27,12 @@ package com.sforce.ws.wsdl;
 
 import com.sforce.ws.parser.XmlInputStream;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.MalformedURLException;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
 
 /**
  * Use this factory to create WSDL data model.

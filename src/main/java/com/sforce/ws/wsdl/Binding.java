@@ -26,13 +26,13 @@
 
 package com.sforce.ws.wsdl;
 
-import com.sforce.ws.ConnectionException;
 import com.sforce.ws.parser.XmlInputStream;
+import com.sforce.ws.ConnectionException;
 
 import javax.xml.namespace.QName;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.HashSet;
+import java.util.HashMap;
 
 /**
  * This class represents WSDL->Definitions->Binding

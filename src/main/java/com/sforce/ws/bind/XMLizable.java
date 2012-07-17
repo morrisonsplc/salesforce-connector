@@ -1,8 +1,8 @@
 package com.sforce.ws.bind;
 
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.parser.XmlInputStream;
 import com.sforce.ws.parser.XmlOutputStream;
+import com.sforce.ws.parser.XmlInputStream;
+import com.sforce.ws.ConnectionException;
 
 import javax.xml.namespace.QName;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public interface XMLizable {
      * @param element    xml element name
      * @param out        xml output stream
      * @param typeMapper type mapper to be used
-     * @throws java.io.IOException failed to write xml
+     * @throws IOException failed to write xml
      */
     void write(QName element, XmlOutputStream out, TypeMapper typeMapper) throws IOException;
 
@@ -31,7 +31,7 @@ public interface XMLizable {
      *
      * @param in         xml input stream from which the data is read
      * @param typeMapper type mapper to be used
-     * @throws java.io.IOException         failed to read xml
+     * @throws IOException         failed to read xml
      * @throws ConnectionException failed to read/parser/bind xml
      */
     void load(XmlInputStream in, TypeMapper typeMapper) throws IOException, ConnectionException;

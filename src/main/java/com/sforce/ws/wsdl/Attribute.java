@@ -25,11 +25,12 @@
  */
 package com.sforce.ws.wsdl;
 
-import com.sforce.ws.parser.XmlInputStream;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import javax.xml.namespace.QName;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import com.sforce.ws.parser.XmlInputStream;
 
 /**
  * This class represents WSDL->definitions->types->schema->complexType->attribute

@@ -25,11 +25,12 @@
  */
 package com.sforce.ws.wsdl;
 
-import com.sforce.ws.parser.XmlInputStream;
-
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import javax.xml.namespace.QName;
+
+import com.sforce.ws.parser.XmlInputStream;
 
 /**
  * This class represents WSDL->definitions->types->schema->complexType->sequence

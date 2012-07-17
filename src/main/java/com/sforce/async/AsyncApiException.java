@@ -66,15 +66,15 @@ public class AsyncApiException extends Exception implements com.sforce.ws.bind.X
 
   private boolean exceptionMessage__is_set = false;
 
-  private String exceptionMessage;
+  private java.lang.String exceptionMessage;
 
-  public String getExceptionMessage() {
+  public java.lang.String getExceptionMessage() {
     return exceptionMessage;
   }
 
 
 
-  public void setExceptionMessage(String exceptionMessage) {
+  public void setExceptionMessage(java.lang.String exceptionMessage) {
     this.exceptionMessage = exceptionMessage;
     exceptionMessage__is_set = true;
   }
@@ -117,13 +117,13 @@ public class AsyncApiException extends Exception implements com.sforce.ws.bind.X
     }
     __in.peekTag();
     if (__typeMapper.isElement(__in, exceptionMessage__typeInfo)) {
-      setExceptionMessage(__typeMapper.readString(__in, exceptionMessage__typeInfo, String.class));
+      setExceptionMessage(__typeMapper.readString(__in, exceptionMessage__typeInfo, java.lang.String.class));
     }
   }
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
+    java.lang.StringBuilder sb = new java.lang.StringBuilder();
     sb.append("[AsyncApiException ");
 
     sb.append(" exceptionCode=");

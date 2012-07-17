@@ -10,7 +10,6 @@ import com.sforce.ws.parser.PullParserException;
 import com.sforce.ws.parser.XmlInputStream;
 import com.sforce.ws.parser.XmlOutputStream;
 import com.sforce.ws.transport.JdkHttpTransport;
-import com.sforce.ws.transport.Transport;
 import com.sforce.ws.wsdl.Constants;
 
 import java.io.IOException;
@@ -26,13 +25,13 @@ import java.io.OutputStream;
 public class BatchRequest {
 
     private XmlOutputStream xmlStream;
-    private Transport transport;
+    private JdkHttpTransport transport;
 
-    public BatchRequest(Transport transport, OutputStream out) throws IOException {
+    public BatchRequest(JdkHttpTransport transport, OutputStream out) throws IOException {
         this.transport = transport;
         xmlStream = new AsyncXmlOutputStream(out, false);
         xmlStream.setPrefix("xsi", Constants.SCHEMA_INSTANCE_NS);
-        xmlStream.writeStartTag(RestConnection.NAMESPACE, "sObjects");
+        xmlStream.writeStartTag(BulkConnection.NAMESPACE, "sObjects");
     }
 
     public void addSObject(SObject object) throws AsyncApiException {
@@ -51,7 +50,7 @@ public class BatchRequest {
 
     public BatchInfo completeRequest() throws AsyncApiException {
         try {
-            xmlStream.writeEndTag(RestConnection.NAMESPACE, "sObjects");
+            xmlStream.writeEndTag(BulkConnection.NAMESPACE, "sObjects");
             xmlStream.endDocument();
             xmlStream.close();
             InputStream in = transport.getContent();
@@ -59,7 +58,7 @@ public class BatchRequest {
             if (transport.isSuccessful()) {
                 return loadBatchInfo(in);
             } else {
-                RestConnection.parseAndThrowException(in);
+                BulkConnection.parseAndThrowException(in);
             }
         } catch(IOException e) {
             throw new AsyncApiException("Failed to complete request", AsyncExceptionCode.ClientInputError, e);
@@ -75,7 +74,7 @@ public class BatchRequest {
         BatchInfo info = new BatchInfo();
         XmlInputStream xin = new XmlInputStream();
         xin.setInput(in, "UTF-8");
-        info.load(xin, RestConnection.typeMapper);
+        info.load(xin, BulkConnection.typeMapper);
         return info;
     }
 }

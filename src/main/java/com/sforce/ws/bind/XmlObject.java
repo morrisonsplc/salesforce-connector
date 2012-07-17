@@ -157,7 +157,7 @@ public class XmlObject implements XMLizable {
 
     private QName getQNameFor(String n) {
         String namespace = defaultNamespace == null ? Constants.PARTNER_SOBJECT_NS : defaultNamespace;
-        return name == null ? new QName(namespace, n) : new QName(name.getNamespaceURI(), n);
+        return name == null ? new QName(namespace, n) :  new QName(name.getNamespaceURI(), n);
     }
 
     public boolean removeField(String name) {
@@ -230,24 +230,28 @@ public class XmlObject implements XMLizable {
             out.writeEndTag(element.getNamespaceURI(), element.getLocalPart());
         } else {
             if (value != null) {
-                TypeInfo info = null;
-                if (value instanceof XmlTypeInfoProvider) {
-                    info = ((XmlTypeInfoProvider) value).getTypeInfo(name.getNamespaceURI(), name.getLocalPart(), typeMapper);
-                }
-                if (info == null) {
+            	TypeInfo info = null;
+            	if (value instanceof XmlTypeInfoProvider) {
+            		info = ((XmlTypeInfoProvider)value).getTypeInfo(name.getNamespaceURI(), name.getLocalPart(), typeMapper);
+            	}
+            	if (info == null) {
                     QName xmlType = typeMapper.getXmlType(value.getClass().getName());
-                    if (xmlType == null) {
-                        //todo: throw right exception
-                        throw new IOException("Unable to find xml type for :" + value.getClass().getName());
+                    for (Class<?> classForType = value.getClass(); classForType != Object.class && xmlType == null;
+                        classForType = classForType.getSuperclass()) {
+                        xmlType = typeMapper.getXmlType(classForType.getName());
                     }
-                    int max = value.getClass().isArray() ? -1 : 1;
-                    if (value.getClass().getName().equals("[B")) {
-                        //special case for byte[]
-                        max = 1;
-                    }
-                    info = new TypeInfo(name.getNamespaceURI(), name.getLocalPart(),
-                            xmlType.getNamespaceURI(), xmlType.getLocalPart(), 0, max, true);
-                }
+            		if (xmlType == null) {
+            			//todo: throw right exception
+            			throw new IOException("Unable to find xml type for :" + value.getClass().getName());
+            		}
+            		int max = value.getClass().isArray() ? -1 : 1;
+            		if (value.getClass().getName().equals("[B")) {
+            			//special case for byte[]
+            			max = 1;
+            		}
+            		info = new TypeInfo(name.getNamespaceURI(), name.getLocalPart(),
+            				xmlType.getNamespaceURI(), xmlType.getLocalPart(), 0, max, true);
+            	}
                 typeMapper.writeObject(out, info, value, true);
             }
         }
