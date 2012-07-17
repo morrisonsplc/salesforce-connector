@@ -69,7 +69,7 @@ public class SoapHeaderObject implements com.sforce.ws.bind.XMLizable {
         __out.writeEndTag(__element.getNamespaceURI(), __element.getLocalPart());
     }
 
-    protected void writeFields(XmlOutputStream __out, TypeMapper __typeMapper) throws IOException {
+    protected void writeFields(XmlOutputStream __out, TypeMapper __typeMapper) throws java.io.IOException {
         if (actor__is_set) {
             __out.writeAttribute(actor__typeInfo.getNamespace(), "actor", actor);
         }
@@ -104,7 +104,7 @@ public class SoapHeaderObject implements com.sforce.ws.bind.XMLizable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        java.lang.StringBuilder sb = new java.lang.StringBuilder();
         sb.append("[SoapHeaderObject ");
 
         sb.append(" actor=");

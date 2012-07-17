@@ -42,10 +42,10 @@
 package com.sforce.ws.bind;
 
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 /**
  * The CalendarSerializer deserializes a dateTime.

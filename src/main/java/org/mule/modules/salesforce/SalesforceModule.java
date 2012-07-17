@@ -14,9 +14,10 @@ import com.sforce.async.AsyncExceptionCode;
 import com.sforce.async.BatchInfo;
 import com.sforce.async.BatchRequest;
 import com.sforce.async.BatchResult;
+import com.sforce.async.BulkConnection;
+import com.sforce.async.ContentType;
 import com.sforce.async.JobInfo;
 import com.sforce.async.OperationEnum;
-import com.sforce.async.RestConnection;
 import com.sforce.soap.partner.Connector;
 import com.sforce.soap.partner.DeleteResult;
 import com.sforce.soap.partner.DescribeGlobalResult;
@@ -37,7 +38,6 @@ import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.MessageHandler;
-import com.sforce.ws.transport.SoapConnection;
 import org.apache.log4j.Logger;
 import org.mule.api.ConnectionExceptionCode;
 import org.mule.api.annotations.Configurable;
@@ -166,7 +166,7 @@ public class SalesforceModule {
     /**
      * REST connection to the bulk API
      */
-    private RestConnection restConnection;
+    private BulkConnection bulkConnection;
 
     /**
      * Login result
@@ -201,7 +201,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public List<SaveResult> create(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(connection.create(toSObjectList(type, objects)));
@@ -211,11 +211,13 @@ public class SalesforceModule {
      * Creates a Job in order to perform one or more batches through Bulk API Operations.
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-job}
      *
-     * @param operation The {@link OperationEnum} that will be executed by the job.
-     * @param type The type of Salesforce object that the job will process.
-     * @param externalIdFieldName Contains the name of the field on this object with the external ID field attribute
-     *                            for custom objects or the idLookup field property for standard objects 
-     *                            (only required for Upsert Operations).
+     * @param operation             The {@link OperationEnum} that will be executed by the job.
+     * @param type                  The type of Salesforce object that the job will process.
+     * @param externalIdFieldName   Contains the name of the field on this object with the external ID field attribute
+     *                              for custom objects or the idLookup field property for standard objects
+     *                              (only required for Upsert Operations).
+     * @param contentType           The Content Type for this Job results. When specifying a content type different from
+     *                              XML use {@link #batchResultStream(com.sforce.async.BatchInfo)} batchResultStream} method to retrieve results.
      * @return A {@link JobInfo} that identifies the created Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
@@ -223,8 +225,8 @@ public class SalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = AsyncApiException.class)
-    public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName) throws Exception {
-        return createJobInfo(operation, type, externalIdFieldName);
+    public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName, @Optional ContentType contentType) throws Exception {
+        return createJobInfo(operation, type, externalIdFieldName, contentType);
     }
 
     /**
@@ -240,7 +242,7 @@ public class SalesforceModule {
     @Processor
     @InvalidateConnectionOn(exception = AsyncApiException.class)
     public JobInfo closeJob(String jobId) throws Exception {
-        return restConnection.closeJob(jobId);
+        return bulkConnection.closeJob(jobId);
     }
 
     /**
@@ -306,45 +308,6 @@ public class SalesforceModule {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.insert, type), objects);
     }
 
-    private BatchInfo createBatchAndCompleteRequest(JobInfo jobInfo, List<Map<String, Object>> objects) throws ConnectionException {
-        try {
-            BatchRequest batchRequest = restConnection.createBatch(jobInfo);
-            batchRequest.addSObjects(toAsyncSObjectList(objects));
-            return batchRequest.completeRequest();
-        } catch (AsyncApiException e) {
-            if (e.getExceptionCode() == AsyncExceptionCode.InvalidSessionId) {
-                throw new ConnectionException(e.getMessage(), e);
-            }
-        }
-
-        return null;
-    }
-
-    private BatchInfo createBatchForQuery(JobInfo jobInfo, InputStream query) throws ConnectionException {
-        try {
-            return restConnection.createBatchFromStream(jobInfo, query);
-        } catch (AsyncApiException e) {
-            if (e.getExceptionCode() == AsyncExceptionCode.InvalidSessionId) {
-                throw new ConnectionException(e.getMessage(), e);
-            }
-        }
-        return null;
-    }
-
-    private JobInfo createJobInfo(OperationEnum op, String type) throws AsyncApiException {
-        return createJobInfo(op, type, null);
-    }
-
-    private JobInfo createJobInfo(OperationEnum op, String type, String externalIdFieldName) throws AsyncApiException {
-        JobInfo jobInfo = new JobInfo();
-        jobInfo.setOperation(op);
-        jobInfo.setObject(type);
-        if (externalIdFieldName != null) {
-            jobInfo.setExternalIdFieldName(externalIdFieldName);
-        }
-        return restConnection.createJob(jobInfo);
-    }
-
     /**
      * Adds one new records to your organization's data.
      * <p/>
@@ -359,7 +322,7 @@ public class SalesforceModule {
      * @since 4.1
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public SaveResult createSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "sObject Field Mappings") @FriendlyName("sObject") @Default("#[payload]") Map<String, Object> object) throws Exception {
         SaveResult[] saveResults = connection.create(new SObject[]{toSObject(type, object)});
@@ -372,7 +335,7 @@ public class SalesforceModule {
 
     @ValidateConnection
     public boolean isConnected() {
-        if (restConnection != null) {
+        if (bulkConnection != null) {
             if (connection != null) {
                 if (loginResult != null) {
                     if (loginResult.getSessionId() != null) {
@@ -442,7 +405,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public List<SaveResult> update(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(connection.update(toSObjectList(type, objects)));
@@ -461,7 +424,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public SaveResult updateSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "Salesforce Object") @FriendlyName("sObject") @Optional @Default("#[payload]") Map<String, Object> object) throws Exception {
         return connection.update(new SObject[] { toSObject(type, object) })[0];
@@ -506,7 +469,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public List<UpsertResult> upsert(@Placement(group = "Information") String externalIdFieldName,
                                      @Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                      @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
@@ -537,7 +500,7 @@ public class SalesforceModule {
     public BatchInfo upsertBulk(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Information", order = 2) String externalIdFieldName,
                                 @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
-        return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName), objects);
+        return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName, null), objects);
     }
 
     /**
@@ -552,9 +515,9 @@ public class SalesforceModule {
      * @since 4.1
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public BatchInfo batchInfo(BatchInfo batchInfo) throws Exception {
-        return restConnection.getBatchInfo(batchInfo.getJobId(), batchInfo.getId());
+        return bulkConnection.getBatchInfo(batchInfo.getJobId(), batchInfo.getId());
     }
 
     /**
@@ -570,9 +533,26 @@ public class SalesforceModule {
      * @since 4.1
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public BatchResult batchResult(BatchInfo batchInfo) throws Exception {
-        return restConnection.getBatchResult(batchInfo.getJobId(), batchInfo.getId());
+        return bulkConnection.getBatchResult(batchInfo.getJobId(), batchInfo.getId());
+    }
+
+    /**
+     * Returns an {@link InputStream} with the results of a submitted {@link BatchInfo}
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:batch-result-stream}
+     * @param batchInfo  the {@link BatchInfo} being monitored
+     * @return {@link InputStream} with the results of the Batch.
+     * @throws Exception
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_get_results.htm">getBatchResult()</a>
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_interpret_status.htm">BatchInfo status</a>
+     * @since 4.5
+     */
+    @Processor
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    public InputStream batchResultStream(BatchInfo batchInfo) throws Exception {
+        return bulkConnection.getBatchResultStream(batchInfo.getJobId(), batchInfo.getId());
     }
 
     /**
@@ -602,7 +582,7 @@ public class SalesforceModule {
      * @throws Exception
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public List<Map<String, Object>> retrieve(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                               @Placement(group = "Ids to Retrieve") List<String> ids,
                                               @Placement(group = "Fields to Retrieve") List<String> fields) throws Exception {
@@ -631,7 +611,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public List<Map<String, Object>> query(@Placement(group = "Query") String query) throws Exception {
         QueryResult queryResult = connection.query(query);
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
@@ -659,7 +639,7 @@ public class SalesforceModule {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public List<Map<String, Object>> queryAll(@Placement(group = "Query") String query) throws Exception {
         QueryResult queryResult = connection.queryAll(query);
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
@@ -690,7 +670,7 @@ public class SalesforceModule {
      * @since 4.1
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public Map<String, Object> querySingle(@Placement(group = "Query") String query) throws Exception {
         SObject[] result = connection.query(query).getRecords();
         if (result.length > 0) {
@@ -749,7 +729,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public LeadConvertResult convertLead(String leadId, String contactId,
                                          @Optional String accountId,
                                          @Optional @Default("false") Boolean overWriteLeadSource,
@@ -792,7 +772,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public List<EmptyRecycleBinResult> emptyRecycleBin(@Placement(group = "Ids to Delete") List<String> ids) throws Exception {
         return Arrays.asList(connection.emptyRecycleBin(ids.toArray(new String[]{})));
     }
@@ -810,7 +790,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public List<DeleteResult> delete(@Placement(group = "Ids to Delete") List<String> ids) throws Exception {
         return Arrays.asList(connection.delete(ids.toArray(new String[]{})));
     }
@@ -856,7 +836,7 @@ public class SalesforceModule {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdatedrange.htm">getUpdatedRange()</a>
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public GetUpdatedResult getUpdatedRange(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                             @Placement(group = "Information") @FriendlyName("Start Time Reference") Calendar startTime,
                                             @Placement(group = "Information") @FriendlyName("End Time Reference") @Optional Calendar endTime) throws Exception {
@@ -893,7 +873,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public GetDeletedResult getDeletedRange(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                             @Placement(group = "Information") @FriendlyName("Start Time Reference") Calendar startTime,
                                             @Placement(group = "Information") @FriendlyName("End Time Reference") @Optional Calendar endTime) throws Exception {
@@ -923,7 +903,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor(name = "describe-sobject", friendlyName = "Describe sObject")
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public DescribeSObjectResult describeSObject(@Placement(group = "Information") @FriendlyName("sObject Type") String type) throws Exception {
         return connection.describeSObject(type);
     }
@@ -941,7 +921,7 @@ public class SalesforceModule {
      * @since 4.2
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public GetDeletedResult getDeleted(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                        @Placement(group = "Information") int duration) throws Exception {
         Calendar serverTime = connection.getServerTimestamp().getTimestamp();
@@ -965,7 +945,7 @@ public class SalesforceModule {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public GetUpdatedResult getUpdated(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                        @Placement(group = "Information") int duration) throws Exception {
         Calendar serverTime = connection.getServerTimestamp().getTimestamp();
@@ -981,7 +961,7 @@ public class SalesforceModule {
      * method will save the timestamp of the latest date covered by Salesforce represented by {@link GetUpdatedResult#latestDateCovered}.
      * IMPORTANT: In order to use this method in a reliable way user must ensure that right after this method returns the result is
      * stored in a persistent way since the timestamp of the latest . In order to reset the latest update time
-     * use {@link org.mule.modules.salesforce.SalesforceModule#resetUpdatedObjectsTimestamp()}
+     * use {@link #resetUpdatedObjectsTimestamp(String) resetUpdatedObjectsTimestamp}
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-updated-objects}
      *
@@ -993,7 +973,7 @@ public class SalesforceModule {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public List<Map<String, Object>> getUpdatedObjects(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                                        @Placement(group = "Information") int initialTimeWindow,
                                                        @Placement(group = "Fields") List<String> fields) throws Exception {
@@ -1058,7 +1038,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public void publishTopic(@Placement(group = "Information") String name,
                              @Placement(group = "Information") String query,
                              @Placement(group = "Information") @Optional String description) throws Exception {
@@ -1104,7 +1084,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public GetUserInfoResult getUserInfo() throws Exception {
         return connection.getUserInfo();
     }
@@ -1174,7 +1154,7 @@ public class SalesforceModule {
         try {
             String restEndpoint = "https://" + (new URL(connectorConfig.getServiceEndpoint())).getHost() + "/services/async/23.0";
             connectorConfig.setRestEndpoint(restEndpoint);
-            restConnection = new RestConnection(connectorConfig);
+            bulkConnection = new BulkConnection(connectorConfig);
         } catch (AsyncApiException e) {
             throw new org.mule.api.ConnectionException(ConnectionExceptionCode.UNKNOWN, e.getExceptionCode().toString(), e.getMessage(), e);
         } catch (MalformedURLException e) {
@@ -1209,47 +1189,6 @@ public class SalesforceModule {
                 throw new org.mule.api.ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage(), e);
             }
         }
-    }
-
-    protected SObject[] toSObjectList(String type, List<Map<String, Object>> objects) {
-        SObject[] sobjects = new SObject[objects.size()];
-        int s = 0;
-        for (Map<String, Object> map : objects) {
-            sobjects[s] = toSObject(type, map);
-            s++;
-        }
-        return sobjects;
-    }
-
-    private SObject toSObject(String type, Map<String, Object> map) {
-        SObject sObject = new SObject();
-        for (String key : map.keySet()) {
-            sObject.setType(type);
-            sObject.setField(key, map.get(key));
-        }
-        return sObject;
-    }
-
-    protected com.sforce.async.SObject[] toAsyncSObjectList(List<Map<String, Object>> objects) {
-        com.sforce.async.SObject[] sobjects = new com.sforce.async.SObject[objects.size()];
-        int s = 0;
-        for (Map<String, Object> map : objects) {
-            sobjects[s] = toAsyncSObject(map);
-            s++;
-        }
-        return sobjects;
-    }
-
-    private com.sforce.async.SObject toAsyncSObject(Map<String, Object> map) {
-        com.sforce.async.SObject sObject = new com.sforce.async.SObject();
-        for (String key : map.keySet()) {
-            if (map.get(key) != null) {
-                sObject.setField(key, map.get(key).toString());
-            } else {
-                sObject.setField(key, null);
-            }
-        }
-        return sObject;
     }
 
     /**
@@ -1337,6 +1276,46 @@ public class SalesforceModule {
         this.url = url;
     }
 
+    public PartnerConnection getConnection() {
+        return connection;
+    }
+
+    public BulkConnection getBulkConnection() {
+        return bulkConnection;
+    }
+
+    public LoginResult getLoginResult() {
+        return loginResult;
+    }
+
+    public SalesforceBayeuxClient getBayeuxClient() {
+        try {
+            if (bc == null) {
+                bc = new SalesforceBayeuxClient(this);
+
+                if (!bc.isHandshook()) {
+                    bc.handshake();
+                }
+            }
+        } catch (MalformedURLException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+        return bc;
+    }
+
+    public void setObjectStoreManager(ObjectStoreManager objectStoreManager) {
+        this.objectStoreManager = objectStoreManager;
+    }
+
+    public void setObjectStore(ObjectStore objectStore) {
+        this.objectStore = objectStore;
+    }
+
+    public void setRegistry(Registry registry) {
+        this.registry = registry;
+    }
+
     /**
      * Create connector config
      *
@@ -1374,40 +1353,25 @@ public class SalesforceModule {
         return config;
     }
 
-    public PartnerConnection getConnection() {
-        return connection;
-    }
 
-    public LoginResult getLoginResult() {
-        return loginResult;
-    }
-
-    public SalesforceBayeuxClient getBayeuxClient() {
-        try {
-            if (bc == null) {
-                bc = new SalesforceBayeuxClient(this);
-
-                if (!bc.isHandshook()) {
-                    bc.handshake();
-                }
-            }
-        } catch (MalformedURLException e) {
-            LOGGER.error(e.getMessage());
+    protected com.sforce.async.SObject[] toAsyncSObjectList(List<Map<String, Object>> objects) {
+        com.sforce.async.SObject[] sobjects = new com.sforce.async.SObject[objects.size()];
+        int s = 0;
+        for (Map<String, Object> map : objects) {
+            sobjects[s] = toAsyncSObject(map);
+            s++;
         }
-
-        return bc;
+        return sobjects;
     }
 
-    public void setObjectStoreManager(ObjectStoreManager objectStoreManager) {
-        this.objectStoreManager = objectStoreManager;
-    }
-
-    public void setObjectStore(ObjectStore objectStore) {
-        this.objectStore = objectStore;
-    }
-
-    public void setRegistry(Registry registry) {
-        this.registry = registry;
+    protected SObject[] toSObjectList(String type, List<Map<String, Object>> objects) {
+        SObject[] sobjects = new SObject[objects.size()];
+        int s = 0;
+        for (Map<String, Object> map : objects) {
+            sobjects[s] = toSObject(type, map);
+            s++;
+        }
+        return sobjects;
     }
 
     protected void setConnection(PartnerConnection connection) {
@@ -1418,8 +1382,8 @@ public class SalesforceModule {
         this.loginResult = loginResult;
     }
 
-    protected void setRestConnection(RestConnection restConnection) {
-        this.restConnection = restConnection;
+    protected void setBulkConnection(BulkConnection bulkConnection) {
+        this.bulkConnection = bulkConnection;
     }
 
     protected void setBayeuxClient(SalesforceBayeuxClient bc) {
@@ -1428,6 +1392,69 @@ public class SalesforceModule {
 
     protected void setObjectStoreHelper(ObjectStoreHelper objectStoreHelper) {
         this.objectStoreHelper = objectStoreHelper;
+    }
+
+    private BatchInfo createBatchAndCompleteRequest(JobInfo jobInfo, List<Map<String, Object>> objects) throws ConnectionException {
+        try {
+            BatchRequest batchRequest = bulkConnection.createBatch(jobInfo);
+            batchRequest.addSObjects(toAsyncSObjectList(objects));
+            return batchRequest.completeRequest();
+        } catch (AsyncApiException e) {
+            if (e.getExceptionCode() == AsyncExceptionCode.InvalidSessionId) {
+                throw new ConnectionException(e.getMessage(), e);
+            }
+        }
+
+        return null;
+    }
+
+    private BatchInfo createBatchForQuery(JobInfo jobInfo, InputStream query) throws ConnectionException {
+        try {
+            return bulkConnection.createBatchFromStream(jobInfo, query);
+        } catch (AsyncApiException e) {
+            if (e.getExceptionCode() == AsyncExceptionCode.InvalidSessionId) {
+                throw new ConnectionException(e.getMessage(), e);
+            }
+        }
+        return null;
+    }
+
+    private JobInfo createJobInfo(OperationEnum op, String type) throws AsyncApiException {
+        return createJobInfo(op, type, null, null);
+    }
+
+    private JobInfo createJobInfo(OperationEnum op, String type, String externalIdFieldName, ContentType contentType) throws AsyncApiException {
+        JobInfo jobInfo = new JobInfo();
+        jobInfo.setOperation(op);
+        jobInfo.setObject(type);
+        if (externalIdFieldName != null) {
+            jobInfo.setExternalIdFieldName(externalIdFieldName);
+        }
+        if (contentType != null) {
+            jobInfo.setContentType(contentType);
+        }
+        return bulkConnection.createJob(jobInfo);
+    }
+
+    private com.sforce.async.SObject toAsyncSObject(Map<String, Object> map) {
+        com.sforce.async.SObject sObject = new com.sforce.async.SObject();
+        for (String key : map.keySet()) {
+            if (map.get(key) != null) {
+                sObject.setField(key, map.get(key).toString());
+            } else {
+                sObject.setField(key, null);
+            }
+        }
+        return sObject;
+    }
+
+    private SObject toSObject(String type, Map<String, Object> map) {
+        SObject sObject = new SObject();
+        for (String key : map.keySet()) {
+            sObject.setType(type);
+            sObject.setField(key, map.get(key));
+        }
+        return sObject;
     }
 
     private synchronized ObjectStoreHelper getObjectStoreHelper(String username) {

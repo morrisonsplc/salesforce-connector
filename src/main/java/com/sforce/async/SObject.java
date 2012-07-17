@@ -5,13 +5,10 @@
  */
 package com.sforce.async;
 
-import com.sforce.ws.parser.XmlOutputStream;
-
+import java.util.*;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+
+import com.sforce.ws.parser.XmlOutputStream;
 
 /**
  * SObject
@@ -65,7 +62,7 @@ public final class SObject {
      * </sObjects>
      * 
      * @param out
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void write(XmlOutputStream out) throws IOException {
         write(out, 0);
@@ -75,26 +72,19 @@ public final class SObject {
         if (depth > MAX_DEPTH) throw new IllegalStateException(
                 "foreign key reference exceeded the maximum allowed depth of " + MAX_DEPTH);
         
-        out.writeStartTag(RestConnection.NAMESPACE, "sObject");
+        out.writeStartTag(BulkConnection.NAMESPACE, "sObject");
         for (Map.Entry<String, String> entry : fields.entrySet()) {
             String name = entry.getKey();
             String value = entry.getValue();
-
-            if( value != null ) {
-                out.writeStringElement(RestConnection.NAMESPACE, name, value);
-            } else {
-                out.writeStartTag(RestConnection.NAMESPACE, name);
-                out.writeAttribute("http://www.w3.org/2001/XMLSchema-instance", "nil", "true");
-                out.writeEndTag(RestConnection.NAMESPACE, name);
-            }
+            out.writeStringElement(BulkConnection.NAMESPACE, name, value);
         }
         for (Map.Entry<String, SObject> entry : fkRefs.entrySet()) {
             String relationshipName = entry.getKey();
             SObject ref = entry.getValue();
-            out.writeStartTag(RestConnection.NAMESPACE, relationshipName);
+            out.writeStartTag(BulkConnection.NAMESPACE, relationshipName);
             ref.write(out, depth++);
-            out.writeEndTag(RestConnection.NAMESPACE, relationshipName);
+            out.writeEndTag(BulkConnection.NAMESPACE, relationshipName);
         }
-        out.writeEndTag(RestConnection.NAMESPACE, "sObject");
+        out.writeEndTag(BulkConnection.NAMESPACE, "sObject");
     }
 }

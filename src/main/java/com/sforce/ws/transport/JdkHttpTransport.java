@@ -7,7 +7,7 @@
  * 
  *    Redistributions of source code must retain the above copyright notice, this list of conditions and the 
  *    following disclaimer.
- *
+ *  
  *    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and 
  *    the following disclaimer in the documentation and/or other materials provided with the distribution. 
  *    
@@ -25,29 +25,18 @@
  */
 package com.sforce.ws.transport;
 
-import com.sforce.ws.ConnectorConfig;
-import com.sforce.ws.MessageHandler;
-import com.sforce.ws.MessageHandlerWithHeaders;
-import com.sforce.ws.tools.VersionInfo;
-import com.sforce.ws.util.Base64;
-import com.sforce.ws.util.FileUtil;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.Proxy;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import sun.nio.cs.UTF_32LE;
+
+import com.sforce.ws.*;
+import com.sforce.ws.tools.VersionInfo;
+import com.sforce.ws.util.Base64;
+import com.sforce.ws.util.FileUtil;
 
 /**
  * This class is an implementation of Transport using the build in
@@ -131,9 +120,9 @@ public class JdkHttpTransport implements Transport {
 
     private OutputStream connectRaw(String uri, HashMap<String, String> httpHeaders, boolean enableCompression)
             throws IOException {
+        url = new URL(uri);
 
-        url = createURL(uri);
-        connection = createConnection(uri, httpHeaders, enableCompression);
+        connection = createConnection(config, url, httpHeaders, enableCompression);
         connection.setRequestMethod("POST");
         connection.setDoInput(true);
         connection.setDoOutput(true);
@@ -144,11 +133,12 @@ public class JdkHttpTransport implements Transport {
         return connection.getOutputStream();
     }
 
-    public HttpURLConnection createConnection(String url, HashMap<String, String> httpHeaders) throws IOException {
-        return createConnection(url, httpHeaders, true);
+    public static HttpURLConnection createConnection(ConnectorConfig config, URL url,
+            HashMap<String, String> httpHeaders) throws IOException {
+        return createConnection(config, url, httpHeaders, true);
     }
 
-    private HttpURLConnection createConnection(String url,
+    public static HttpURLConnection createConnection(ConnectorConfig config, URL url,
             HashMap<String, String> httpHeaders, boolean enableCompression) throws IOException {
 
         if (config.isTraceMessage()) {
@@ -156,8 +146,7 @@ public class JdkHttpTransport implements Transport {
                     config.getProxy() + " username " + config.getProxyUsername());
         }
 
-        Proxy proxy = config.getProxy();
-        HttpURLConnection connection = openConnection(url, proxy);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection(config.getProxy());
         connection.addRequestProperty("User-Agent", VersionInfo.info());
 
         /*
@@ -182,7 +171,7 @@ public class JdkHttpTransport implements Transport {
         }
 
         if (httpHeaders != null) {
-            for (Entry<String, String> entry : httpHeaders.entrySet()) {
+            for (Map.Entry<String, String> entry : httpHeaders.entrySet()) {
                 connection.addRequestProperty(entry.getKey(), entry.getValue());
             }
         }
@@ -195,23 +184,6 @@ public class JdkHttpTransport implements Transport {
             connection.setConnectTimeout(config.getConnectionTimeout());
         }
 
-        return connection;
-    }
-
-    protected HttpURLConnection openConnection(String url, Proxy proxy) throws IOException
-    {
-        // Avoid always calling the 1-argument overload, since some JVMs don't implement it
-        HttpURLConnection  connection;
-
-        URL theURL = createURL(url);
-        if (proxy == null || proxy.type() == Proxy.Type.DIRECT)
-        {
-            connection  = (HttpURLConnection) theURL.openConnection();
-        }
-        else
-        {
-            connection = (HttpURLConnection) theURL.openConnection(proxy);
-        }
         return connection;
     }
 
@@ -257,6 +229,13 @@ public class JdkHttpTransport implements Transport {
             }
 
             if (config.isTraceMessage()) {
+                Map<String, List<String>> headers = connection.getHeaderFields();
+                for (Map.Entry header : headers.entrySet()) {
+                    config.getTraceStream().print(header.getKey());
+                    config.getTraceStream().print("=");
+                    config.getTraceStream().println(header.getValue());
+                }
+                
                 new TeeInputStream(config, bytes);
             }
         }
@@ -267,12 +246,6 @@ public class JdkHttpTransport implements Transport {
     @Override
     public boolean isSuccessful() {
         return successful;
-    }
-
-    @Override
-    public URL createURL(String url) throws MalformedURLException
-    {
-        return new URL(url);
     }
 
     public static class TeeInputStream {
@@ -448,6 +421,10 @@ public class JdkHttpTransport implements Transport {
         public LimitingOutputStream(int maxSize, OutputStream out) {
             this.maxSize = maxSize;
             this.out = out;
+        }
+
+        public int getSize() {
+            return size;
         }
 
         @Override

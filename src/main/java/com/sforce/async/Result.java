@@ -6,7 +6,7 @@ package com.sforce.async;
  */
 public class Result implements com.sforce.ws.bind.XMLizable {
 
-    private static final String NAMESPACE = RestConnection.NAMESPACE;
+    private static final String NAMESPACE = BulkConnection.NAMESPACE;
 
     /**
      * element  : errors of type {urn:partner.soap.sforce.com}Error
@@ -39,13 +39,13 @@ public class Result implements com.sforce.ws.bind.XMLizable {
 
     private boolean id__is_set = false;
 
-    private String id;
+    private java.lang.String id;
 
-    public String getId() {
+    public java.lang.String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(java.lang.String id) {
         this.id = id;
         id__is_set = true;
     }
@@ -151,7 +151,7 @@ public class Result implements com.sforce.ws.bind.XMLizable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        java.lang.StringBuilder sb = new java.lang.StringBuilder();
         sb.append("[SaveResult ");
 
         sb.append(" errors=");

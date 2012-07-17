@@ -25,28 +25,20 @@
  */
 package com.sforce.ws.tools;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+import javax.xml.namespace.QName;
+
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.bind.NameMapper;
 import com.sforce.ws.bind.TypeMapper;
 import com.sforce.ws.template.Template;
 import com.sforce.ws.template.TemplateException;
 import com.sforce.ws.util.FileUtil;
-import com.sforce.ws.wsdl.BindingOperation;
+import com.sforce.ws.wsdl.*;
 import com.sforce.ws.wsdl.Collection;
-import com.sforce.ws.wsdl.ComplexType;
-import com.sforce.ws.wsdl.Definitions;
-import com.sforce.ws.wsdl.Element;
-import com.sforce.ws.wsdl.Message;
-import com.sforce.ws.wsdl.Operation;
-import com.sforce.ws.wsdl.Part;
-import com.sforce.ws.wsdl.SoapHeader;
-import com.sforce.ws.wsdl.Types;
-
-import javax.xml.namespace.QName;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * ConnectionGenerator

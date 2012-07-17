@@ -25,9 +25,9 @@
  */
 package com.sforce.ws.wsdl;
 
-import com.sforce.ws.ConnectionException;
 import com.sforce.ws.parser.XmlInputStream;
 import com.sforce.ws.util.Verbose;
+import com.sforce.ws.ConnectionException;
 
 import javax.xml.namespace.QName;
 

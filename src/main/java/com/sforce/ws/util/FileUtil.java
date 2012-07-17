@@ -25,12 +25,7 @@
  */
 package com.sforce.ws.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,8 +83,11 @@ public class FileUtil {
                 to.write(buf, 0, count);
             }
         } finally {
-            if (closeOutput) to.close();
-            if (closeInput) from.close();
+            try {
+                if (closeOutput) to.close();
+            } finally {
+                if (closeInput) from.close();
+            }
         }
     }
 
