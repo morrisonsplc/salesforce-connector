@@ -15,6 +15,7 @@ import com.sforce.async.AsyncExceptionCode;
 import com.sforce.async.BatchInfo;
 import com.sforce.async.BatchRequest;
 import com.sforce.async.BulkConnection;
+import com.sforce.async.ContentType;
 import com.sforce.async.JobInfo;
 import com.sforce.async.OperationEnum;
 import com.sforce.soap.partner.DeleteResult;
@@ -116,13 +117,14 @@ public class SalesforceModuleTest {
             }
           });
 
-        JobInfo actualJobInfo = module.createJob(OperationEnum.upsert, "Account", "NewField");
+        JobInfo actualJobInfo = module.createJob(OperationEnum.upsert, "Account", "NewField", ContentType.CSV);
         Mockito.verify(bulkConnection).createJob(expectedJobInfo.capture());
         
         assertEquals(expectedJobInfo.getValue(), actualJobInfo);
         assertEquals(OperationEnum.upsert, expectedJobInfo.getValue().getOperation());
-        assertEquals("Account", expectedJobInfo.getValue().getObject());
-        assertEquals("NewField", expectedJobInfo.getValue().getExternalIdFieldName());
+        assertEquals(actualJobInfo.getObject(), expectedJobInfo.getValue().getObject());
+        assertEquals(actualJobInfo.getExternalIdFieldName(), expectedJobInfo.getValue().getExternalIdFieldName());
+        assertEquals(actualJobInfo.getContentType(), expectedJobInfo.getValue().getContentType());
     }
     
     @Test

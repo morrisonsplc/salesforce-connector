@@ -15,6 +15,7 @@ import com.sforce.async.BatchInfo;
 import com.sforce.async.BatchRequest;
 import com.sforce.async.BatchResult;
 import com.sforce.async.BulkConnection;
+import com.sforce.async.ContentType;
 import com.sforce.async.JobInfo;
 import com.sforce.async.OperationEnum;
 import com.sforce.soap.partner.Connector;
@@ -210,11 +211,12 @@ public class SalesforceModule {
      * Creates a Job in order to perform one or more batches through Bulk API Operations.
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-job}
      *
-     * @param operation The {@link OperationEnum} that will be executed by the job.
-     * @param type The type of Salesforce object that the job will process.
-     * @param externalIdFieldName Contains the name of the field on this object with the external ID field attribute
-     *                            for custom objects or the idLookup field property for standard objects 
-     *                            (only required for Upsert Operations).
+     * @param operation             The {@link OperationEnum} that will be executed by the job.
+     * @param type                  The type of Salesforce object that the job will process.
+     * @param externalIdFieldName   Contains the name of the field on this object with the external ID field attribute
+     *                              for custom objects or the idLookup field property for standard objects
+     *                              (only required for Upsert Operations).
+     * @param contentType           The Content Type for this Job results.
      * @return A {@link JobInfo} that identifies the created Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
@@ -222,8 +224,8 @@ public class SalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = AsyncApiException.class)
-    public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName) throws Exception {
-        return createJobInfo(operation, type, externalIdFieldName);
+    public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName, @Optional ContentType contentType) throws Exception {
+        return createJobInfo(operation, type, externalIdFieldName, contentType);
     }
 
     /**
@@ -497,7 +499,7 @@ public class SalesforceModule {
     public BatchInfo upsertBulk(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Information", order = 2) String externalIdFieldName,
                                 @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
-        return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName), objects);
+        return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName, null), objects);
     }
 
     /**
@@ -1396,15 +1398,18 @@ public class SalesforceModule {
     }
 
     private JobInfo createJobInfo(OperationEnum op, String type) throws AsyncApiException {
-        return createJobInfo(op, type, null);
+        return createJobInfo(op, type, null, null);
     }
 
-    private JobInfo createJobInfo(OperationEnum op, String type, String externalIdFieldName) throws AsyncApiException {
+    private JobInfo createJobInfo(OperationEnum op, String type, String externalIdFieldName, ContentType contentType) throws AsyncApiException {
         JobInfo jobInfo = new JobInfo();
         jobInfo.setOperation(op);
         jobInfo.setObject(type);
         if (externalIdFieldName != null) {
             jobInfo.setExternalIdFieldName(externalIdFieldName);
+        }
+        if (contentType != null) {
+            jobInfo.setContentType(contentType);
         }
         return bulkConnection.createJob(jobInfo);
     }
