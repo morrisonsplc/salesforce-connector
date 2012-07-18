@@ -221,7 +221,7 @@ public class SalesforceModule {
      * @param contentType           The Content Type for this Job results. When specifying a content type different from
      *                              XML for a query type use {@link #queryResultStream(com.sforce.async.BatchInfo)}
      *                              batchResultStream} method to retrieve results.
-     * @return A {@link JobInfo} that identifies the created Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
+     * @return A {@link JobInfo} that identifies the created Job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
      * @since 4.3
@@ -237,7 +237,7 @@ public class SalesforceModule {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:close-job}
      *
      * @param jobId The Job ID identifying the Job to be closed.
-     * @return A {@link JobInfo} that identifies the closed Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
+     * @return A {@link JobInfo} that identifies the closed Job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception
      * @api.doc <a href="www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_close.htm">closeJob()</a>
      * @since 4.3
@@ -257,7 +257,7 @@ public class SalesforceModule {
      *
      * @param jobInfo The {@link JobInfo} in which the batch will be created.
      * @param objects A list of one or more sObjects objects. This parameter defaults to payload content.
-     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.3
@@ -277,7 +277,7 @@ public class SalesforceModule {
      *
      * @param jobInfo   The {@link JobInfo} in which the batch will be created.
      * @param query     The query to be executed.
-     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.5
@@ -298,7 +298,7 @@ public class SalesforceModule {
      *
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to create
-     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.1
@@ -442,7 +442,7 @@ public class SalesforceModule {
      *
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to update
-     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.1
@@ -493,7 +493,7 @@ public class SalesforceModule {
      *                            for custom objects or the idLookup field property for standard objects.
      * @param type                the type of the given objects. The list of objects to upsert must be homogeneous
      * @param objects             the objects to upsert
-     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.1
@@ -818,7 +818,7 @@ public class SalesforceModule {
      *
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to update
-     * @return A {@link BatchInfo} that identifies the batch job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.3
@@ -1015,8 +1015,8 @@ public class SalesforceModule {
     }
 
     /**
-     * Resets the timestamp of the last updated object. After resetting this, a call to {@link this#getUpdatedObjects(String, int)} will
-     * use the initialTimeWindow to get the updated objects. If no objectStore has been explicitly specified and {@link this#getUpdatedObjects(String, int)}
+     * Resets the timestamp of the last updated object. After resetting this, a call to {@link this#getUpdatedObjects} will
+     * use the initialTimeWindow to get the updated objects. If no objectStore has been explicitly specified and {@link this#getUpdatedObjects}
      * has not been called then calling this method has no effect.
      * <p/>
      * @param type The object type for which the timestamp should be resetted.
@@ -1050,7 +1050,7 @@ public class SalesforceModule {
      * @since 4.0
      */
     @Processor
-    @InvalidateConnectionOn(exception = SoapConnection.SessionTimedOutException.class)
+    @InvalidateConnectionOn(exception = ConnectionException.class)
     public void publishTopic(@Placement(group = "Information") String topicName,
                              @Placement(group = "Information") String query,
                              @Placement(group = "Information") @Optional String description) throws Exception {
@@ -1108,7 +1108,7 @@ public class SalesforceModule {
      *
      * @param topic    The name of the topic to subscribe to
      * @param callback The callback to be called when a message is received
-     * @return {@link StopSourceCallBack}
+     * @return {@link StopSourceCallback}
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_streaming/index_Left.htm">Streaming API</a>
      * @since 4.0
      */
