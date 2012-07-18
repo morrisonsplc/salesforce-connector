@@ -209,6 +209,10 @@
     <li class="api apilevel-">
   <a href="../../../../../../java/com/sforce/async/package-summary.html">com.sforce.async</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/async/holders/package-summary.html">com.sforce.async.holders</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/com/sforce/async/transformers/package-summary.html">com.sforce.async.transformers</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../java/com/sforce/bulk/package-summary.html">com.sforce.bulk</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/com/sforce/rest/package-summary.html">com.sforce.rest</a></li>
@@ -245,11 +249,19 @@
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/adapters/package-summary.html">org.mule.modules.salesforce.adapters</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/modules/salesforce/agents/package-summary.html">org.mule.modules.salesforce.agents</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/config/package-summary.html">org.mule.modules.salesforce.config</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/config/spring/package-summary.html">org.mule.modules.salesforce.config.spring</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/modules/salesforce/connectivity/package-summary.html">org.mule.modules.salesforce.connectivity</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/modules/salesforce/process/package-summary.html">org.mule.modules.salesforce.process</a></li>
     <li class="selected api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/processors/package-summary.html">org.mule.modules.salesforce.processors</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/modules/salesforce/retry/package-summary.html">org.mule.modules.salesforce.retry</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/sources/package-summary.html">org.mule.modules.salesforce.sources</a></li>
     <li class="api apilevel-">
@@ -263,6 +275,10 @@
               
     <li><h2>Classes</h2>
       <ul>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html">AbstractConnectedProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/AbstractExpressionEvaluator.html">AbstractExpressionEvaluator</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/AbstractListeningMessageProcessor.html">AbstractListeningMessageProcessor</a>&lt;O&gt;</li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/AbstractMessageProcessor.html">AbstractMessageProcessor</a>&lt;O&gt;</li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html">BatchInfoMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchResultMessageProcessor.html">BatchResultMessageProcessor</a></li>
           <li class="selected api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchResultStreamMessageProcessor.html">BatchResultStreamMessageProcessor</a></li>
@@ -289,6 +305,7 @@
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/PublishTopicMessageProcessor.html">PublishTopicMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QueryAllMessageProcessor.html">QueryAllMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QueryMessageProcessor.html">QueryMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QueryResultStreamMessageProcessor.html">QueryResultStreamMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QuerySingleMessageProcessor.html">QuerySingleMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/ResetUpdatedObjectsTimestampMessageProcessor.html">ResetUpdatedObjectsTimestampMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/RetrieveMessageProcessor.html">RetrieveMessageProcessor</a></li>
@@ -524,7 +541,7 @@ Summary:
 
 
 <h2>Class Overview</h2>
-<p>BatchResultStreamMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#batchResultStream(com.sforce.async.BatchInfo)">batchResultStream(com.sforce.async.BatchInfo)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>. For each argument there is a field in this processor to match it.  Before invoking the actual method the processor will evaluate and transform where possible to the expected argument type.
+<p>BatchResultStreamMessageProcessor invokes the org.mule.modules.salesforce.SalesforceModule#batchResultStream(com.sforce.async.BatchInfo) method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code>. For each argument there is a field in this processor to match it.  Before invoking the actual method the processor will evaluate and transform where possible to the expected argument type.
  
 </p>
 
