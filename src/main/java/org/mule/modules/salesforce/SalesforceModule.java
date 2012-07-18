@@ -18,6 +18,7 @@ import com.sforce.async.BulkConnection;
 import com.sforce.async.ContentType;
 import com.sforce.async.JobInfo;
 import com.sforce.async.OperationEnum;
+import com.sforce.async.QueryResultList;
 import com.sforce.soap.partner.Connector;
 import com.sforce.soap.partner.DeleteResult;
 import com.sforce.soap.partner.DescribeGlobalResult;
@@ -67,6 +68,7 @@ import org.springframework.util.StringUtils;
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.SequenceInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -217,7 +219,8 @@ public class SalesforceModule {
      *                              for custom objects or the idLookup field property for standard objects
      *                              (only required for Upsert Operations).
      * @param contentType           The Content Type for this Job results. When specifying a content type different from
-     *                              XML use {@link #batchResultStream(com.sforce.async.BatchInfo)} batchResultStream} method to retrieve results.
+     *                              XML for a query type use {@link #queryResultStream(com.sforce.async.BatchInfo)}
+     *                              batchResultStream} method to retrieve results.
      * @return A {@link JobInfo} that identifies the created Job. {@link http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
@@ -539,9 +542,9 @@ public class SalesforceModule {
     }
 
     /**
-     * Returns an {@link InputStream} with the results of a submitted {@link BatchInfo}
+     * Returns an {@link InputStream} with the query results of a submitted {@link BatchInfo}
      * <p/>
-     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:batch-result-stream}
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:query-result-stream}
      * @param batchInfo  the {@link BatchInfo} being monitored
      * @return {@link InputStream} with the results of the Batch.
      * @throws Exception
@@ -551,8 +554,17 @@ public class SalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
-    public InputStream batchResultStream(BatchInfo batchInfo) throws Exception {
-        return bulkConnection.getBatchResultStream(batchInfo.getJobId(), batchInfo.getId());
+    public InputStream queryResultStream(BatchInfo batchInfo) throws Exception {
+        QueryResultList queryResultList = bulkConnection.getQueryResultList(batchInfo.getJobId(), batchInfo.getId());
+        String[] results = queryResultList.getResult();
+        if (results.length > 0) {
+            List<InputStream> inputStreams = new ArrayList<InputStream>(results.length);
+            for (String resultId : queryResultList.getResult()) {
+                inputStreams.add(bulkConnection.getQueryResultStream(batchInfo.getJobId(), batchInfo.getId(), resultId));
+            }
+            return new SequenceInputStream(Collections.enumeration(inputStreams));
+        }
+        return null;
     }
 
     /**

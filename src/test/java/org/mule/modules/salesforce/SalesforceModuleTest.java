@@ -18,6 +18,7 @@ import com.sforce.async.BulkConnection;
 import com.sforce.async.ContentType;
 import com.sforce.async.JobInfo;
 import com.sforce.async.OperationEnum;
+import com.sforce.async.QueryResultList;
 import com.sforce.soap.partner.DeleteResult;
 import com.sforce.soap.partner.DescribeGlobalResult;
 import com.sforce.soap.partner.DescribeSObjectResult;
@@ -48,6 +49,7 @@ import org.mockito.stubbing.Answer;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.SequenceInputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -576,13 +578,37 @@ public class SalesforceModuleTest {
     public void testBatchResultStream() throws Exception {
         SalesforceModule module = new SalesforceModule();
         BatchInfo batchInfo = setupBulkConnection(module);
+        QueryResultList queryResultList = Mockito.mock(QueryResultList.class);
         BulkConnection bulkConnection = module.getBulkConnection();
-        InputStream expectedIs = new ByteArrayInputStream(new byte[1]);
+        String[] queryResults = { "ID1", "ID2" };
+        byte[] a = { 'a' };
+        byte[] b = { 'b' };
+        InputStream[] sourceIs = { new ByteArrayInputStream(a), new ByteArrayInputStream(b) };
 
-        when(bulkConnection.getBatchResultStream(batchInfo.getJobId(), batchInfo.getId())).thenReturn(expectedIs);
-        InputStream actualIs = module.batchResultStream(batchInfo);
-        assertEquals(expectedIs, actualIs);
+        when(bulkConnection.getQueryResultList(batchInfo.getJobId(), batchInfo.getId())).thenReturn(queryResultList);
+        when(queryResultList.getResult()).thenReturn(queryResults);
+        when(bulkConnection.getQueryResultStream(batchInfo.getJobId(), batchInfo.getId(), "ID1")).thenReturn(sourceIs[0]);
+        when(bulkConnection.getQueryResultStream(batchInfo.getJobId(), batchInfo.getId(), "ID2")).thenReturn(sourceIs[1]);
+        InputStream actualIs = module.queryResultStream(batchInfo);
+        assertTrue(actualIs instanceof SequenceInputStream);
+        assertEquals(actualIs.read(), a[0]);
+        assertEquals(actualIs.read(), b[0]);
     }
+
+    @Test
+    public void testBatchResultStreamNoResults() throws Exception {
+        SalesforceModule module = new SalesforceModule();
+        BatchInfo batchInfo = setupBulkConnection(module);
+        QueryResultList queryResultList = Mockito.mock(QueryResultList.class);
+        BulkConnection bulkConnection = module.getBulkConnection();
+        String[] queryResults = new String[0];
+
+        when(bulkConnection.getQueryResultList(batchInfo.getJobId(), batchInfo.getId())).thenReturn(queryResultList);
+        when(queryResultList.getResult()).thenReturn(queryResults);
+        InputStream actualIs = module.queryResultStream(batchInfo);
+        assertEquals(null, actualIs);
+    }
+
 
     @Test
     public void testPublishTopic() throws Exception {
