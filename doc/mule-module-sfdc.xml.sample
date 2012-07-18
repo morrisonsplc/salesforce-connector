@@ -96,9 +96,9 @@
 <!-- BEGIN_INCLUDE(sfdc:batch-result) -->
 <sfdc:batch-result batchInfo="#[variable:batchInfo]" />
 <!-- END_INCLUDE(sfdc:batch-result) -->
-<!-- BEGIN_INCLUDE(sfdc:batch-result-stream) -->
-<sfdc:batch-result batchInfo="#[variable:batchInfo]" />
-<!-- END_INCLUDE(sfdc:batch-result-stream) -->
+<!-- BEGIN_INCLUDE(sfdc:query-result-stream) -->
+<sfdc:query-result-stream batchInfo="#[variable:batchInfo]" />
+<!-- END_INCLUDE(sfdc:query-result-stream) -->
 <!-- BEGIN_INCLUDE(sfdc:delete) -->
 <sfdc:delete>
     <sfdc:ids>
