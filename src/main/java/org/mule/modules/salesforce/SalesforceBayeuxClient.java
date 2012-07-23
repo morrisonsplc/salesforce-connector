@@ -38,7 +38,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     protected static final String SESSIONID_COOKIE = "sid";
     protected static final String LANGUAGE_COOKIE = "language";
     protected Map<String, org.cometd.bayeux.client.ClientSessionChannel.MessageListener> subscriptions;
-    protected SalesforceModule salesforceModule;
+    protected SalesforceConnector salesforceConnector;
 
     private static Map<String, Object> createLongPollingOptions() {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -49,14 +49,13 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     /**
      * Create a new instance of this Bayeux client.
      *
-     * @param salesforceModule Salesforce connection
-     * @see #BayeuxClient(String, java.util.concurrent.ScheduledExecutorService, ClientTransport, ClientTransport...)
+     * @param salesforceConnector Salesforce connection
      */
-    public SalesforceBayeuxClient(SalesforceModule salesforceModule) throws MalformedURLException {
-        super("https://" + (new URL(salesforceModule.getConnection().getConfig().getServiceEndpoint())).getHost() + "/cometd/23.0",
-                SalesforceLongPollingTransport.create(salesforceModule, LONG_POLLING_OPTIONS));
+    public SalesforceBayeuxClient(SalesforceConnector salesforceConnector) throws MalformedURLException {
+        super("https://" + (new URL(salesforceConnector.getConnection().getConfig().getServiceEndpoint())).getHost() + "/cometd/23.0",
+                SalesforceLongPollingTransport.create(salesforceConnector, LONG_POLLING_OPTIONS));
 
-        this.salesforceModule = salesforceModule;
+        this.salesforceConnector = salesforceConnector;
         this.subscriptions = Collections.synchronizedMap(new HashMap<String, ClientSessionChannel.MessageListener>());
         setCookies();
 
@@ -76,8 +75,8 @@ public class SalesforceBayeuxClient extends BayeuxClient {
 
     private void setCookies() {
         setCookie(LOCALEINFO_COOKIE, "us");
-        setCookie(LOGIN_COOKIE, salesforceModule.getConnection().getConfig().getUsername());
-        setCookie(SESSIONID_COOKIE, salesforceModule.getLoginResult().getSessionId());
+        setCookie(LOGIN_COOKIE, salesforceConnector.getConnection().getConfig().getUsername());
+        setCookie(SESSIONID_COOKIE, salesforceConnector.getSessionId());
         setCookie(LANGUAGE_COOKIE, "en_US");
     }
 
@@ -92,7 +91,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     public void onFailure(Throwable x, Message[] messages) {
         if (x instanceof ProtocolException) {
             try {
-                salesforceModule.reconnect();
+                salesforceConnector.reconnect();
                 setCookies();
                 handshake();
             } catch (org.mule.api.ConnectionException e) {

@@ -17,20 +17,20 @@ import org.eclipse.jetty.client.HttpClient;
 import java.util.Map;
 
 public class SalesforceLongPollingTransport extends LongPollingTransport {
-    private SalesforceModule salesforceModule;
+    private SalesforceConnector salesforceConnector;
 
-    public static SalesforceLongPollingTransport create(SalesforceModule salesforceModule, Map<String, Object> options)
+    public static SalesforceLongPollingTransport create(SalesforceConnector salesforceConnector, Map<String, Object> options)
     {
         HttpClient httpClient = new HttpClient();
         httpClient.setIdleTimeout(5000);
         httpClient.setConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL);
         httpClient.setMaxConnectionsPerAddress(32768);
-        return create(salesforceModule, options, httpClient);
+        return create(salesforceConnector, options, httpClient);
     }
 
-    public static SalesforceLongPollingTransport create(SalesforceModule salesforceModule, Map<String, Object> options, HttpClient httpClient)
+    public static SalesforceLongPollingTransport create(SalesforceConnector salesforceConnector, Map<String, Object> options, HttpClient httpClient)
     {
-        SalesforceLongPollingTransport transport = new SalesforceLongPollingTransport(salesforceModule, options, httpClient);
+        SalesforceLongPollingTransport transport = new SalesforceLongPollingTransport(salesforceConnector, options, httpClient);
         if (!httpClient.isStarted())
         {
             try
@@ -45,16 +45,16 @@ public class SalesforceLongPollingTransport extends LongPollingTransport {
         return transport;
     }
 
-    public SalesforceLongPollingTransport(SalesforceModule salesforceModule, Map<String, Object> options, HttpClient httpClient) {
+    public SalesforceLongPollingTransport(SalesforceConnector salesforceConnector, Map<String, Object> options, HttpClient httpClient) {
         super(options, httpClient);
 
-        this.salesforceModule = salesforceModule;
+        this.salesforceConnector = salesforceConnector;
     }
 
     @Override
     protected void customize(ContentExchange exchange) {
         super.customize(exchange);
 
-        exchange.getRequestFields().add("Authorization", "OAuth " + salesforceModule.getLoginResult().getSessionId());
+        exchange.getRequestFields().add("Authorization", "OAuth " + salesforceConnector.getSessionId());
     }
 }

@@ -18,10 +18,10 @@ import java.util.Map;
 public class SalesforceLongPollingTransportTest {
     @Test
     public void testCreate() throws Exception {
-        SalesforceModule salesforceModule = Mockito.mock(SalesforceModule.class);
+        SalesforceConnector salesforceConnector = Mockito.mock(SalesforceConnector.class);
         Map options = Mockito.mock(Map.class);
 
-        SalesforceLongPollingTransport transport = SalesforceLongPollingTransport.create(salesforceModule, options);
+        SalesforceLongPollingTransport transport = SalesforceLongPollingTransport.create(salesforceConnector, options);
     }
     
     

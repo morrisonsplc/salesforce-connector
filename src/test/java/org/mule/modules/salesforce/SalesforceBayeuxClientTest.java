@@ -26,7 +26,6 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.stub;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -53,14 +52,14 @@ public class SalesforceBayeuxClientTest {
         PartnerConnection connection = Mockito.mock(PartnerConnection.class);
         LoginResult loginResult = Mockito.mock(LoginResult.class);
         ConnectorConfig connectorConfig = Mockito.mock(ConnectorConfig.class);
-        SalesforceModule module = Mockito.mock(SalesforceModule.class);
-        when(module.getConnection()).thenReturn(connection);
-        when(module.getLoginResult()).thenReturn(loginResult);
-        when(loginResult.getSessionId()).thenReturn("001");
+        SalesforceConnector connector = Mockito.mock(SalesforceConnector.class);
+        when(connector.getConnection()).thenReturn(connection);
+        when(connector.getLoginResult()).thenReturn(loginResult);
+        when(connector.getSessionId()).thenReturn("001");
         when(connection.getConfig()).thenReturn(connectorConfig);
         when(connectorConfig.getServiceEndpoint()).thenReturn("http://xxx.salesforce.com");
         when(connectorConfig.getUsername()).thenReturn("mulesoft");
-        return new SalesforceBayeuxClient(module);
+        return new SalesforceBayeuxClient(connector);
     }
 
     @Test
@@ -94,7 +93,7 @@ public class SalesforceBayeuxClientTest {
         
         bayeuxClient.onFailure(protocolException, new Message[]{});
 
-        verify(bayeuxClient.salesforceModule, times(1)).reconnect();
+        verify(bayeuxClient.salesforceConnector, times(1)).reconnect();
 
     }
 
