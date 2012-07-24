@@ -93,7 +93,7 @@ public class SalesforceBayeuxClientTest {
         
         bayeuxClient.onFailure(protocolException, new Message[]{});
 
-        verify(bayeuxClient.salesforceConnector, times(1)).reconnect();
+        verify((SalesforceConnector)bayeuxClient.salesforceConnector, times(1)).reconnect();
 
     }
 
