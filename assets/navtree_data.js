@@ -82,7 +82,7 @@ var NAVTREE_DATA =
 , "" ] ]
 , "" ], [ "org.mule.modules.salesforce.sources", "org/mule/modules/salesforce/sources/package-summary.html", [ [ "Classes", null, [ [ "SubscribeTopicMessageSource", "org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html", null, "" ] ]
 , "" ] ]
-, "" ], [ "org.mule.modules.salesforce.transformers", "org/mule/modules/salesforce/transformers/package-summary.html", [ [ "Classes", null, [ [ "ContentTypeEnumTransformer", "org/mule/modules/salesforce/transformers/ContentTypeEnumTransformer.html", null, "" ], [ "OperationEnumEnumTransformer", "org/mule/modules/salesforce/transformers/OperationEnumEnumTransformer.html", null, "" ] ]
+, "" ], [ "org.mule.modules.salesforce.transformers", "org/mule/modules/salesforce/transformers/package-summary.html", [ [ "Classes", null, [ [ "ContentTypeEnumTransformer", "org/mule/modules/salesforce/transformers/ContentTypeEnumTransformer.html", null, "" ], [ "OperationEnumEnumTransformer", "org/mule/modules/salesforce/transformers/OperationEnumEnumTransformer.html", null, "" ], [ "SalesforceOAuthDisplayEnumTransformer", "org/mule/modules/salesforce/transformers/SalesforceOAuthDisplayEnumTransformer.html", null, "" ], [ "SalesforceOAuthImmediateEnumTransformer", "org/mule/modules/salesforce/transformers/SalesforceOAuthImmediateEnumTransformer.html", null, "" ] ]
 , "" ] ]
 , "" ] ]
 
