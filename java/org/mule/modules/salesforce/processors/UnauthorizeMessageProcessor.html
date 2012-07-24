@@ -74,7 +74,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../../../../../favicon.ico" />
 <title>
 
-  BatchInfoMessageProcessor
+  UnauthorizeMessageProcessor
 
 
 | Mule Salesforce Connector
@@ -282,7 +282,7 @@
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/AbstractListeningMessageProcessor.html">AbstractListeningMessageProcessor</a>&lt;O&gt;</li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/AbstractMessageProcessor.html">AbstractMessageProcessor</a>&lt;O&gt;</li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/AuthorizeMessageProcessor.html">AuthorizeMessageProcessor</a></li>
-          <li class="selected api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html">BatchInfoMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html">BatchInfoMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchResultMessageProcessor.html">BatchResultMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/BatchResultStreamMessageProcessor.html">BatchResultStreamMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CloseJobMessageProcessor.html">CloseJobMessageProcessor</a></li>
@@ -312,7 +312,7 @@
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QuerySingleMessageProcessor.html">QuerySingleMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/ResetUpdatedObjectsTimestampMessageProcessor.html">ResetUpdatedObjectsTimestampMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/RetrieveMessageProcessor.html">RetrieveMessageProcessor</a></li>
-          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UnauthorizeMessageProcessor.html">UnauthorizeMessageProcessor</a></li>
+          <li class="selected api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UnauthorizeMessageProcessor.html">UnauthorizeMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateBulkMessageProcessor.html">UpdateBulkMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateMessageProcessor.html">UpdateMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateSingleMessageProcessor.html">UpdateSingleMessageProcessor</a></li>
@@ -411,33 +411,6 @@
    
   
   
-   
-  
-  
-  
-
-  
-   
-  
-  
-   
-  
-  
-  
-
-  
-   
-  
-  
-   
-  
-  
-  
-
-  
-   
-  
-  
   
   
 
@@ -452,15 +425,9 @@ Summary:
 
 
 
-  <a href="#inhconstants">Inherited Constants</a>
-  
 
 
-  &#124; <a href="#lfields">Fields</a>
-  
-
-
-  &#124; <a href="#inhfields">Inherited Fields</a>
+  <a href="#inhfields">Inherited Fields</a>
   
 
 
@@ -498,7 +465,7 @@ Summary:
      
     
     class
-<h1>BatchInfoMessageProcessor</h1>
+<h1>UnauthorizeMessageProcessor</h1>
 
 
 
@@ -524,11 +491,9 @@ Summary:
   
       implements 
       
-        Disposable 
+        FlowConstructAware 
       
-        Startable 
-      
-        Stoppable 
+        MuleContextAware 
       
         MessageProcessor 
       
@@ -590,7 +555,7 @@ Summary:
         
             <td class="jd-inheritance-space">&nbsp;&nbsp;&nbsp;&#x21b3;</td>
         
-        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.salesforce.processors.BatchInfoMessageProcessor</td>
+        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.salesforce.processors.UnauthorizeMessageProcessor</td>
     </tr>
     
 
@@ -604,11 +569,6 @@ Summary:
 
 <div class="jd-descr">
 
-
-<h2>Class Overview</h2>
-<p>BatchInfoMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#batchInfo(com.sforce.async.BatchInfo)">batchInfo(com.sforce.async.BatchInfo)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code>. For each argument there is a field in this processor to match it.  Before invoking the actual method the processor will evaluate and transform where possible to the expected argument type.
- 
-</p>
 
 
 
@@ -651,152 +611,6 @@ Summary:
 
 
 
-<!-- =========== ENUM CONSTANT SUMMARY =========== -->
-<table id="inhconstants" class="jd-sumtable"><tr><th>
-  <a href="#" class="toggle-all" onclick="return toggleAllInherited(this, null)">[Expand]</a>
-  <div style="clear:left;">Inherited Constants</div></th></tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<tr class="api apilevel-" >
-<td colspan="12">
-
-  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-constants-org.mule.api.lifecycle.Disposable" class="jd-expando-trigger closed"
-          ><img id="inherited-constants-org.mule.api.lifecycle.Disposable-trigger"
-          src="../../../../../../assets/images/triangle-closed.png"
-          class="jd-expando-trigger-img" /></a>From interface
-org.mule.api.lifecycle.Disposable
-<div id="inherited-constants-org.mule.api.lifecycle.Disposable">
-  <div id="inherited-constants-org.mule.api.lifecycle.Disposable-list"
-        class="jd-inheritedlinks">
-  </div>
-  <div id="inherited-constants-org.mule.api.lifecycle.Disposable-summary" style="display: none;">
-    <table class="jd-sumtable-expando">
-    
-
-    
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol">String</td>
-        <td class="jd-linkcol">PHASE_NAME</td>
-        <td class="jd-descrcol" width="100%"></td>
-    </tr>
-    
-    
-</table>
-  </div>
-</div>
-</td></tr>
-
-
-
-<tr class="api apilevel-" >
-<td colspan="12">
-
-  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-constants-org.mule.api.lifecycle.Startable" class="jd-expando-trigger closed"
-          ><img id="inherited-constants-org.mule.api.lifecycle.Startable-trigger"
-          src="../../../../../../assets/images/triangle-closed.png"
-          class="jd-expando-trigger-img" /></a>From interface
-org.mule.api.lifecycle.Startable
-<div id="inherited-constants-org.mule.api.lifecycle.Startable">
-  <div id="inherited-constants-org.mule.api.lifecycle.Startable-list"
-        class="jd-inheritedlinks">
-  </div>
-  <div id="inherited-constants-org.mule.api.lifecycle.Startable-summary" style="display: none;">
-    <table class="jd-sumtable-expando">
-    
-
-    
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol">String</td>
-        <td class="jd-linkcol">PHASE_NAME</td>
-        <td class="jd-descrcol" width="100%"></td>
-    </tr>
-    
-    
-</table>
-  </div>
-</div>
-</td></tr>
-
-
-
-<tr class="api apilevel-" >
-<td colspan="12">
-
-  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-constants-org.mule.api.lifecycle.Stoppable" class="jd-expando-trigger closed"
-          ><img id="inherited-constants-org.mule.api.lifecycle.Stoppable-trigger"
-          src="../../../../../../assets/images/triangle-closed.png"
-          class="jd-expando-trigger-img" /></a>From interface
-org.mule.api.lifecycle.Stoppable
-<div id="inherited-constants-org.mule.api.lifecycle.Stoppable">
-  <div id="inherited-constants-org.mule.api.lifecycle.Stoppable-list"
-        class="jd-inheritedlinks">
-  </div>
-  <div id="inherited-constants-org.mule.api.lifecycle.Stoppable-summary" style="display: none;">
-    <table class="jd-sumtable-expando">
-    
-
-    
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol">String</td>
-        <td class="jd-linkcol">PHASE_NAME</td>
-        <td class="jd-descrcol" width="100%"></td>
-    </tr>
-    
-    
-</table>
-  </div>
-</div>
-</td></tr>
-
-
-
-
-</table>
-
-
-
-
-<!-- =========== FIELD SUMMARY =========== -->
-<table id="lfields" class="jd-sumtable"><tr><th colspan="12">Fields</th></tr>
-
-
-    
-      <tr class="alt-color api apilevel-" >
-          <td class="jd-typecol"><nobr>
-          protected
-          
-          
-          <a href="../../../../../../java/com/sforce/async/BatchInfo.html">BatchInfo</a></nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#_batchInfoType">_batchInfoType</a></td>
-          <td class="jd-descrcol" width="100%"></td>
-      </tr>
-      
-    
-      <tr class=" api apilevel-" >
-          <td class="jd-typecol"><nobr>
-          protected
-          
-          
-          Object</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#batchInfo">batchInfo</a></td>
-          <td class="jd-descrcol" width="100%"></td>
-      </tr>
-      
-    
-
-</table>
 
 
 
@@ -1080,12 +894,6 @@ org.mule.api.lifecycle.Stoppable
 
 
 
-
-
-
-
-
-
 </table>
 
 
@@ -1107,7 +915,7 @@ org.mule.api.lifecycle.Stoppable
             </nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#BatchInfoMessageProcessor()">BatchInfoMessageProcessor</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/UnauthorizeMessageProcessor.html#UnauthorizeMessageProcessor()">UnauthorizeMessageProcessor</a></span>()</nobr>
         
   </td></tr>
 
@@ -1133,133 +941,13 @@ org.mule.api.lifecycle.Stoppable
             
             
             
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#dispose()">dispose</a></span>()</nobr>
-        
-  </td></tr>
-
-
-	 
-    <tr class=" api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#initialise()">initialise</a></span>()</nobr>
-        
-        <div class="jd-descrdiv">Obtains the expression manager from the Mule context and initialises the connector.</div>
-  
-  </td></tr>
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
             MuleEvent</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#process(org.mule.api.MuleEvent)">process</a></span>(MuleEvent event)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/UnauthorizeMessageProcessor.html#process(org.mule.api.MuleEvent)">process</a></span>(MuleEvent event)</nobr>
         
-        <div class="jd-descrdiv">Invokes the MessageProcessor.</div>
+        <div class="jd-descrdiv">Unauthorizes the connector</div>
   
-  </td></tr>
-
-
-	 
-    <tr class=" api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#setBatchInfo(java.lang.Object)">setBatchInfo</a></span>(Object value)</nobr>
-        
-        <div class="jd-descrdiv">Sets batchInfo</div>
-  
-  </td></tr>
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#setFlowConstruct(org.mule.api.construct.FlowConstruct)">setFlowConstruct</a></span>(FlowConstruct flowConstruct)</nobr>
-        
-        <div class="jd-descrdiv">Sets flow construct</div>
-  
-  </td></tr>
-
-
-	 
-    <tr class=" api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#setMuleContext(org.mule.api.MuleContext)">setMuleContext</a></span>(MuleContext context)</nobr>
-        
-        <div class="jd-descrdiv">Set the Mule context</div>
-  
-  </td></tr>
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#start()">start</a></span>()</nobr>
-        
-  </td></tr>
-
-
-	 
-    <tr class=" api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/BatchInfoMessageProcessor.html#stop()">stop</a></span>()</nobr>
-        
   </td></tr>
 
 
@@ -2266,132 +1954,6 @@ From interface
 
 <tr class="api apilevel-" >
 <td colspan="12">
-  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-org.mule.api.lifecycle.Disposable" class="jd-expando-trigger closed"
-          ><img id="inherited-methods-org.mule.api.lifecycle.Disposable-trigger"
-          src="../../../../../../assets/images/triangle-closed.png"
-          class="jd-expando-trigger-img" /></a>
-From interface
-
-  org.mule.api.lifecycle.Disposable
-
-<div id="inherited-methods-org.mule.api.lifecycle.Disposable">
-  <div id="inherited-methods-org.mule.api.lifecycle.Disposable-list"
-        class="jd-inheritedlinks">
-  </div>
-  <div id="inherited-methods-org.mule.api.lifecycle.Disposable-summary" style="display: none;">
-    <table class="jd-sumtable-expando">
-    
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            abstract
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad">dispose</span>()</nobr>
-        
-  </td></tr>
-
-
-</table>
-  </div>
-</div>
-</td></tr>
-
-
-
-<tr class="api apilevel-" >
-<td colspan="12">
-  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-org.mule.api.lifecycle.Startable" class="jd-expando-trigger closed"
-          ><img id="inherited-methods-org.mule.api.lifecycle.Startable-trigger"
-          src="../../../../../../assets/images/triangle-closed.png"
-          class="jd-expando-trigger-img" /></a>
-From interface
-
-  org.mule.api.lifecycle.Startable
-
-<div id="inherited-methods-org.mule.api.lifecycle.Startable">
-  <div id="inherited-methods-org.mule.api.lifecycle.Startable-list"
-        class="jd-inheritedlinks">
-  </div>
-  <div id="inherited-methods-org.mule.api.lifecycle.Startable-summary" style="display: none;">
-    <table class="jd-sumtable-expando">
-    
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            abstract
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad">start</span>()</nobr>
-        
-  </td></tr>
-
-
-</table>
-  </div>
-</div>
-</td></tr>
-
-
-
-<tr class="api apilevel-" >
-<td colspan="12">
-  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-org.mule.api.lifecycle.Stoppable" class="jd-expando-trigger closed"
-          ><img id="inherited-methods-org.mule.api.lifecycle.Stoppable-trigger"
-          src="../../../../../../assets/images/triangle-closed.png"
-          class="jd-expando-trigger-img" /></a>
-From interface
-
-  org.mule.api.lifecycle.Stoppable
-
-<div id="inherited-methods-org.mule.api.lifecycle.Stoppable">
-  <div id="inherited-methods-org.mule.api.lifecycle.Stoppable-list"
-        class="jd-inheritedlinks">
-  </div>
-  <div id="inherited-methods-org.mule.api.lifecycle.Stoppable-summary" style="display: none;">
-    <table class="jd-sumtable-expando">
-    
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            abstract
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad">stop</span>()</nobr>
-        
-  </td></tr>
-
-
-</table>
-  </div>
-</div>
-</td></tr>
-
-
-
-<tr class="api apilevel-" >
-<td colspan="12">
   <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-org.mule.api.processor.MessageProcessor" class="jd-expando-trigger closed"
           ><img id="inherited-methods-org.mule.api.processor.MessageProcessor-trigger"
           src="../../../../../../assets/images/triangle-closed.png"
@@ -2457,73 +2019,6 @@ From interface
 <!-- Fields -->
 
 
-<!-- ========= FIELD DETAIL ======== -->
-<h2>Fields</h2>
-
-
-
-
-<A NAME="_batchInfoType"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        protected 
-         
-         
-        <a href="../../../../../../java/com/sforce/async/BatchInfo.html">BatchInfo</a>
-      </span>
-        _batchInfoType
-    </h4>
-      <div class="api-level">
-        
-
-
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-
-    
-    </div>
-</div>
-
-
-
-<A NAME="batchInfo"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        protected 
-         
-         
-        Object
-      </span>
-        batchInfo
-    </h4>
-      <div class="api-level">
-        
-
-
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-
-    
-    </div>
-</div>
-
-
-
-
 <!-- Public ctors -->
 
 
@@ -2532,7 +2027,7 @@ From interface
 
 
 
-<A NAME="BatchInfoMessageProcessor()"></A>
+<A NAME="UnauthorizeMessageProcessor()"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2544,7 +2039,7 @@ From interface
          
         
       </span>
-      <span class="sympad">BatchInfoMessageProcessor</span>
+      <span class="sympad">UnauthorizeMessageProcessor</span>
       <span class="normal">()</span>
     </h4>
       <div class="api-level">
@@ -2578,77 +2073,6 @@ From interface
 
 
 
-<A NAME="dispose()"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">dispose</span>
-      <span class="normal">()</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-
-    </div>
-</div>
-
-
-<A NAME="initialise()"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">initialise</span>
-      <span class="normal">()</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p>Obtains the expression manager from the Mule context and initialises the connector. If a target object  has not been set already it will search the Mule registry for a default one.</p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Throws</h5>
-      <table class="jd-tagtable">  
-        <tr>
-            <th>InitialisationException</td>
-            <td></td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
 <A NAME="process(org.mule.api.MuleEvent)"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -2674,7 +2098,7 @@ From interface
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Invokes the MessageProcessor.</p></div>
+  <div class="jd-tagdata jd-tagdescr"><p>Unauthorizes the connector</p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
@@ -2684,209 +2108,6 @@ From interface
         </tr>
       </table>
   </div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Throws</h5>
-      <table class="jd-tagtable">  
-        <tr>
-            <th>MuleException</td>
-            <td></td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
-<A NAME="setBatchInfo(java.lang.Object)"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">setBatchInfo</span>
-      <span class="normal">(Object value)</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p>Sets batchInfo</p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>value</td>
-          <td>Value to set
-</td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
-<A NAME="setFlowConstruct(org.mule.api.construct.FlowConstruct)"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">setFlowConstruct</span>
-      <span class="normal">(FlowConstruct flowConstruct)</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p>Sets flow construct</p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>flowConstruct</td>
-          <td>Flow construct to set
-</td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
-<A NAME="setMuleContext(org.mule.api.MuleContext)"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">setMuleContext</span>
-      <span class="normal">(MuleContext context)</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p>Set the Mule context</p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>context</td>
-          <td>Mule context to set
-</td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
-<A NAME="start()"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">start</span>
-      <span class="normal">()</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Throws</h5>
-      <table class="jd-tagtable">  
-        <tr>
-            <th>MuleException</td>
-            <td></td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
-<A NAME="stop()"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">stop</span>
-      <span class="normal">()</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Throws</h5>
       <table class="jd-tagtable">  

@@ -312,6 +312,7 @@
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QuerySingleMessageProcessor.html">QuerySingleMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/ResetUpdatedObjectsTimestampMessageProcessor.html">ResetUpdatedObjectsTimestampMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/RetrieveMessageProcessor.html">RetrieveMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UnauthorizeMessageProcessor.html">UnauthorizeMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateBulkMessageProcessor.html">UpdateBulkMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateMessageProcessor.html">UpdateMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateSingleMessageProcessor.html">UpdateSingleMessageProcessor</a></li>
@@ -397,15 +398,6 @@
   
   
 
-  
-   
-  
-  
-   
-  
-  
-  
-
 
 <div class="sum-details-links">
 
@@ -417,11 +409,8 @@ Summary:
 
 
 
-  <a href="#inhconstants">Inherited Constants</a>
-  
 
-
-  &#124; <a href="#lfields">Fields</a>
+  <a href="#lfields">Fields</a>
   
 
 
@@ -491,8 +480,6 @@ Summary:
         FlowConstructAware 
       
         MuleContextAware 
-      
-        Initialisable 
       
   
   
@@ -636,7 +623,7 @@ Summary:
                 <a href="../../../../../../java/org/mule/modules/salesforce/processors/DescribeSObjectMessageProcessor.html">DescribeSObjectMessageProcessor</a>,
               
               and
-                <a href="#" onclick="return toggleInherited(document.getElementById('subclasses-direct', null))">21 others.</a>
+                <a href="#" onclick="return toggleInherited(document.getElementById('subclasses-direct', null))">22 others.</a>
               
             
           
@@ -770,22 +757,26 @@ Summary:
               <td class="jd-descrcol" width="100%">RetrieveMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#retrieve(java.lang.String, java.util.List<java.lang.String>, java.util.List<java.lang.String>)">retrieve(java.lang.String, java.util.List, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code>.&nbsp;</td>
           </tr>
         <tr class=" api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UnauthorizeMessageProcessor.html">UnauthorizeMessageProcessor</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateBulkMessageProcessor.html">UpdateBulkMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpdateBulkMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#updateBulk(java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">updateBulk(java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateMessageProcessor.html">UpdateMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpdateMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#update(java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">update(java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpdateSingleMessageProcessor.html">UpdateSingleMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpdateSingleMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#updateSingle(java.lang.String, java.util.Map<java.lang.String, java.lang.Object>)">updateSingle(java.lang.String, java.util.Map)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpsertBulkMessageProcessor.html">UpsertBulkMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpsertBulkMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#upsertBulk(java.lang.String, java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">upsertBulk(java.lang.String, java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code>.&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../java/org/mule/modules/salesforce/processors/UpsertMessageProcessor.html">UpsertMessageProcessor</a></td>
               <td class="jd-descrcol" width="100%">UpsertMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#upsert(java.lang.String, java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">upsert(java.lang.String, java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code>.&nbsp;</td>
           </tr>
@@ -870,55 +861,6 @@ Summary:
 
 
 
-
-
-<!-- =========== ENUM CONSTANT SUMMARY =========== -->
-<table id="inhconstants" class="jd-sumtable"><tr><th>
-  <a href="#" class="toggle-all" onclick="return toggleAllInherited(this, null)">[Expand]</a>
-  <div style="clear:left;">Inherited Constants</div></th></tr>
-
-
-
-
-
-
-
-
-
-
-
-
-<tr class="api apilevel-" >
-<td colspan="12">
-
-  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-constants-org.mule.api.lifecycle.Initialisable" class="jd-expando-trigger closed"
-          ><img id="inherited-constants-org.mule.api.lifecycle.Initialisable-trigger"
-          src="../../../../../../assets/images/triangle-closed.png"
-          class="jd-expando-trigger-img" /></a>From interface
-org.mule.api.lifecycle.Initialisable
-<div id="inherited-constants-org.mule.api.lifecycle.Initialisable">
-  <div id="inherited-constants-org.mule.api.lifecycle.Initialisable-list"
-        class="jd-inheritedlinks">
-  </div>
-  <div id="inherited-constants-org.mule.api.lifecycle.Initialisable-summary" style="display: none;">
-    <table class="jd-sumtable-expando">
-    
-
-    
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol">String</td>
-        <td class="jd-linkcol">PHASE_NAME</td>
-        <td class="jd-descrcol" width="100%"></td>
-    </tr>
-    
-    
-</table>
-  </div>
-</div>
-</td></tr>
-
-
-</table>
 
 
 
@@ -1177,8 +1119,6 @@ org.mule.api.lifecycle.Initialisable
   </div>
 </div>
 </td></tr>
-
-
 
 
 
@@ -2201,48 +2141,6 @@ From interface
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad">setMuleContext</span>(MuleContext arg0)</nobr>
-        
-  </td></tr>
-
-
-</table>
-  </div>
-</div>
-</td></tr>
-
-
-
-<tr class="api apilevel-" >
-<td colspan="12">
-  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-org.mule.api.lifecycle.Initialisable" class="jd-expando-trigger closed"
-          ><img id="inherited-methods-org.mule.api.lifecycle.Initialisable-trigger"
-          src="../../../../../../assets/images/triangle-closed.png"
-          class="jd-expando-trigger-img" /></a>
-From interface
-
-  org.mule.api.lifecycle.Initialisable
-
-<div id="inherited-methods-org.mule.api.lifecycle.Initialisable">
-  <div id="inherited-methods-org.mule.api.lifecycle.Initialisable-list"
-        class="jd-inheritedlinks">
-  </div>
-  <div id="inherited-methods-org.mule.api.lifecycle.Initialisable-summary" style="display: none;">
-    <table class="jd-sumtable-expando">
-    
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            abstract
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad">initialise</span>()</nobr>
         
   </td></tr>
 

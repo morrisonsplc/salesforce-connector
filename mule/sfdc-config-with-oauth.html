@@ -817,6 +817,14 @@ reply with a redirect to the service provider. The following is an example of ho
 and creating a callback endpoint so the service provider can call us back once the user has been authenticated. Once the callback
 gets called then the connector will switch to an authorized state and any message processor or source that requires authentication
 can be called.</p>
+<h3>Unauthorize</h3>
+<p>Once this connector has been authorized further calls to the *authorize* message processor will be no-ops. If you wish to reset
+the state of the connector back to a non-authorized state you can call:</p>
+<pre>
+    &lt;sfdc:unauthorize/&gt;
+</pre>
+<p>Keep in mind that after the connector is unauthorized all future calls that attempt to access protected resources will fail until
+ the connector is re-authorized.</p>
 <h3>Callback Customization</h3>
 <p>As mentioned earlier once authorize gets called and before we redirect the user to the service provider we create a callback
 endpoint. The callback endpoint will get called automatically by the service provider once the user is authenticated and he
@@ -843,6 +851,10 @@ features the following attributes:</p>
 <tr class="api" >
 <td class="jd-linkcol"><nobr>remotePort</nobr></td>
 <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>This is the port number that we will tell the service provider we are listening on. It is usually the same as localPort but it is separated in case your deployment features port forwarding or a proxy.</td>
+</tr>
+<tr class="api" >
+<td class="jd-linkcol"><nobr>path</nobr></td>
+<td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Path under which the callback should be exposed. If not specified a random path will be generated.</td>
 </tr>
 </table>
 <p class="caution">The example shown above is what the configuration would look like if your app would be deployed to CloudHub.</p>
