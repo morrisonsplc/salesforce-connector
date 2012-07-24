@@ -257,6 +257,8 @@
     <li class="selected api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/connectivity/package-summary.html">org.mule.modules.salesforce.connectivity</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/modules/salesforce/oauth/package-summary.html">org.mule.modules.salesforce.oauth</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/process/package-summary.html">org.mule.modules.salesforce.process</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/processors/package-summary.html">org.mule.modules.salesforce.processors</a></li>
@@ -276,6 +278,9 @@
     <li><h2>Classes</h2>
       <ul>
           <li class="selected api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/connectivity/ManagedConnectionProcessTemplate.html">ManagedConnectionProcessTemplate</a>&lt;P&gt;</li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionFactory.html">SalesforceConnectorConnectionFactory</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionKey.html">SalesforceConnectorConnectionKey</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionManager.html">SalesforceConnectorConnectionManager</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceModuleConnectionFactory.html">SalesforceModuleConnectionFactory</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceModuleConnectionKey.html">SalesforceModuleConnectionKey</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceModuleConnectionManager.html">SalesforceModuleConnectionManager</a></li>
@@ -493,7 +498,7 @@ Summary:
           private
           
           final
-          ProcessInterceptor&lt;P,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleConnectionIdentifierAdapter.html">SalesforceModuleConnectionIdentifierAdapter</a>&gt;</nobr></td>
+          ProcessInterceptor&lt;P,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceConnectorConnectionIdentifierAdapter.html">SalesforceConnectorConnectionIdentifierAdapter</a>&gt;</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/connectivity/ManagedConnectionProcessTemplate.html#processInterceptor">processInterceptor</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
@@ -524,7 +529,7 @@ Summary:
             </nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/ManagedConnectionProcessTemplate.html#ManagedConnectionProcessTemplate(org.mule.api.ConnectionManager<org.mule.modules.salesforce.connectivity.SalesforceModuleConnectionKey, org.mule.modules.salesforce.adapters.SalesforceModuleConnectionIdentifierAdapter>, org.mule.api.MuleContext)">ManagedConnectionProcessTemplate</a></span>(ConnectionManager&lt;<a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceModuleConnectionKey.html">SalesforceModuleConnectionKey</a>,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleConnectionIdentifierAdapter.html">SalesforceModuleConnectionIdentifierAdapter</a>&gt; connectionManager, MuleContext muleContext)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/ManagedConnectionProcessTemplate.html#ManagedConnectionProcessTemplate(org.mule.api.ConnectionManager<org.mule.modules.salesforce.connectivity.SalesforceConnectorConnectionKey, org.mule.modules.salesforce.adapters.SalesforceConnectorConnectionIdentifierAdapter>, org.mule.api.MuleContext)">ManagedConnectionProcessTemplate</a></span>(ConnectionManager&lt;<a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionKey.html">SalesforceConnectorConnectionKey</a>,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceConnectorConnectionIdentifierAdapter.html">SalesforceConnectorConnectionIdentifierAdapter</a>&gt; connectionManager, MuleContext muleContext)</nobr>
         
   </td></tr>
 
@@ -553,7 +558,7 @@ Summary:
             P</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/ManagedConnectionProcessTemplate.html#execute(org.mule.api.process.ProcessCallback<P, org.mule.modules.salesforce.adapters.SalesforceModuleConnectionIdentifierAdapter>, org.mule.api.processor.MessageProcessor, org.mule.api.MuleEvent)">execute</a></span>(ProcessCallback&lt;P,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleConnectionIdentifierAdapter.html">SalesforceModuleConnectionIdentifierAdapter</a>&gt; processCallback, MessageProcessor messageProcessor, MuleEvent event)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/ManagedConnectionProcessTemplate.html#execute(org.mule.api.process.ProcessCallback<P, org.mule.modules.salesforce.adapters.SalesforceConnectorConnectionIdentifierAdapter>, org.mule.api.processor.MessageProcessor, org.mule.api.MuleEvent)">execute</a></span>(ProcessCallback&lt;P,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceConnectorConnectionIdentifierAdapter.html">SalesforceConnectorConnectionIdentifierAdapter</a>&gt; processCallback, MessageProcessor messageProcessor, MuleEvent event)</nobr>
         
   </td></tr>
 
@@ -856,7 +861,7 @@ From interface
         private 
          
         final 
-        ProcessInterceptor&lt;P,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleConnectionIdentifierAdapter.html">SalesforceModuleConnectionIdentifierAdapter</a>&gt;
+        ProcessInterceptor&lt;P,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceConnectorConnectionIdentifierAdapter.html">SalesforceConnectorConnectionIdentifierAdapter</a>&gt;
       </span>
         processInterceptor
     </h4>
@@ -887,7 +892,7 @@ From interface
 
 
 
-<A NAME="ManagedConnectionProcessTemplate(org.mule.api.ConnectionManager<org.mule.modules.salesforce.connectivity.SalesforceModuleConnectionKey, org.mule.modules.salesforce.adapters.SalesforceModuleConnectionIdentifierAdapter>, org.mule.api.MuleContext)"></A>
+<A NAME="ManagedConnectionProcessTemplate(org.mule.api.ConnectionManager<org.mule.modules.salesforce.connectivity.SalesforceConnectorConnectionKey, org.mule.modules.salesforce.adapters.SalesforceConnectorConnectionIdentifierAdapter>, org.mule.api.MuleContext)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -900,7 +905,7 @@ From interface
         
       </span>
       <span class="sympad">ManagedConnectionProcessTemplate</span>
-      <span class="normal">(ConnectionManager&lt;<a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceModuleConnectionKey.html">SalesforceModuleConnectionKey</a>,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleConnectionIdentifierAdapter.html">SalesforceModuleConnectionIdentifierAdapter</a>&gt; connectionManager, MuleContext muleContext)</span>
+      <span class="normal">(ConnectionManager&lt;<a href="../../../../../../java/org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionKey.html">SalesforceConnectorConnectionKey</a>,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceConnectorConnectionIdentifierAdapter.html">SalesforceConnectorConnectionIdentifierAdapter</a>&gt; connectionManager, MuleContext muleContext)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -946,7 +951,7 @@ From interface
 
 
 
-<A NAME="execute(org.mule.api.process.ProcessCallback<P, org.mule.modules.salesforce.adapters.SalesforceModuleConnectionIdentifierAdapter>, org.mule.api.processor.MessageProcessor, org.mule.api.MuleEvent)"></A>
+<A NAME="execute(org.mule.api.process.ProcessCallback<P, org.mule.modules.salesforce.adapters.SalesforceConnectorConnectionIdentifierAdapter>, org.mule.api.processor.MessageProcessor, org.mule.api.MuleEvent)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -959,7 +964,7 @@ From interface
         P
       </span>
       <span class="sympad">execute</span>
-      <span class="normal">(ProcessCallback&lt;P,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceModuleConnectionIdentifierAdapter.html">SalesforceModuleConnectionIdentifierAdapter</a>&gt; processCallback, MessageProcessor messageProcessor, MuleEvent event)</span>
+      <span class="normal">(ProcessCallback&lt;P,&nbsp;<a href="../../../../../../java/org/mule/modules/salesforce/adapters/SalesforceConnectorConnectionIdentifierAdapter.html">SalesforceConnectorConnectionIdentifierAdapter</a>&gt; processCallback, MessageProcessor messageProcessor, MuleEvent event)</span>
     </h4>
       <div class="api-level">
         <div>

@@ -257,6 +257,8 @@
     <li class="api apilevel-">
   <a href="../../../../../java/org/mule/modules/salesforce/connectivity/package-summary.html">org.mule.modules.salesforce.connectivity</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../java/org/mule/modules/salesforce/oauth/package-summary.html">org.mule.modules.salesforce.oauth</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../java/org/mule/modules/salesforce/process/package-summary.html">org.mule.modules.salesforce.process</a></li>
     <li class="api apilevel-">
   <a href="../../../../../java/org/mule/modules/salesforce/processors/package-summary.html">org.mule.modules.salesforce.processors</a></li>
@@ -275,16 +277,23 @@
               
     <li><h2>Classes</h2>
       <ul>
-          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/ListUtils.html">ListUtils</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceBayeuxClient.html">SalesforceBayeuxClient</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceBayeuxMessageListener.html">SalesforceBayeuxMessageListener</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceConnector.html">SalesforceConnector</a></li>
           <li class="selected api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceLongPollingTransport.html">SalesforceLongPollingTransport</a></li>
-          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceOAuthConnector.html">SalesforceOAuthConnector</a></li>
       </ul>
     </li>
               
               
+    <li><h2>Enums</h2>
+      <ul>
+          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceOAuthDisplay.html">SalesforceOAuthDisplay</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceOAuthImmediate.html">SalesforceOAuthImmediate</a></li>
+      </ul>
+    </li>
               
     <li><h2>Exceptions</h2>
       <ul>
@@ -671,8 +680,8 @@ org.cometd.client.transport.ClientTransport
           private
           
           
-          <a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceLongPollingTransport.html#salesforceModule">salesforceModule</a></td>
+          <a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceLongPollingTransport.html#salesforceConnector">salesforceConnector</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -898,7 +907,7 @@ org.cometd.common.AbstractTransport
             </nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceLongPollingTransport.html#SalesforceLongPollingTransport(org.mule.modules.salesforce.SalesforceModule, java.util.Map<java.lang.String, java.lang.Object>, org.eclipse.jetty.client.HttpClient)">SalesforceLongPollingTransport</a></span>(<a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a> salesforceModule, Map&lt;String,&nbsp;Object&gt; options, HttpClient httpClient)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceLongPollingTransport.html#SalesforceLongPollingTransport(org.mule.modules.salesforce.BaseSalesforceConnector, java.util.Map<java.lang.String, java.lang.Object>, org.eclipse.jetty.client.HttpClient)">SalesforceLongPollingTransport</a></span>(<a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a> salesforceConnector, Map&lt;String,&nbsp;Object&gt; options, HttpClient httpClient)</nobr>
         
   </td></tr>
 
@@ -927,7 +936,7 @@ org.cometd.common.AbstractTransport
             <a href="../../../../../java/org/mule/modules/salesforce/SalesforceLongPollingTransport.html">SalesforceLongPollingTransport</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceLongPollingTransport.html#create(org.mule.modules.salesforce.SalesforceModule, java.util.Map<java.lang.String, java.lang.Object>)">create</a></span>(<a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a> salesforceModule, Map&lt;String,&nbsp;Object&gt; options)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceLongPollingTransport.html#create(org.mule.modules.salesforce.BaseSalesforceConnector, java.util.Map<java.lang.String, java.lang.Object>)">create</a></span>(<a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a> salesforceConnector, Map&lt;String,&nbsp;Object&gt; options)</nobr>
         
   </td></tr>
 
@@ -943,7 +952,7 @@ org.cometd.common.AbstractTransport
             <a href="../../../../../java/org/mule/modules/salesforce/SalesforceLongPollingTransport.html">SalesforceLongPollingTransport</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceLongPollingTransport.html#create(org.mule.modules.salesforce.SalesforceModule, java.util.Map<java.lang.String, java.lang.Object>, org.eclipse.jetty.client.HttpClient)">create</a></span>(<a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a> salesforceModule, Map&lt;String,&nbsp;Object&gt; options, HttpClient httpClient)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/SalesforceLongPollingTransport.html#create(org.mule.modules.salesforce.BaseSalesforceConnector, java.util.Map<java.lang.String, java.lang.Object>, org.eclipse.jetty.client.HttpClient)">create</a></span>(<a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a> salesforceConnector, Map&lt;String,&nbsp;Object&gt; options, HttpClient httpClient)</nobr>
         
   </td></tr>
 
@@ -1895,7 +1904,7 @@ From interface
 
 
 
-<A NAME="salesforceModule"></A>
+<A NAME="salesforceConnector"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1903,9 +1912,9 @@ From interface
         private 
          
          
-        <a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a>
+        <a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a>
       </span>
-        salesforceModule
+        salesforceConnector
     </h4>
       <div class="api-level">
         
@@ -1934,7 +1943,7 @@ From interface
 
 
 
-<A NAME="SalesforceLongPollingTransport(org.mule.modules.salesforce.SalesforceModule, java.util.Map<java.lang.String, java.lang.Object>, org.eclipse.jetty.client.HttpClient)"></A>
+<A NAME="SalesforceLongPollingTransport(org.mule.modules.salesforce.BaseSalesforceConnector, java.util.Map<java.lang.String, java.lang.Object>, org.eclipse.jetty.client.HttpClient)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1947,7 +1956,7 @@ From interface
         
       </span>
       <span class="sympad">SalesforceLongPollingTransport</span>
-      <span class="normal">(<a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a> salesforceModule, Map&lt;String,&nbsp;Object&gt; options, HttpClient httpClient)</span>
+      <span class="normal">(<a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a> salesforceConnector, Map&lt;String,&nbsp;Object&gt; options, HttpClient httpClient)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1964,7 +1973,7 @@ From interface
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
         <tr>
-          <th>salesforceModule</td>
+          <th>salesforceConnector</td>
           <td></td>
         </tr>
         <tr>
@@ -1997,7 +2006,7 @@ From interface
 
 
 
-<A NAME="create(org.mule.modules.salesforce.SalesforceModule, java.util.Map<java.lang.String, java.lang.Object>)"></A>
+<A NAME="create(org.mule.modules.salesforce.BaseSalesforceConnector, java.util.Map<java.lang.String, java.lang.Object>)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2010,7 +2019,7 @@ From interface
         <a href="../../../../../java/org/mule/modules/salesforce/SalesforceLongPollingTransport.html">SalesforceLongPollingTransport</a>
       </span>
       <span class="sympad">create</span>
-      <span class="normal">(<a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a> salesforceModule, Map&lt;String,&nbsp;Object&gt; options)</span>
+      <span class="normal">(<a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a> salesforceConnector, Map&lt;String,&nbsp;Object&gt; options)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -2027,7 +2036,7 @@ From interface
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
         <tr>
-          <th>salesforceModule</td>
+          <th>salesforceConnector</td>
           <td></td>
         </tr>
         <tr>
@@ -2041,7 +2050,7 @@ From interface
 </div>
 
 
-<A NAME="create(org.mule.modules.salesforce.SalesforceModule, java.util.Map<java.lang.String, java.lang.Object>, org.eclipse.jetty.client.HttpClient)"></A>
+<A NAME="create(org.mule.modules.salesforce.BaseSalesforceConnector, java.util.Map<java.lang.String, java.lang.Object>, org.eclipse.jetty.client.HttpClient)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2054,7 +2063,7 @@ From interface
         <a href="../../../../../java/org/mule/modules/salesforce/SalesforceLongPollingTransport.html">SalesforceLongPollingTransport</a>
       </span>
       <span class="sympad">create</span>
-      <span class="normal">(<a href="../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a> salesforceModule, Map&lt;String,&nbsp;Object&gt; options, HttpClient httpClient)</span>
+      <span class="normal">(<a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a> salesforceConnector, Map&lt;String,&nbsp;Object&gt; options, HttpClient httpClient)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -2071,7 +2080,7 @@ From interface
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
         <tr>
-          <th>salesforceModule</td>
+          <th>salesforceConnector</td>
           <td></td>
         </tr>
         <tr>

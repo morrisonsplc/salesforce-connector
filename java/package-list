@@ -23,6 +23,7 @@ org.mule.modules.salesforce.agents
 org.mule.modules.salesforce.config
 org.mule.modules.salesforce.config.spring
 org.mule.modules.salesforce.connectivity
+org.mule.modules.salesforce.oauth
 org.mule.modules.salesforce.process
 org.mule.modules.salesforce.processors
 org.mule.modules.salesforce.retry

@@ -257,6 +257,8 @@
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/connectivity/package-summary.html">org.mule.modules.salesforce.connectivity</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../java/org/mule/modules/salesforce/oauth/package-summary.html">org.mule.modules.salesforce.oauth</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/process/package-summary.html">org.mule.modules.salesforce.process</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../java/org/mule/modules/salesforce/processors/package-summary.html">org.mule.modules.salesforce.processors</a></li>
@@ -607,7 +609,7 @@ Summary:
 
 
 <h2>Class Overview</h2>
-<p>SubscribeTopicMessageSource wraps <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html#subscribeTopic(java.lang.String, org.mule.api.callback.SourceCallback)">subscribeTopic(java.lang.String, org.mule.api.callback.SourceCallback)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/SalesforceModule.html">SalesforceModule</a></code> as a message source capable of generating Mule events.  The POJO's method is invoked in its own thread.
+<p>SubscribeTopicMessageSource wraps <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#subscribeTopic(java.lang.String, org.mule.api.callback.SourceCallback)">subscribeTopic(java.lang.String, org.mule.api.callback.SourceCallback)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code> as a message source capable of generating Mule events.  The POJO's method is invoked in its own thread.
  
 </p>
 
@@ -797,6 +799,50 @@ org.mule.api.lifecycle.Stoppable
           
           
           String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#_proxyHostType">_proxyHostType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#_proxyPasswordType">_proxyPasswordType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          int</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#_proxyPortType">_proxyPortType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#_proxyUsernameType">_proxyUsernameType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          String</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#_securityTokenType">_securityTokenType</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
@@ -818,13 +864,24 @@ org.mule.api.lifecycle.Stoppable
           protected
           
           
+          URL</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#_urlType">_urlType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
           String</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#_usernameType">_usernameType</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
     
-      <tr class="alt-color api apilevel-" >
+      <tr class=" api apilevel-" >
           <td class="jd-typecol"><nobr>
           protected
           
@@ -835,7 +892,51 @@ org.mule.api.lifecycle.Stoppable
       </tr>
       
     
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#proxyHost">proxyHost</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
       <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#proxyPassword">proxyPassword</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#proxyPort">proxyPort</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#proxyUsername">proxyUsername</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           protected
           
@@ -846,7 +947,7 @@ org.mule.api.lifecycle.Stoppable
       </tr>
       
     
-      <tr class="alt-color api apilevel-" >
+      <tr class=" api apilevel-" >
           <td class="jd-typecol"><nobr>
           private
           
@@ -857,13 +958,24 @@ org.mule.api.lifecycle.Stoppable
       </tr>
       
     
-      <tr class=" api apilevel-" >
+      <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
           protected
           
           
           Object</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#topic">topic</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#url">url</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -1026,7 +1138,7 @@ org.mule.api.lifecycle.Stoppable
           
           
           String</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#_securityTokenType">_securityTokenType</a></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#_proxyHostType">_proxyHostType</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -1037,7 +1149,7 @@ org.mule.api.lifecycle.Stoppable
           
           
           String</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#_usernameType">_usernameType</a></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#_proxyPasswordType">_proxyPasswordType</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -1047,8 +1159,52 @@ org.mule.api.lifecycle.Stoppable
           protected
           
           
-          Object</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#password">password</a></td>
+          int</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#_proxyPortType">_proxyPortType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#_proxyUsernameType">_proxyUsernameType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#_securityTokenType">_securityTokenType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          URL</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#_urlType">_urlType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#_usernameType">_usernameType</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -1059,7 +1215,73 @@ org.mule.api.lifecycle.Stoppable
           
           
           Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#password">password</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#proxyHost">proxyHost</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#proxyPassword">proxyPassword</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#proxyPort">proxyPort</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#proxyUsername">proxyUsername</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#securityToken">securityToken</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#url">url</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -1187,6 +1409,78 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#setProxyHost(java.lang.Object)">setProxyHost</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets proxyHost</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#setProxyPassword(java.lang.Object)">setProxyPassword</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets proxyPassword</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#setProxyPort(java.lang.Object)">setProxyPort</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets proxyPort</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#setProxyUsername(java.lang.Object)">setProxyUsername</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets proxyUsername</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#setSecurityToken(java.lang.Object)">setSecurityToken</a></span>(Object value)</nobr>
         
         <div class="jd-descrdiv">Sets securityToken</div>
@@ -1223,6 +1517,24 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#setUrl(java.lang.Object)">setUrl</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets url</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/sources/SubscribeTopicMessageSource.html#setUsername(java.lang.Object)">setUsername</a></span>(Object value)</nobr>
         
         <div class="jd-descrdiv">Sets username</div>
@@ -1231,7 +1543,7 @@ org.mule.api.lifecycle.Stoppable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1249,7 +1561,7 @@ org.mule.api.lifecycle.Stoppable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1627,6 +1939,86 @@ From class
             Object</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#getProxyHost()">getProxyHost</a></span>()</nobr>
+        
+        <div class="jd-descrdiv">Retrieves proxyHost
+ 
+</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            Object</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#getProxyPassword()">getProxyPassword</a></span>()</nobr>
+        
+        <div class="jd-descrdiv">Retrieves proxyPassword
+ 
+</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            Object</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#getProxyPort()">getProxyPort</a></span>()</nobr>
+        
+        <div class="jd-descrdiv">Retrieves proxyPort
+ 
+</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            Object</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#getProxyUsername()">getProxyUsername</a></span>()</nobr>
+        
+        <div class="jd-descrdiv">Retrieves proxyUsername
+ 
+</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            Object</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#getSecurityToken()">getSecurityToken</a></span>()</nobr>
         
         <div class="jd-descrdiv">Retrieves securityToken
@@ -1647,6 +2039,26 @@ From class
             Object</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#getUrl()">getUrl</a></span>()</nobr>
+        
+        <div class="jd-descrdiv">Retrieves url
+ 
+</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            Object</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#getUsername()">getUsername</a></span>()</nobr>
         
         <div class="jd-descrdiv">Retrieves username
@@ -1657,7 +2069,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1675,7 +2087,79 @@ From class
 
 
 	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#setProxyHost(java.lang.Object)">setProxyHost</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets proxyHost</div>
+  
+  </td></tr>
+
+
+	 
     <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#setProxyPassword(java.lang.Object)">setProxyPassword</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets proxyPassword</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#setProxyPort(java.lang.Object)">setProxyPort</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets proxyPort</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#setProxyUsername(java.lang.Object)">setProxyUsername</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets proxyUsername</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1688,6 +2172,24 @@ From class
         <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#setSecurityToken(java.lang.Object)">setSecurityToken</a></span>(Object value)</nobr>
         
         <div class="jd-descrdiv">Sets securityToken</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/AbstractConnectedProcessor.html#setUrl(java.lang.Object)">setUrl</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets url</div>
   
   </td></tr>
 
@@ -2500,6 +3002,126 @@ From interface
 
 
 
+<A NAME="_proxyHostType"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        String
+      </span>
+        _proxyHostType
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="_proxyPasswordType"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        String
+      </span>
+        _proxyPasswordType
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="_proxyPortType"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        int
+      </span>
+        _proxyPortType
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="_proxyUsernameType"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        String
+      </span>
+        _proxyUsernameType
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
 <A NAME="_securityTokenType"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -2560,6 +3182,36 @@ From interface
 
 
 
+<A NAME="_urlType"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        URL
+      </span>
+        _urlType
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
 <A NAME="_usernameType"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -2601,6 +3253,126 @@ From interface
         Object
       </span>
         password
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="proxyHost"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        Object
+      </span>
+        proxyHost
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="proxyPassword"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        Object
+      </span>
+        proxyPassword
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="proxyPort"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        Object
+      </span>
+        proxyPort
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="proxyUsername"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        Object
+      </span>
+        proxyUsername
     </h4>
       <div class="api-level">
         
@@ -2691,6 +3463,36 @@ From interface
         Object
       </span>
         topic
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="url"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        Object
+      </span>
+        url
     </h4>
       <div class="api-level">
         
@@ -2876,6 +3678,170 @@ From interface
 </div>
 
 
+<A NAME="setProxyHost(java.lang.Object)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setProxyHost</span>
+      <span class="normal">(Object value)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Sets proxyHost</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>value</td>
+          <td>Value to set
+</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="setProxyPassword(java.lang.Object)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setProxyPassword</span>
+      <span class="normal">(Object value)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Sets proxyPassword</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>value</td>
+          <td>Value to set
+</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="setProxyPort(java.lang.Object)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setProxyPort</span>
+      <span class="normal">(Object value)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Sets proxyPort</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>value</td>
+          <td>Value to set
+</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="setProxyUsername(java.lang.Object)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setProxyUsername</span>
+      <span class="normal">(Object value)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Sets proxyUsername</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>value</td>
+          <td>Value to set
+</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
 <A NAME="setSecurityToken(java.lang.Object)"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -2943,6 +3909,47 @@ From interface
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p>Sets topic</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>value</td>
+          <td>Value to set
+</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="setUrl(java.lang.Object)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setUrl</span>
+      <span class="normal">(Object value)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Sets url</p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
