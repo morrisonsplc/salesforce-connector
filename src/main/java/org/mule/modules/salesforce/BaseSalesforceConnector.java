@@ -44,6 +44,7 @@ import org.mule.api.annotations.Source;
 import org.mule.api.annotations.SourceThreadingModel;
 import org.mule.api.annotations.display.FriendlyName;
 import org.mule.api.annotations.display.Placement;
+import org.mule.api.annotations.oauth.OAuthProtected;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
 import org.mule.api.callback.SourceCallback;
@@ -149,6 +150,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<SaveResult> create(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -177,6 +179,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.3
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = AsyncApiException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName, @Optional ContentType contentType) throws Exception {
@@ -194,6 +197,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.3
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = AsyncApiException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public JobInfo closeJob(String jobId) throws Exception {
@@ -215,6 +219,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.3
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo createBatch(JobInfo jobInfo, @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
@@ -236,6 +241,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.5
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo createBatchForQuery(JobInfo jobInfo, @Optional @Default("#[payload]") String query) throws Exception {
@@ -258,6 +264,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.1
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo createBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -280,6 +287,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.1
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public SaveResult createSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -305,6 +313,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<SaveResult> update(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -325,6 +334,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public SaveResult updateSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -347,6 +357,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.1
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo updateBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -372,6 +383,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<UpsertResult> upsert(@Placement(group = "Information") String externalIdFieldName,
@@ -400,6 +412,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.1
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo upsertBulk(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
@@ -420,6 +433,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.1
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo batchInfo(BatchInfo batchInfo) throws Exception {
@@ -439,6 +453,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.1
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchResult batchResult(BatchInfo batchInfo) throws Exception {
@@ -458,6 +473,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.5
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public InputStream queryResultStream(BatchInfo batchInfo) throws Exception {
@@ -484,6 +500,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Describe Calls", description = "A set of calls to describe record structure in Salesforce.")
     public DescribeGlobalResult describeGlobal() throws Exception {
@@ -502,6 +519,7 @@ public abstract class BaseSalesforceConnector {
      * @throws Exception
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<Map<String, Object>> retrieve(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
@@ -532,6 +550,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<Map<String, Object>> query(@Placement(group = "Query") String query) throws Exception {
@@ -561,6 +580,7 @@ public abstract class BaseSalesforceConnector {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<Map<String, Object>> queryAll(@Placement(group = "Query") String query) throws Exception {
@@ -593,6 +613,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.1
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public Map<String, Object> querySingle(@Placement(group = "Query") String query) throws Exception {
@@ -653,6 +674,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public LeadConvertResult convertLead(String leadId, String contactId,
@@ -697,6 +719,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<EmptyRecycleBinResult> emptyRecycleBin(@Placement(group = "Ids to Delete") List<String> ids) throws Exception {
@@ -716,6 +739,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<DeleteResult> delete(@Placement(group = "Ids to Delete") List<String> ids) throws Exception {
@@ -739,6 +763,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.3
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo hardDeleteBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -764,6 +789,7 @@ public abstract class BaseSalesforceConnector {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdatedrange.htm">getUpdatedRange()</a>
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public GetUpdatedResult getUpdatedRange(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -802,6 +828,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public GetDeletedResult getDeletedRange(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -833,6 +860,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor(name = "describe-sobject", friendlyName = "Describe sObject")
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Describe Calls", description = "A set of calls to describe record structure in Salesforce.")
     public DescribeSObjectResult describeSObject(@Placement(group = "Information") @FriendlyName("sObject Type") String type) throws Exception {
@@ -852,6 +880,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.2
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public GetDeletedResult getDeleted(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -877,6 +906,7 @@ public abstract class BaseSalesforceConnector {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public GetUpdatedResult getUpdated(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -906,6 +936,7 @@ public abstract class BaseSalesforceConnector {
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
     public List<Map<String, Object>> getUpdatedObjects(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
@@ -948,6 +979,7 @@ public abstract class BaseSalesforceConnector {
      *
      */
     @Processor
+    @OAuthProtected
     @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
     public void resetUpdatedObjectsTimestamp(@Placement(group = "Information") @FriendlyName("sObject Type") String type) throws ObjectStoreException {
         if (objectStore == null) {
@@ -974,6 +1006,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Streaming API", description = "Create topics, to which applications can subscribe, receiving asynchronous notifications of changes to data in Salesforce, via the Bayeux protocol.")
     public void publishTopic(@Placement(group = "Information") String topicName,
@@ -1021,6 +1054,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Processor
+    @OAuthProtected
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
     public GetUserInfoResult getUserInfo() throws Exception {
@@ -1039,6 +1073,7 @@ public abstract class BaseSalesforceConnector {
      * @since 4.0
      */
     @Source(primaryNodeOnly = true, threadingModel = SourceThreadingModel.NONE)
+    @OAuthProtected
     @Category(name = "Streaming API", description = "Create topics, to which applications can subscribe, receiving asynchronous notifications of changes to data in Salesforce, via the Bayeux protocol.")
     public StopSourceCallback subscribeTopic(final String topic, final SourceCallback callback) {
         getBayeuxClient().subscribe("/topic" + topic, new SalesforceBayeuxMessageListener(callback));
