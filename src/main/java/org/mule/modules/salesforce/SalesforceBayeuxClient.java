@@ -38,7 +38,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     protected static final String SESSIONID_COOKIE = "sid";
     protected static final String LANGUAGE_COOKIE = "language";
     protected Map<String, org.cometd.bayeux.client.ClientSessionChannel.MessageListener> subscriptions;
-    protected SalesforceConnector salesforceConnector;
+    protected BaseSalesforceConnector salesforceConnector;
 
     private static Map<String, Object> createLongPollingOptions() {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -51,7 +51,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
      *
      * @param salesforceConnector Salesforce connection
      */
-    public SalesforceBayeuxClient(SalesforceConnector salesforceConnector) throws MalformedURLException {
+    public SalesforceBayeuxClient(BaseSalesforceConnector salesforceConnector) throws MalformedURLException {
         super("https://" + (new URL(salesforceConnector.getConnection().getConfig().getServiceEndpoint())).getHost() + "/cometd/23.0",
                 SalesforceLongPollingTransport.create(salesforceConnector, LONG_POLLING_OPTIONS));
 
@@ -91,7 +91,12 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     public void onFailure(Throwable x, Message[] messages) {
         if (x instanceof ProtocolException) {
             try {
-                salesforceConnector.reconnect();
+                // EL: not sure this is the best way of doing this.
+                // Ideally it should be the same for OAuth and non-OAuth
+                // ways of reconnecting.
+                if( salesforceConnector instanceof SalesforceConnector ) {
+                    ((SalesforceConnector)salesforceConnector).reconnect();
+                }
                 setCookies();
                 handshake();
             } catch (org.mule.api.ConnectionException e) {

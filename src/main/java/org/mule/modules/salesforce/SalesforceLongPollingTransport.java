@@ -17,9 +17,9 @@ import org.eclipse.jetty.client.HttpClient;
 import java.util.Map;
 
 public class SalesforceLongPollingTransport extends LongPollingTransport {
-    private SalesforceConnector salesforceConnector;
+    private BaseSalesforceConnector salesforceConnector;
 
-    public static SalesforceLongPollingTransport create(SalesforceConnector salesforceConnector, Map<String, Object> options)
+    public static SalesforceLongPollingTransport create(BaseSalesforceConnector salesforceConnector, Map<String, Object> options)
     {
         HttpClient httpClient = new HttpClient();
         httpClient.setIdleTimeout(5000);
@@ -28,7 +28,7 @@ public class SalesforceLongPollingTransport extends LongPollingTransport {
         return create(salesforceConnector, options, httpClient);
     }
 
-    public static SalesforceLongPollingTransport create(SalesforceConnector salesforceConnector, Map<String, Object> options, HttpClient httpClient)
+    public static SalesforceLongPollingTransport create(BaseSalesforceConnector salesforceConnector, Map<String, Object> options, HttpClient httpClient)
     {
         SalesforceLongPollingTransport transport = new SalesforceLongPollingTransport(salesforceConnector, options, httpClient);
         if (!httpClient.isStarted())
@@ -45,7 +45,7 @@ public class SalesforceLongPollingTransport extends LongPollingTransport {
         return transport;
     }
 
-    public SalesforceLongPollingTransport(SalesforceConnector salesforceConnector, Map<String, Object> options, HttpClient httpClient) {
+    public SalesforceLongPollingTransport(BaseSalesforceConnector salesforceConnector, Map<String, Object> options, HttpClient httpClient) {
         super(options, httpClient);
 
         this.salesforceConnector = salesforceConnector;

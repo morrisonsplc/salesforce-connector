@@ -10,20 +10,31 @@
 
 package org.mule.modules.salesforce;
 
+import com.sforce.async.AsyncApiException;
 import com.sforce.async.BulkConnection;
+import com.sforce.soap.partner.Connector;
 import com.sforce.soap.partner.PartnerConnection;
+import com.sforce.ws.ConnectionException;
+import com.sforce.ws.ConnectorConfig;
+import com.sforce.ws.MessageHandler;
+import org.apache.log4j.Logger;
 import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.oauth.OAuth2;
 import org.mule.api.annotations.oauth.OAuthAccessToken;
 import org.mule.api.annotations.oauth.OAuthAuthorizationParameter;
+import org.mule.api.annotations.oauth.OAuthCallbackParameter;
 import org.mule.api.annotations.oauth.OAuthConsumerKey;
 import org.mule.api.annotations.oauth.OAuthConsumerSecret;
+import org.mule.api.annotations.oauth.OAuthPostAuthorization;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
- * The Salesforce Connector will allow to connect to the Salesforce application. Almost every operation that can be
- * done via the Salesforce's API can be done thru this connector. This connector will also work if your Salesforce
- * objects are customized with additional fields or even you are working with custom objects.
+ * The Salesforce Connector will allow to connect to the Salesforce application using OAuth as the authentication
+ * mechanism. Almost every operation that can be done via the Salesforce's API can be done thru this connector.
+ * This connector will also work if your Salesforce objects are customized with additional fields or even you are
+ * working with custom objects.
  * <p/>
  * Integrating with Salesforce consists of web service calls utilizing XML request/response setup
  * over an HTTPS connection. The technical details of this connection such as request headers,
@@ -37,7 +48,7 @@ import org.mule.api.annotations.oauth.OAuthConsumerSecret;
  *
  * @author MuleSoft, Inc.
  */
-@Connector(name = "sfdc",
+@org.mule.api.annotations.Connector(name = "sfdc",
         schemaVersion = "5.0",
         friendlyName = "Salesforce",
         minMuleVersion = "3.3",
@@ -49,7 +60,15 @@ import org.mule.api.annotations.oauth.OAuthConsumerSecret;
                 @OAuthAuthorizationParameter(name = "immediate", type = SalesforceOAuthImmediate.class,
                         optional = true, defaultValue = "FALSE")
         })
-public class SalesforceOAuthConnector extends BaseSalesforceModule {
+public class SalesforceOAuthConnector extends BaseSalesforceConnector {
+    private static final Logger LOGGER = Logger.getLogger(SalesforceOAuthConnector.class);
+
+    private PartnerConnection partnerConnection;
+
+    /**
+     * REST connection to the bulk API
+     */
+    private BulkConnection bulkConnection;
 
     /**
      * Your application's client identifier (consumer key in Remote Access Detail).
@@ -67,6 +86,43 @@ public class SalesforceOAuthConnector extends BaseSalesforceModule {
 
     @OAuthAccessToken
     private String accessToken;
+
+    @OAuthCallbackParameter(expression = "#[json:instance_url]")
+    private String instanceId;
+
+    @OAuthPostAuthorization
+    public void postAuthorize() throws ConnectionException, MalformedURLException, AsyncApiException {
+        ConnectorConfig config = new ConnectorConfig();
+        config.addMessageHandler(new MessageHandler() {
+            @Override
+            public void handleRequest(URL endpoint, byte[] request) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Sending request to " + endpoint.toString());
+                    LOGGER.debug(new String(request));
+                }
+            }
+
+            @Override
+            public void handleResponse(URL endpoint, byte[] response) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Receiving response from " + endpoint.toString());
+                    LOGGER.debug(new String(response));
+                }
+            }
+        });
+
+        config.setSessionId(accessToken);
+        config.setManualLogin(true);
+
+        config.setCompression(false);
+
+        this.partnerConnection = Connector.newConnection(config);
+
+        String restEndpoint = "https://" + (new URL(instanceId)).getHost() + "/services/async/23.0";
+        config.setRestEndpoint(restEndpoint);
+
+        this.bulkConnection = new BulkConnection(config);
+    }
 
     public String getConsumerKey() {
         return consumerKey;
@@ -92,18 +148,22 @@ public class SalesforceOAuthConnector extends BaseSalesforceModule {
         this.accessToken = accessToken;
     }
 
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+    }
+
     @Override
     protected PartnerConnection getConnection() {
-        return null;
+        return this.partnerConnection;
     }
 
     @Override
     protected BulkConnection getBulkConnection() {
-        return null;
+        return this.bulkConnection;
     }
 
     @Override
-    protected SalesforceBayeuxClient getBayeuxClient() {
-        return null;
+    protected String getSessionId() {
+        return this.accessToken;
     }
 }

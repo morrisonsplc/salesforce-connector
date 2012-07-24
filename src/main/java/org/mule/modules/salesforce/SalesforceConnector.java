@@ -36,9 +36,10 @@ import java.net.URL;
 
 
 /**
- * The Salesforce Connector will allow to connect to the Salesforce application. Almost every operation that can be
- * done via the Salesforce's API can be done thru this connector. This connector will also work if your Salesforce
- * objects are customized with additional fields or even you are working with custom objects.
+ * The Salesforce Connector will allow to connect to the Salesforce application using regular username and password via
+ * the SOAP API. Almost every operation that can be done via the Salesforce's API can be done thru this connector. This
+ * connector will also work if your Salesforce objects are customized with additional fields or even you are working
+ * with custom objects.
  * <p/>
  * Integrating with Salesforce consists of web service calls utilizing XML request/response setup
  * over an HTTPS connection. The technical details of this connection such as request headers,
@@ -50,7 +51,7 @@ import java.net.URL;
  * @author MuleSoft, Inc.
  */
 @org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.3")
-public class SalesforceConnector extends BaseSalesforceModule {
+public class SalesforceConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceConnector.class);
 
     /**
@@ -68,11 +69,6 @@ public class SalesforceConnector extends BaseSalesforceModule {
      */
     private LoginResult loginResult;
 
-    /**
-     * Bayeux client
-     */
-    private SalesforceBayeuxClient bc;
-
     protected void setConnection(PartnerConnection connection) {
         this.connection = connection;
     }
@@ -87,10 +83,6 @@ public class SalesforceConnector extends BaseSalesforceModule {
 
     protected LoginResult getLoginResult() {
         return loginResult;
-    }
-
-    protected void setBayeuxClient(SalesforceBayeuxClient bc) {
-        this.bc = bc;
     }
 
     @ValidateConnection
@@ -110,12 +102,9 @@ public class SalesforceConnector extends BaseSalesforceModule {
 
     /**
      * Returns the session id for the current connection
-     * <p/>
-     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-session-id}
      *
      * @return the session id for the current connection
      */
-    @Processor
     @ConnectionIdentifier
     public String getSessionId() {
         if (connection != null) {
@@ -135,9 +124,9 @@ public class SalesforceConnector extends BaseSalesforceModule {
      */
     @Disconnect
     public synchronized void destroySession() {
-        if (bc != null) {
-            if (bc.isConnected()) {
-                bc.disconnect();
+        if (getBayeuxClient() != null) {
+            if (getBayeuxClient().isConnected()) {
+                getBayeuxClient().disconnect();
             }
         }
 
@@ -287,23 +276,5 @@ public class SalesforceConnector extends BaseSalesforceModule {
     @Override
     protected BulkConnection getBulkConnection() {
         return bulkConnection;
-    }
-
-
-    @Override
-    protected SalesforceBayeuxClient getBayeuxClient() {
-        try {
-            if (bc == null) {
-                bc = new SalesforceBayeuxClient(this);
-
-                if (!bc.isHandshook()) {
-                    bc.handshake();
-                }
-            }
-        } catch (MalformedURLException e) {
-            LOGGER.error(e.getMessage());
-        }
-
-        return bc;
     }
 }

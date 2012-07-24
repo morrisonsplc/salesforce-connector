@@ -36,6 +36,7 @@ import com.sforce.soap.partner.UpsertResult;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 import org.apache.log4j.Logger;
+import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.InvalidateConnectionOn;
 import org.mule.api.annotations.Processor;
@@ -58,6 +59,7 @@ import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -65,8 +67,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseSalesforceModule {
-    private static final Logger LOGGER = Logger.getLogger(BaseSalesforceModule.class);
+public abstract class BaseSalesforceConnector {
+    private static final Logger LOGGER = Logger.getLogger(BaseSalesforceConnector.class);
 
     /**
      * Object store manager to obtain a store to support {@link this#getUpdatedObjects}
@@ -86,11 +88,36 @@ public abstract class BaseSalesforceModule {
     @Inject
     private Registry registry;
 
+    /**
+     * Bayeux client
+     */
+    private SalesforceBayeuxClient bc;
+
     protected abstract PartnerConnection getConnection();
 
     protected abstract BulkConnection getBulkConnection();
 
-    protected abstract SalesforceBayeuxClient getBayeuxClient();
+    protected abstract String getSessionId();
+
+    protected SalesforceBayeuxClient getBayeuxClient() {
+        try {
+            if (bc == null) {
+                bc = new SalesforceBayeuxClient(this);
+
+                if (!bc.isHandshook()) {
+                    bc.handshake();
+                }
+            }
+        } catch (MalformedURLException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+        return bc;
+    }
+
+    protected void setBayeuxClient(SalesforceBayeuxClient bc) {
+        this.bc = bc;
+    }
 
     protected void setObjectStoreHelper(ObjectStoreHelper objectStoreHelper) {
         this.objectStoreHelper = objectStoreHelper;
@@ -122,6 +149,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<SaveResult> create(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(getConnection().create(toSObjectList(type, objects)));
@@ -149,6 +177,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = AsyncApiException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName, @Optional ContentType contentType) throws Exception {
         return createJobInfo(operation, type, externalIdFieldName, contentType);
     }
@@ -165,6 +194,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = AsyncApiException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public JobInfo closeJob(String jobId) throws Exception {
         return getBulkConnection().closeJob(jobId);
     }
@@ -185,6 +215,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo createBatch(JobInfo jobInfo, @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(jobInfo, objects);
     }
@@ -205,6 +236,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo createBatchForQuery(JobInfo jobInfo, @Optional @Default("#[payload]") String query) throws Exception {
         InputStream queryStream = new ByteArrayInputStream(query.getBytes());
         return createBatchForQuery(jobInfo, queryStream);
@@ -226,6 +258,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo createBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                 @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
 
@@ -247,6 +280,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public SaveResult createSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "sObject Field Mappings") @FriendlyName("sObject") @Default("#[payload]") Map<String, Object> object) throws Exception {
         SaveResult[] saveResults = getConnection().create(new SObject[]{toSObject(type, object)});
@@ -271,6 +305,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<SaveResult> update(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(getConnection().update(toSObjectList(type, objects)));
@@ -290,6 +325,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public SaveResult updateSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "Salesforce Object") @FriendlyName("sObject") @Optional @Default("#[payload]") Map<String, Object> object) throws Exception {
         return getConnection().update(new SObject[]{toSObject(type, object)})[0];
@@ -311,6 +347,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo updateBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.update, type), objects);
@@ -335,6 +372,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<UpsertResult> upsert(@Placement(group = "Information") String externalIdFieldName,
                                      @Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                      @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
@@ -362,6 +400,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo upsertBulk(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Information", order = 2) String externalIdFieldName,
                                 @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
@@ -381,6 +420,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo batchInfo(BatchInfo batchInfo) throws Exception {
         return getBulkConnection().getBatchInfo(batchInfo.getJobId(), batchInfo.getId());
     }
@@ -399,6 +439,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchResult batchResult(BatchInfo batchInfo) throws Exception {
         return getBulkConnection().getBatchResult(batchInfo.getJobId(), batchInfo.getId());
     }
@@ -417,6 +458,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public InputStream queryResultStream(BatchInfo batchInfo) throws Exception {
         QueryResultList queryResultList = getBulkConnection().getQueryResultList(batchInfo.getJobId(), batchInfo.getId());
         String[] results = queryResultList.getResult();
@@ -441,6 +483,8 @@ public abstract class BaseSalesforceModule {
      * @since 4.0
      */
     @Processor
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Describe Calls", description = "A set of calls to describe record structure in Salesforce.")
     public DescribeGlobalResult describeGlobal() throws Exception {
         return getConnection().describeGlobal();
     }
@@ -458,6 +502,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<Map<String, Object>> retrieve(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                               @Placement(group = "Ids to Retrieve") List<String> ids,
                                               @Placement(group = "Fields to Retrieve") List<String> fields) throws Exception {
@@ -487,6 +532,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<Map<String, Object>> query(@Placement(group = "Query") String query) throws Exception {
         QueryResult queryResult = getConnection().query(query);
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
@@ -515,6 +561,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<Map<String, Object>> queryAll(@Placement(group = "Query") String query) throws Exception {
         QueryResult queryResult = getConnection().queryAll(query);
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
@@ -546,6 +593,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public Map<String, Object> querySingle(@Placement(group = "Query") String query) throws Exception {
         SObject[] result = getConnection().query(query).getRecords();
         if (result.length > 0) {
@@ -605,6 +653,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public LeadConvertResult convertLead(String leadId, String contactId,
                                          @Optional String accountId,
                                          @Optional @Default("false") Boolean overWriteLeadSource,
@@ -648,6 +697,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<EmptyRecycleBinResult> emptyRecycleBin(@Placement(group = "Ids to Delete") List<String> ids) throws Exception {
         return Arrays.asList(getConnection().emptyRecycleBin(ids.toArray(new String[]{})));
     }
@@ -666,6 +716,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<DeleteResult> delete(@Placement(group = "Ids to Delete") List<String> ids) throws Exception {
         return Arrays.asList(getConnection().delete(ids.toArray(new String[]{})));
     }
@@ -688,6 +739,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo hardDeleteBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                     @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.hardDelete, type), objects);
@@ -712,6 +764,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public GetUpdatedResult getUpdatedRange(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                             @Placement(group = "Information") @FriendlyName("Start Time Reference") Calendar startTime,
                                             @Placement(group = "Information") @FriendlyName("End Time Reference") @Optional Calendar endTime) throws Exception {
@@ -749,6 +802,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public GetDeletedResult getDeletedRange(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                             @Placement(group = "Information") @FriendlyName("Start Time Reference") Calendar startTime,
                                             @Placement(group = "Information") @FriendlyName("End Time Reference") @Optional Calendar endTime) throws Exception {
@@ -779,6 +833,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor(name = "describe-sobject", friendlyName = "Describe sObject")
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Describe Calls", description = "A set of calls to describe record structure in Salesforce.")
     public DescribeSObjectResult describeSObject(@Placement(group = "Information") @FriendlyName("sObject Type") String type) throws Exception {
         return getConnection().describeSObject(type);
     }
@@ -797,6 +852,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public GetDeletedResult getDeleted(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                        @Placement(group = "Information") int duration) throws Exception {
         Calendar serverTime = getConnection().getServerTimestamp().getTimestamp();
@@ -821,6 +877,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public GetUpdatedResult getUpdated(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                        @Placement(group = "Information") int duration) throws Exception {
         Calendar serverTime = getConnection().getServerTimestamp().getTimestamp();
@@ -849,6 +906,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
     public List<Map<String, Object>> getUpdatedObjects(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                                        @Placement(group = "Information") int initialTimeWindow,
                                                        @Placement(group = "Fields") List<String> fields) throws Exception {
@@ -889,6 +947,7 @@ public abstract class BaseSalesforceModule {
      *
      */
     @Processor
+    @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
     public void resetUpdatedObjectsTimestamp(@Placement(group = "Information") @FriendlyName("sObject Type") String type) throws ObjectStoreException {
         if (objectStore == null) {
             LOGGER.warn("Trying to reset updated objects timestamp but no object store has been set, was getUpdatedObjects ever executed?");
@@ -915,6 +974,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Streaming API", description = "Create topics, to which applications can subscribe, receiving asynchronous notifications of changes to data in Salesforce, via the Bayeux protocol.")
     public void publishTopic(@Placement(group = "Information") String topicName,
                              @Placement(group = "Information") String query,
                              @Placement(group = "Information") @Optional String description) throws Exception {
@@ -961,6 +1021,7 @@ public abstract class BaseSalesforceModule {
      */
     @Processor
     @InvalidateConnectionOn(exception = ConnectionException.class)
+    @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
     public GetUserInfoResult getUserInfo() throws Exception {
         return getConnection().getUserInfo();
     }
@@ -977,6 +1038,7 @@ public abstract class BaseSalesforceModule {
      * @since 4.0
      */
     @Source(primaryNodeOnly = true, threadingModel = SourceThreadingModel.NONE)
+    @Category(name = "Streaming API", description = "Create topics, to which applications can subscribe, receiving asynchronous notifications of changes to data in Salesforce, via the Bayeux protocol.")
     public StopSourceCallback subscribeTopic(final String topic, final SourceCallback callback) {
         getBayeuxClient().subscribe("/topic" + topic, new SalesforceBayeuxMessageListener(callback));
 
