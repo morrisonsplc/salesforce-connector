@@ -101,7 +101,8 @@ public abstract class BaseSalesforceConnector {
 
     protected SalesforceBayeuxClient getBayeuxClient() {
         try {
-            if (bc == null) {
+            if (bc == null && getConnection() != null &&
+                getConnection().getConfig() != null) {
                 bc = new SalesforceBayeuxClient(this);
 
                 if (!bc.isHandshook()) {
