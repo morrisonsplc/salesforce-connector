@@ -809,16 +809,53 @@ to be authorized by the service provider will throw a NotAuthorizedException unt
 reply with a redirect to the service provider. The following is an example of how to use it in a flow with an HTTP inbound endpoint:</p>
 <pre>
     &lt;flow name="authorizationAndAuthenticationFlow"&gt;
-    &lt;http:inbound-endpoint host="localhost" port="8080" path="oauth-authorize"/&gt;
-    &lt;sfdc:authorize/&gt;
+        &lt;http:inbound-endpoint host="localhost" port="8080" path="oauth-authorize"/&gt;
+        &lt;sfdc:authorize/&gt;
     &lt;/flow&gt;
 </pre>
 <p>If you hit that endpoint via a web-browser it will initiate the OAuth dance, redirecting the user to the service provider page
 and creating a callback endpoint so the service provider can call us back once the user has been authenticated. Once the callback
 gets called then the connector will switch to an authorized state and any message processor or source that requires authentication
 can be called.</p>
+<h3>After Authorization</h3>
+<p>The <i>authorize</i> message processor is an intercepting one. If the connector is not authorized yet, it will with a redirect
+to the service provider so the user can authorize the connector. This is the reason as to why the authorize needs to be behind
+and <i>http:inbound-endpoint</i>. The service provider upon successful authentication and authorization then will call back the
+connector. The connector will extract information from that call, set its internal state to authorized, and then continue
+execution. When we say continue execution we mean executing everything that was after the authorize whose execution got
+interrupted because the connector was not authorized.</p>
+<pre>
+  &lt;flow name="authorizationAndAuthenticationFlow"&gt;
+      &lt;http:inbound-endpoint host="localhost" port="8080" path="oauth-authorize"/&gt;
+      &lt;sfdc:authorize/&gt;
+      &lt;http:response-builder status="200"&gt;
+          &lt;set-payload value="You have successfully authorized the connector"/&gt;
+      &lt;/http:response-builder&gt;
+  &lt;/flow&gt;
+</pre>
+<p>In the previous example we added the <i>http:response-build</i> (notice that this element is available only in Mule 3.3.0 and later). If
+the connector is not authorized, the execution of the response builder will be delayed up to the point of the callback execution.</p>
+<p>On the other hand if the connector has been authorized and you call <i>authorize</i> again then the flow execution will not stop, it will
+rather continue and the <i>http:response-builder</i> will get executed right away rather than after the callback.</p>
+<h3>Error Handling during Authorization</h3>
+<p>If for any reason, an errors ocurrs while processing the callback, the exception strategy of the flow containing the authorize will be
+executed. So, if the callback sent the wrong information you can handle that situation by setting up an exception strategy as follows:</p>
+<pre>
+  &lt;flow name="authorizationAndAuthenticationFlow"&gt;
+      &lt;http:inbound-endpoint host="localhost" port="8080" path="oauth-authorize"/&gt;
+      &lt;sfdc:authorize/&gt;
+      &lt;http:response-builder status="200"&gt;
+          &lt;set-payload value="You have successfully authorized the connector"/&gt;
+      &lt;/http:response-builder&gt;
+      &lt;catch-exception-strategy&gt;
+         &lt;http:response-builder status="404"&gt;
+             &lt;set-payload value="An error has occurred authorizing the connector"/&gt;
+         &lt;/http:response-builder&gt;
+      &lt;/catch-exception-strategy&gt;
+  &lt;/flow&gt;
+</pre>
 <h3>Unauthorize</h3>
-<p>Once this connector has been authorized further calls to the *authorize* message processor will be no-ops. If you wish to reset
+<p>Once this connector has been authorized further calls to the <i>authorize</i> message processor will be no-ops. If you wish to reset
 the state of the connector back to a non-authorized state you can call:</p>
 <pre>
     &lt;sfdc:unauthorize/&gt;
