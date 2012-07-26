@@ -54,7 +54,7 @@
                         -markdown userguide ${basedir}/USAGE.md "User Guide"
                     </additionalparam>
                     <useStandardDocletOptions>false</useStandardDocletOptions>
-                    <!-- <additionalJOption>-J-Xmx1024m -J-Xdebug -J-Xnoagent -J-Djava.compiler=NONE -J-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000</additionalJOption> -->
+                    <!--<additionalJOption>-J-Xmx1024m -J-Xdebug -J-Xnoagent -J-Djava.compiler=NONE -J-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000</additionalJOption> -->
 					<additionalJOption>-J-Xmx1024m</additionalJOption>
                 </configuration>
             </plugin>
@@ -109,6 +109,12 @@
             <id>mulesoft-releases</id>
             <name>MuleSoft Releases Repository</name>
             <url>http://repository.mulesoft.org/releases/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>mulesoft-snapshots</id>
+            <name>MuleSoft Snapshots Repository</name>
+            <url>http://repository.mulesoft.org/snapshots/</url>
             <layout>default</layout>
         </repository>
     </repositories>
