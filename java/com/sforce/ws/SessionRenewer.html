@@ -209,18 +209,6 @@
     <li class="api apilevel-">
   <a href="../../../../java/com/sforce/async/package-summary.html">com.sforce.async</a></li>
     <li class="api apilevel-">
-  <a href="../../../../java/com/sforce/async/holders/package-summary.html">com.sforce.async.holders</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../java/com/sforce/async/transformers/package-summary.html">com.sforce.async.transformers</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../java/com/sforce/bulk/package-summary.html">com.sforce.bulk</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../java/com/sforce/rest/package-summary.html">com.sforce.rest</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../java/com/sforce/rest/pojo/package-summary.html">com.sforce.rest.pojo</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../java/com/sforce/rest/tools/package-summary.html">com.sforce.rest.tools</a></li>
-    <li class="api apilevel-">
   <a href="../../../../java/com/sforce/soap/partner/package-summary.html">com.sforce.soap.partner</a></li>
     <li class="api apilevel-">
   <a href="../../../../java/com/sforce/soap/partner/fault/package-summary.html">com.sforce.soap.partner.fault</a></li>
@@ -249,21 +237,9 @@
     <li class="api apilevel-">
   <a href="../../../../java/org/mule/modules/salesforce/adapters/package-summary.html">org.mule.modules.salesforce.adapters</a></li>
     <li class="api apilevel-">
-  <a href="../../../../java/org/mule/modules/salesforce/agents/package-summary.html">org.mule.modules.salesforce.agents</a></li>
-    <li class="api apilevel-">
   <a href="../../../../java/org/mule/modules/salesforce/config/package-summary.html">org.mule.modules.salesforce.config</a></li>
     <li class="api apilevel-">
-  <a href="../../../../java/org/mule/modules/salesforce/config/spring/package-summary.html">org.mule.modules.salesforce.config.spring</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../java/org/mule/modules/salesforce/connectivity/package-summary.html">org.mule.modules.salesforce.connectivity</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../java/org/mule/modules/salesforce/oauth/package-summary.html">org.mule.modules.salesforce.oauth</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../java/org/mule/modules/salesforce/process/package-summary.html">org.mule.modules.salesforce.process</a></li>
-    <li class="api apilevel-">
   <a href="../../../../java/org/mule/modules/salesforce/processors/package-summary.html">org.mule.modules.salesforce.processors</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../java/org/mule/modules/salesforce/retry/package-summary.html">org.mule.modules.salesforce.retry</a></li>
     <li class="api apilevel-">
   <a href="../../../../java/org/mule/modules/salesforce/sources/package-summary.html">org.mule.modules.salesforce.sources</a></li>
     <li class="api apilevel-">
@@ -285,7 +261,6 @@
     <li><h2>Classes</h2>
       <ul>
           <li class="api apilevel-"><a href="../../../../java/com/sforce/ws/ConnectorConfig.html">ConnectorConfig</a></li>
-          <li class="api apilevel-"><a href="../../../../java/com/sforce/ws/SessionRenewer.SessionRenewalHeader.html">SessionRenewer.SessionRenewalHeader</a></li>
       </ul>
     </li>
               
@@ -421,26 +396,6 @@
 
 
 
-<!-- ======== NESTED CLASS SUMMARY ======== -->
-<table id="nestedclasses" class="jd-sumtable"><tr><th colspan="12">Nested Classes</th></tr>
-
-
-  
-    <tr class="alt-color api apilevel-" >
-      <td class="jd-typecol"><nobr>
-        
-        
-        
-        
-        class</nobr></td>
-      <td class="jd-linkcol"><a href="../../../../java/com/sforce/ws/SessionRenewer.SessionRenewalHeader.html">SessionRenewer.SessionRenewalHeader</a></td>
-      <td class="jd-descrcol" width="100%">&nbsp;</td>
-    </tr>
-    
-    
-
-
-
 
 
 
@@ -478,12 +433,13 @@
             
             
             
-            <a href="../../../../java/com/sforce/ws/SessionRenewer.SessionRenewalHeader.html">SessionRenewer.SessionRenewalHeader</a></nobr>
+            void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../com/sforce/ws/SessionRenewer.html#renewSession(com.sforce.ws.ConnectorConfig)">renewSession</a></span>(<a href="../../../../java/com/sforce/ws/ConnectorConfig.html">ConnectorConfig</a> config)</nobr>
         
-        <div class="jd-descrdiv">This method is called when an expired session is detected.</div>
+        <div class="jd-descrdiv">This method is called when an expired session is detected
+</div>
   
   </td></tr>
 
@@ -546,7 +502,7 @@
          
         abstract 
          
-        <a href="../../../../java/com/sforce/ws/SessionRenewer.SessionRenewalHeader.html">SessionRenewer.SessionRenewalHeader</a>
+        void
       </span>
       <span class="sympad">renewSession</span>
       <span class="normal">(<a href="../../../../java/com/sforce/ws/ConnectorConfig.html">ConnectorConfig</a> config)</span>
@@ -561,9 +517,7 @@
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>This method is called when an expired session is detected. The returned object needs to be a valid SessionRenewAlHeader
- so that the current request can be re-tried. If the return value is null current call shall not be retired even though the
- session has been refreshed.
+  <div class="jd-tagdata jd-tagdescr"><p>This method is called when an expired session is detected
 </p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
