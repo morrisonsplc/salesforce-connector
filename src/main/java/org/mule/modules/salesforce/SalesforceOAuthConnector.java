@@ -56,9 +56,10 @@ import java.net.URL;
 @OAuth2(authorizationUrl = "https://login.salesforce.com/services/oauth2/authorize",
         accessTokenUrl = "https://login.salesforce.com/services/oauth2/token",
         authorizationParameters = {
-                @OAuthAuthorizationParameter(name = "display", type = SalesforceOAuthDisplay.class),
+                @OAuthAuthorizationParameter(name = "display", type = SalesforceOAuthDisplay.class,
+                        description = "Tailors the login page to the user's device type."),
                 @OAuthAuthorizationParameter(name = "immediate", type = SalesforceOAuthImmediate.class,
-                        optional = true, defaultValue = "FALSE")
+                        optional = true, defaultValue = "FALSE", description = "Avoid interacting with the user.")
         })
 public class SalesforceOAuthConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceOAuthConnector.class);

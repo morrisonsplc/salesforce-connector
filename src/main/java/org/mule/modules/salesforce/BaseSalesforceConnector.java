@@ -972,9 +972,9 @@ public abstract class BaseSalesforceConnector {
      * use the initialTimeWindow to get the updated objects. If no objectStore has been explicitly specified and {@link this#getUpdatedObjects}
      * has not been called then calling this method has no effect.
      * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:reset-updated-objects-timestamp}
      *
-     * @param type The object type for which the timestamp should be resetted.
-     *             {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:reset-updated-objects-timestamp}
+     * @param type The object type for which the timestamp should be reset.
      * @throws org.mule.api.store.ObjectStoreException
      *
      */
