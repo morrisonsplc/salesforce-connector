@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.oauth.OAuth2;
 import org.mule.api.annotations.oauth.OAuthAccessToken;
+import org.mule.api.annotations.oauth.OAuthAccessTokenIdentifier;
 import org.mule.api.annotations.oauth.OAuthAuthorizationParameter;
 import org.mule.api.annotations.oauth.OAuthCallbackParameter;
 import org.mule.api.annotations.oauth.OAuthConsumerKey;
@@ -59,11 +60,16 @@ import java.net.URL;
                 @OAuthAuthorizationParameter(name = "display", type = SalesforceOAuthDisplay.class,
                         description = "Tailors the login page to the user's device type."),
                 @OAuthAuthorizationParameter(name = "immediate", type = SalesforceOAuthImmediate.class,
-                        optional = true, defaultValue = "FALSE", description = "Avoid interacting with the user.")
+                        optional = true, defaultValue = "FALSE", description = "Avoid interacting with the user."),
+                @OAuthAuthorizationParameter(name = "prompt", type = SalesforceOAuthPrompt.class,
+                        optional = true, description = "Specifies how the authorization server prompts the user for reauthentication and reapproval.")
         })
 public class SalesforceOAuthConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceOAuthConnector.class);
 
+    /**
+     * Connection to the SOAP API
+     */
     private PartnerConnection partnerConnection;
 
     /**
@@ -90,6 +96,14 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
 
     @OAuthCallbackParameter(expression = "#[json:instance_url]")
     private String instanceId;
+
+    @OAuthCallbackParameter(expression = "#[json:id]")
+    private String userId;
+
+    @OAuthAccessTokenIdentifier
+    public String getUserId() {
+        return userId;
+    }
 
     @OAuthPostAuthorization
     public void postAuthorize() throws ConnectionException, MalformedURLException, AsyncApiException {
@@ -169,5 +183,9 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
     @Override
     protected String getSessionId() {
         return this.accessToken;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
