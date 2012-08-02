@@ -188,4 +188,8 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public String getInstanceId() {
+        return instanceId;
+    }
 }

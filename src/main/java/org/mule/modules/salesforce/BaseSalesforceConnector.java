@@ -82,7 +82,7 @@ public abstract class BaseSalesforceConnector {
      */
     @Configurable
     @Optional
-    private ObjectStore objectStore;
+    private ObjectStore timeObjectStore;
 
     private ObjectStoreHelper objectStoreHelper;
 
@@ -969,7 +969,7 @@ public abstract class BaseSalesforceConnector {
 
     /**
      * Resets the timestamp of the last updated object. After resetting this, a call to {@link this#getUpdatedObjects} will
-     * use the initialTimeWindow to get the updated objects. If no objectStore has been explicitly specified and {@link this#getUpdatedObjects}
+     * use the initialTimeWindow to get the updated objects. If no timeObjectStore has been explicitly specified and {@link this#getUpdatedObjects}
      * has not been called then calling this method has no effect.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:reset-updated-objects-timestamp}
@@ -982,7 +982,7 @@ public abstract class BaseSalesforceConnector {
     @OAuthProtected
     @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
     public void resetUpdatedObjectsTimestamp(@Placement(group = "Information") @FriendlyName("sObject Type") String type) throws ObjectStoreException {
-        if (objectStore == null) {
+        if (timeObjectStore == null) {
             LOGGER.warn("Trying to reset updated objects timestamp but no object store has been set, was getUpdatedObjects ever executed?");
             return;
         }
@@ -1090,8 +1090,8 @@ public abstract class BaseSalesforceConnector {
         this.objectStoreManager = objectStoreManager;
     }
 
-    public void setObjectStore(ObjectStore objectStore) {
-        this.objectStore = objectStore;
+    public void setTimeObjectStore(ObjectStore timeObjectStore) {
+        this.timeObjectStore = timeObjectStore;
     }
 
     public void setRegistry(Registry registry) {
@@ -1184,17 +1184,21 @@ public abstract class BaseSalesforceConnector {
 
     private synchronized ObjectStoreHelper getObjectStoreHelper(String username) {
         if (objectStoreHelper == null) {
-            if (objectStore == null) {
-                objectStore = registry.lookupObject(MuleProperties.DEFAULT_USER_OBJECT_STORE_NAME);
-                if (objectStore == null) {
-                    objectStore = objectStoreManager.getObjectStore(username, true);
+            if (timeObjectStore == null) {
+                timeObjectStore = registry.lookupObject(MuleProperties.DEFAULT_USER_OBJECT_STORE_NAME);
+                if (timeObjectStore == null) {
+                    timeObjectStore = objectStoreManager.getObjectStore(username, true);
                 }
-                if (objectStore == null) {
+                if (timeObjectStore == null) {
                     throw new IllegalArgumentException("Unable to acquire an object store.");
                 }
             }
-            objectStoreHelper = new ObjectStoreHelper(username, objectStore);
+            objectStoreHelper = new ObjectStoreHelper(username, timeObjectStore);
         }
         return objectStoreHelper;
+    }
+
+    public ObjectStore getTimeObjectStore() {
+        return timeObjectStore;
     }
 }
