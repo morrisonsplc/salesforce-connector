@@ -4,5 +4,9 @@
 /*.iml
 /*.ipr
 /*.iws
-/target
-**/credentials.properties
+.idea
+bin
+*.iml
+target
+.DS_Store
+credentials.properties
