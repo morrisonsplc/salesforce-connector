@@ -24,7 +24,7 @@
     <sfdc:config-with-oauth name="salesforce-oauth"
                             consumerKey="${salesforce.consumerKey}"
                             consumerSecret="${salesforce.consumerSecret}">
-        <!-- <sfdc:oauth-callback-config domain="localhost" localPort="8081" remotePort="8081" path="oauthcallback"/> -->
+        <sfdc:oauth-callback-config domain="localhost" localPort="8081" remotePort="8081" path="oauthcallback"/>
         <sfdc:oauth-store-config objectStore-ref="_defaultInMemoryObjectStore"/>
     </sfdc:config-with-oauth>
 
@@ -40,7 +40,6 @@
         <http:inbound-endpoint host="localhost" port="8081" path="authorize"/>
         <sfdc:authorize config-ref="salesforce-oauth" display="PAGE"/>
         <http:response-builder status="200">
-            <http:set-cookie name="accessTokenId" value="#[flowVars['OAuthAccessTokenId']]"/>
             <set-payload value="You have successfully authorized the connector. You access token id is #[flowVars['OAuthAccessTokenId']]"/>
         </http:response-builder>
         <catch-exception-strategy>
