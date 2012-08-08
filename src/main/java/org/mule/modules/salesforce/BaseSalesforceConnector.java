@@ -146,7 +146,7 @@ public abstract class BaseSalesforceConnector {
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to create
      * @return An array of {@link com.sforce.soap.partner.SaveResult} if async is false
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_create.htm">create()</a>
      * @since 4.0
      */
@@ -176,7 +176,7 @@ public abstract class BaseSalesforceConnector {
      *                            XML for a query type use {@link #queryResultStream(com.sforce.async.BatchInfo)}
      *                            batchResultStream} method to retrieve results.
      * @return A {@link com.sforce.async.JobInfo} that identifies the created Job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
      * @since 4.3
      */
@@ -195,7 +195,7 @@ public abstract class BaseSalesforceConnector {
      *
      * @param jobId The Job ID identifying the Job to be closed.
      * @return A {@link JobInfo} that identifies the closed Job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_close.htm">closeJob()</a>
      * @since 4.3
      */
@@ -218,7 +218,7 @@ public abstract class BaseSalesforceConnector {
      * @param jobInfo The {@link JobInfo} in which the batch will be created.
      * @param objects A list of one or more sObjects objects. This parameter defaults to payload content.
      * @return A {@link com.sforce.async.BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.3
      */
@@ -241,7 +241,7 @@ public abstract class BaseSalesforceConnector {
      * @param jobInfo The {@link JobInfo} in which the batch will be created.
      * @param query   The query to be executed.
      * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.5
      */
@@ -265,7 +265,7 @@ public abstract class BaseSalesforceConnector {
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to create
      * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.1
      */
@@ -289,7 +289,7 @@ public abstract class BaseSalesforceConnector {
      * @param object SObject to create
      * @param type   Type of object to create
      * @return An array of {@link SaveResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_create.htm">create()</a>
      * @since 4.1
      */
@@ -316,7 +316,7 @@ public abstract class BaseSalesforceConnector {
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to update
      * @return An array of {@link SaveResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_update.htm">update()</a>
      * @since 4.0
      */
@@ -338,7 +338,7 @@ public abstract class BaseSalesforceConnector {
      * @param object The object to be updated.
      * @param type   Type of object to update
      * @return A {@link SaveResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_update.htm">update()</a>
      * @since 4.0
      */
@@ -362,7 +362,7 @@ public abstract class BaseSalesforceConnector {
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to update
      * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.1
      */
@@ -389,7 +389,7 @@ public abstract class BaseSalesforceConnector {
      * @param type                the type of the given objects. The list of objects to upsert must be homogeneous
      * @param objects             the objects to upsert
      * @return a list of {@link com.sforce.soap.partner.UpsertResult}, one for each passed object
-     * @throws Exception if a connection error occurs
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error if a connection error occurs
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_upsert.htm">upsert()</a>
      * @since 4.0
      */
@@ -419,7 +419,7 @@ public abstract class BaseSalesforceConnector {
      * @param type                the type of the given objects. The list of objects to upsert must be homogeneous
      * @param objects             the objects to upsert
      * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.1
      */
@@ -441,7 +441,7 @@ public abstract class BaseSalesforceConnector {
      *
      * @param batchInfo the {@link BatchInfo} being monitored
      * @return Latest {@link BatchInfo} representing status of the batch job result.
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_get_info.htm">getBatchInfo()</a>
      * @since 4.1
      */
@@ -461,7 +461,7 @@ public abstract class BaseSalesforceConnector {
      *
      * @param batchInfo the {@link BatchInfo} being monitored
      * @return {@link com.sforce.async.BatchResult} representing result of the batch job result.
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_get_results.htm">getBatchResult()</a>
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_interpret_status.htm">BatchInfo status</a>
      * @since 4.1
@@ -482,7 +482,7 @@ public abstract class BaseSalesforceConnector {
      *
      * @param batchInfo the {@link BatchInfo} being monitored
      * @return {@link InputStream} with the results of the Batch.
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_get_results.htm">getBatchResult()</a>
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_interpret_status.htm">BatchInfo status</a>
      * @since 4.5
@@ -511,7 +511,7 @@ public abstract class BaseSalesforceConnector {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:describe-global}
      *
      * @return A {@link com.sforce.soap.partner.DescribeGlobalResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_describeglobal.htm">describeGlobal()</a>
      * @since 4.0
      */
@@ -533,7 +533,7 @@ public abstract class BaseSalesforceConnector {
      * @param ids    The ids of the objects to retrieve
      * @param fields The fields to return for the matching objects
      * @return An array of {@link SObject}s
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      */
     @Processor
     @OAuthProtected
@@ -563,7 +563,7 @@ public abstract class BaseSalesforceConnector {
      *              including a specific object in the query. For more information, see Salesforce Object Query
      *              Language (SOQL).
      * @return An array of {@link SObject}s
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
      * @since 4.0
      */
@@ -595,7 +595,7 @@ public abstract class BaseSalesforceConnector {
      *
      * @param query Query string that specifies the object to query, the fields to return, and any conditions for including a specific object in the query. For more information, see Salesforce Object Query Language (SOQL).
      * @return An array of {@link SObject}s
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
      */
     @Processor
@@ -628,7 +628,7 @@ public abstract class BaseSalesforceConnector {
      *              including a specific object in the query. For more information, see Salesforce Object Query
      *              Language (SOQL).
      * @return A single {@link SObject}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
      * @since 4.1
      */
@@ -690,7 +690,7 @@ public abstract class BaseSalesforceConnector {
      * @param sendEmailToOwner       Specifies whether to send a notification email to the owner specified in the
      *                               ownerId (true) or not (false, the default).
      * @return A list of {@link com.sforce.soap.partner.LeadConvertResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_convertlead.htm">convertLead()</a>
      * @since 4.0
      */
@@ -737,6 +737,7 @@ public abstract class BaseSalesforceConnector {
      * @param ids Array of one or more IDs associated with the records to delete from the recycle bin.
      *            Maximum number of records is 200.
      * @return A list of {@link com.sforce.soap.partner.EmptyRecycleBinResult}
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_emptyrecyclebin.htm">emptyRecycleBin()</a>
      * @since 4.0
      */
@@ -757,7 +758,7 @@ public abstract class BaseSalesforceConnector {
      *
      * @param ids Array of one or more IDs associated with the objects to delete.
      * @return An array of {@link com.sforce.soap.partner.DeleteResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_delete.htm">delete()</a>
      * @since 4.0
      */
@@ -782,7 +783,7 @@ public abstract class BaseSalesforceConnector {
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to update
      * @return A {@link BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
      * @since 4.3
      */
@@ -810,7 +811,7 @@ public abstract class BaseSalesforceConnector {
      *                  (for example, 12:35:15 is interpreted as 12:35:00 UTC). If it is not provided, the current
      *                  server time will be used.
      * @return {@link com.sforce.soap.partner.GetUpdatedResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdatedrange.htm">getUpdatedRange()</a>
      */
     @Processor
@@ -849,7 +850,7 @@ public abstract class BaseSalesforceConnector {
      *                  (for example, 12:35:15 is interpreted as 12:35:00 UTC). If not specific, the current server
      *                  time will be used.
      * @return {@link com.sforce.soap.partner.GetDeletedResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getdeletedrange.htm">getDeletedRange()</a>
      * @since 4.0
      */
@@ -882,7 +883,7 @@ public abstract class BaseSalesforceConnector {
      * @param type Object. The specified value must be a valid object for your organization. For a complete list
      *             of objects, see Standard Objects
      * @return {@link com.sforce.soap.partner.DescribeSObjectResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_describesobject.htm">describeSObject()</a>
      * @since 4.0
      */
@@ -903,7 +904,7 @@ public abstract class BaseSalesforceConnector {
      * @param type     Object type. The specified value must be a valid object for your organization.
      * @param duration The amount of time in minutes before now for which to return records from.
      * @return {@link GetDeletedResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getdeleted.htm">getDeleted()</a>
      * @since 4.2
      */
@@ -931,7 +932,7 @@ public abstract class BaseSalesforceConnector {
      * @param type     Object type. The specified value must be a valid object for your organization.
      * @param duration The amount of time in minutes before now for which to return records from.
      * @return {@link GetDeletedResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
     @Processor
@@ -962,7 +963,7 @@ public abstract class BaseSalesforceConnector {
      * @param initialTimeWindow Time window (in minutes) to use the first time this method is called
      * @param fields            The fields to retrieve for the updated objects
      * @return {@link GetDeletedResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
     @Processor
@@ -1006,7 +1007,8 @@ public abstract class BaseSalesforceConnector {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:reset-updated-objects-timestamp}
      *
      * @param type The object type for which the timestamp should be reset.
-     * @throws org.mule.api.store.ObjectStoreException
+     * @throws org.mule.api.store.ObjectStoreException If there is an error trying to get a hold of the object
+     * store or retrieving the value
      *
      */
     @Processor
@@ -1031,7 +1033,7 @@ public abstract class BaseSalesforceConnector {
      * @param description Description of what kinds of records are returned by the query. Limit: 400 characters
      * @param query       The SOQL query statement that determines which records' changes trigger events to be sent to
      *                    the channel. Maximum length: 1200 characters
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/pushtopic.htm">Push Topic</a>
      * @since 4.0
      */
@@ -1080,7 +1082,7 @@ public abstract class BaseSalesforceConnector {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-user-info}
      *
      * @return {@link com.sforce.soap.partner.GetUserInfoResult}
-     * @throws Exception
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getuserinfo.htm">getUserInfo()</a>
      * @since 4.0
      */

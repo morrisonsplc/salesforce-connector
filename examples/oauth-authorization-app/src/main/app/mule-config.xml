@@ -51,7 +51,7 @@
 
     <flow name="getUserInfo">
         <http:inbound-endpoint host="localhost" port="8081" path="getuserinfo"/>
-        <sfdc:get-user-info config-ref="salesforce-oauth" accessTokenId="#[message.inboundProperties['http.query.params'].get('accessTokenId')]"/>
+        <sfdc:get-user-info config-ref="#[app.registry.get('salesforce-oauth')]" accessTokenId="#[message.inboundProperties['http.query.params'].get('accessTokenId')]"/>
         <http:response-builder status="200">
             <set-payload
                     value="You are #[payload.userFullName] (#[payload.userEmail])"/>
