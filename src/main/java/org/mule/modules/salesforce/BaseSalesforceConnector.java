@@ -156,7 +156,7 @@ public abstract class BaseSalesforceConnector {
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<SaveResult> create(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
-                                   @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+                                   @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(getConnection().create(toSObjectList(type, objects)));
     }
 
@@ -275,7 +275,7 @@ public abstract class BaseSalesforceConnector {
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo createBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
-                                @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+                                @Placement(group = "sObject Field Mappings") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
 
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.insert, type), objects);
     }
@@ -299,7 +299,7 @@ public abstract class BaseSalesforceConnector {
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public SaveResult createSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
-                                   @Placement(group = "sObject Field Mappings") @FriendlyName("sObject") @Default("#[payload]") Map<String, Object> object) throws Exception {
+                                   @Placement(group = "sObject Field Mappings") @FriendlyName("sObject") @Optional @Default("#[payload]") Map<String, Object> object) throws Exception {
         SaveResult[] saveResults = getConnection().create(new SObject[]{toSObject(type, object)});
         if (saveResults.length > 0) {
             return saveResults[0];
@@ -326,7 +326,7 @@ public abstract class BaseSalesforceConnector {
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<SaveResult> update(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
-                                   @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+                                   @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(getConnection().update(toSObjectList(type, objects)));
     }
 
@@ -372,7 +372,7 @@ public abstract class BaseSalesforceConnector {
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo updateBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
-                                @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+                                @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.update, type), objects);
     }
 
@@ -400,7 +400,7 @@ public abstract class BaseSalesforceConnector {
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     public List<UpsertResult> upsert(@Placement(group = "Information") String externalIdFieldName,
                                      @Placement(group = "Information") @FriendlyName("sObject Type") String type,
-                                     @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+                                     @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(getConnection().upsert(externalIdFieldName, toSObjectList(type, objects)));
     }
 
@@ -430,7 +430,7 @@ public abstract class BaseSalesforceConnector {
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo upsertBulk(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Information", order = 2) String externalIdFieldName,
-                                @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+                                @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName, null), objects);
     }
 
@@ -793,7 +793,7 @@ public abstract class BaseSalesforceConnector {
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo hardDeleteBulk(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
-                                    @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
+                                    @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(createJobInfo(OperationEnum.hardDelete, type), objects);
     }
 
