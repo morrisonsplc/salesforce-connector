@@ -17,7 +17,6 @@
       <sfdc:objects>
         <sfdc:object>
           <Name>MuleSoft</Name>
-
         </sfdc:object>
       </sfdc:objects>
     </sfdc:create>
