@@ -232,6 +232,29 @@ public abstract class BaseSalesforceConnector {
     }
 
     /**
+     * Creates a Batch using the given stream within the specified Job.
+     * <p/>
+     * This call uses the Bulk API. The operation will be done in asynchronous fashion.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-batch-stream}
+     *
+     * @param jobInfo The {@link JobInfo} in which the batch will be created.
+     * @param stream A stream containing the data. This parameter defaults to payload content.
+     * @return A {@link com.sforce.async.BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
+     * @since 5.0
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
+    public BatchInfo createBatchStream(JobInfo jobInfo, @Optional @Default("#[payload]") InputStream stream) throws Exception {
+        return getBulkConnection().createBatchFromStream(jobInfo, stream);
+    }
+
+    /**
      * Creates a Batch using the given query.
      * <p/>
      * This call uses the Bulk API. The operation will be done in asynchronous fashion.
@@ -473,6 +496,27 @@ public abstract class BaseSalesforceConnector {
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchResult batchResult(BatchInfo batchInfo) throws Exception {
         return getBulkConnection().getBatchResult(batchInfo.getJobId(), batchInfo.getId());
+    }
+
+    /**
+     * Access {@link com.sforce.async.BatchResult} of a submitted {@link BatchInfo}.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:batch-result-stream}
+     *
+     * @param batchInfo the {@link BatchInfo} being monitored
+     * @return {@link java.io.InputStream} representing result of the batch job result.
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_get_results.htm">getBatchResult()</a>
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_interpret_status.htm">BatchInfo status</a>
+     * @since 5.0
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
+    public InputStream batchResultStream(BatchInfo batchInfo) throws Exception {
+        return getBulkConnection().getBatchResultStream(batchInfo.getJobId(), batchInfo.getId());
     }
 
     /**

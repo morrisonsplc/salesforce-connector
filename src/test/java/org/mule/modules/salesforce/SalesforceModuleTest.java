@@ -197,6 +197,25 @@ public class SalesforceModuleTest {
         assertEquals(expectedJobInfo.getValue(), actualJobInfo);
     }
 
+    @Test
+    public void testCreateBatchStream() throws Exception {
+        SalesforceConnector connector = new SalesforceConnector();
+        BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
+        ArgumentCaptor<JobInfo> expectedJobInfo = ArgumentCaptor.forClass(JobInfo.class);
+        connector.setBulkConnection(bulkConnection);
+
+        JobInfo actualJobInfo = new JobInfo();
+        InputStream stream = Mockito.mock(InputStream.class);
+
+        BatchInfo expectedBatchInfo = new BatchInfo();
+        Mockito.when(bulkConnection.createBatchFromStream(expectedJobInfo.capture(),
+                Mockito.isA(InputStream.class))).thenReturn(expectedBatchInfo);
+        BatchInfo actualBatchInfo = connector.createBatchStream(actualJobInfo, stream);
+
+        assertEquals(expectedBatchInfo, actualBatchInfo);
+        assertEquals(expectedJobInfo.getValue(), actualJobInfo);
+    }
+
     @Test(expected = ConnectionException.class)
     public void testCreateBatchForQueryWithConnectionException() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
@@ -575,7 +594,7 @@ public class SalesforceModuleTest {
     }
 
     @Test
-    public void testBatchResultStream() throws Exception {
+    public void testQueryResultStream() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
         BatchInfo batchInfo = setupBulkConnection(connector);
         QueryResultList queryResultList = Mockito.mock(QueryResultList.class);
@@ -596,7 +615,7 @@ public class SalesforceModuleTest {
     }
 
     @Test
-    public void testBatchResultStreamNoResults() throws Exception {
+    public void testQueryResultStreamNoResults() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
         BatchInfo batchInfo = setupBulkConnection(connector);
         QueryResultList queryResultList = Mockito.mock(QueryResultList.class);
@@ -607,6 +626,18 @@ public class SalesforceModuleTest {
         when(queryResultList.getResult()).thenReturn(queryResults);
         InputStream actualIs = connector.queryResultStream(batchInfo);
         assertEquals(null, actualIs);
+    }
+
+    @Test
+    public void testBatchResultsStream() throws Exception {
+        SalesforceConnector connector = new SalesforceConnector();
+        BatchInfo batchInfo = setupBulkConnection(connector);
+        BulkConnection bulkConnection = connector.getBulkConnection();
+        InputStream stream = Mockito.mock(InputStream.class);
+
+        when(bulkConnection.getBatchResultStream(batchInfo.getJobId(), batchInfo.getId())).thenReturn(stream);
+        InputStream actualIs = connector.batchResultStream(batchInfo);
+        assertEquals(stream, actualIs);
     }
 
 
