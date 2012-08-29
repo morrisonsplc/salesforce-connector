@@ -143,6 +143,20 @@ public class SalesforceModuleTest {
         
         assertEquals(expectedJobInfo, actualJobInfo);
     }
+
+    @Test
+    public void testAbortJob() throws Exception {
+        SalesforceConnector connector = new SalesforceConnector();
+        BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
+        connector.setBulkConnection(bulkConnection);
+        JobInfo expectedJobInfo = new JobInfo();
+        String jobId = "uVsd234k23neasd";
+
+        Mockito.when(bulkConnection.abortJob(jobId)).thenReturn(expectedJobInfo);
+        JobInfo actualJobInfo = connector.abortJob(jobId);
+
+        assertEquals(expectedJobInfo, actualJobInfo);
+    }
     
     @Test
     public void testCreateBatch() throws Exception {

@@ -146,7 +146,7 @@ public abstract class BaseSalesforceConnector {
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to create
      * @return An array of {@link com.sforce.soap.partner.SaveResult} if async is false
-     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error {@link com.sforce.ws.ConnectionException} when there is an error
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_create.htm">create()</a>
      * @since 4.0
      */
@@ -176,7 +176,7 @@ public abstract class BaseSalesforceConnector {
      *                            XML for a query type use {@link #queryResultStream(com.sforce.async.BatchInfo)}
      *                            batchResultStream} method to retrieve results.
      * @return A {@link com.sforce.async.JobInfo} that identifies the created Job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
-     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error {@link com.sforce.ws.ConnectionException} when there is an error
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
      * @since 4.3
      */
@@ -206,6 +206,25 @@ public abstract class BaseSalesforceConnector {
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public JobInfo closeJob(String jobId) throws Exception {
         return getBulkConnection().closeJob(jobId);
+    }
+
+    /**
+     * Aborts an open Job given its ID.
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:abort-job}
+     *
+     * @param jobId The Job ID identifying the Job to be aborted.
+     * @return A {@link JobInfo} that identifies the aborted Job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_abort.htm">abortJob()</a>
+     * @since 5.0
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = AsyncApiException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
+    public JobInfo abortJob(String jobId) throws Exception {
+        return getBulkConnection().abortJob(jobId);
     }
 
     /**

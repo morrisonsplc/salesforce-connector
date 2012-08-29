@@ -256,6 +256,9 @@
 <!-- BEGIN_INCLUDE(sfdc:close-job) -->
 <sfdc:close-job config-ref="mySalesforceConfig" jobId="ID" />
 <!-- END_INCLUDE(sfdc:close-job) -->
+<!-- BEGIN_INCLUDE(sfdc:abort-job) -->
+<sfdc:abort-job config-ref="mySalesforceConfig" jobId="ID" />
+<!-- END_INCLUDE(sfdc:abort-job) -->
 <!-- BEGIN_INCLUDE(sfdc:create-batch) -->
 <sfdc:create-batch config-ref="mySalesforceConfig">
     <sfdc:job-info id="#[flowVars['jobInfo']"/>
