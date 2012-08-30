@@ -98,6 +98,11 @@
     <sfdc:batch-info ref="#[payload]"/>
 </sfdc:batch-result>
 <!-- END_INCLUDE(sfdc:batch-result) -->
+<!-- BEGIN_INCLUDE(sfdc:batch-result-stream) -->
+<sfdc:batch-result-stream config-ref="mySalesforceConfig">
+    <sfdc:batch-info ref="#[payload]"/>
+</sfdc:batch-result-stream>
+<!-- END_INCLUDE(sfdc:batch-result-stream) -->
 <!-- BEGIN_INCLUDE(sfdc:query-result-stream) -->
 <sfdc:query-result-stream config-ref="mySalesforceConfig">
     <sfdc:batch-info ref="#[payload]"/>
@@ -251,6 +256,9 @@
 <!-- BEGIN_INCLUDE(sfdc:close-job) -->
 <sfdc:close-job config-ref="mySalesforceConfig" jobId="ID" />
 <!-- END_INCLUDE(sfdc:close-job) -->
+<!-- BEGIN_INCLUDE(sfdc:abort-job) -->
+<sfdc:abort-job config-ref="mySalesforceConfig" jobId="ID" />
+<!-- END_INCLUDE(sfdc:abort-job) -->
 <!-- BEGIN_INCLUDE(sfdc:create-batch) -->
 <sfdc:create-batch config-ref="mySalesforceConfig">
     <sfdc:job-info id="#[flowVars['jobInfo']"/>
@@ -259,6 +267,11 @@
     </sfdc:objects>
 </sfdc:create-batch>
 <!-- END_INCLUDE(sfdc:create-batch) -->
+<!-- BEGIN_INCLUDE(sfdc:create-batch-stream) -->
+<sfdc:create-batch-stream config-ref="mySalesforceConfig">
+    <sfdc:job-info id="#[flowVars['jobInfo']"/>
+</sfdc:create-batch-stream>
+<!-- END_INCLUDE(sfdc:create-batch-stream) -->
 <!-- BEGIN_INCLUDE(sfdc:create-batch-for-query) -->
 <sfdc:create-batch-for-query config-ref="mySalesforceConfig" query="#[payload]">
     <sfdc:job-info id="#[flowVars['jobInfo']"/>

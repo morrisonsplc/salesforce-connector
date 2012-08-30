@@ -10,16 +10,7 @@
 
 package org.mule.modules.salesforce;
 
-import com.sforce.async.AsyncApiException;
-import com.sforce.async.AsyncExceptionCode;
-import com.sforce.async.BatchInfo;
-import com.sforce.async.BatchRequest;
-import com.sforce.async.BatchResult;
-import com.sforce.async.BulkConnection;
-import com.sforce.async.ContentType;
-import com.sforce.async.JobInfo;
-import com.sforce.async.OperationEnum;
-import com.sforce.async.QueryResultList;
+import com.sforce.async.*;
 import com.sforce.soap.partner.DeleteResult;
 import com.sforce.soap.partner.DescribeGlobalResult;
 import com.sforce.soap.partner.DescribeSObjectResult;
@@ -85,6 +76,13 @@ public abstract class BaseSalesforceConnector {
     @Optional
     private ObjectStore timeObjectStore;
 
+    /**
+     * Client ID for partners
+     */
+    @Configurable
+    @Optional
+    private String clientId;
+
     private ObjectStoreHelper objectStoreHelper;
 
     @Inject
@@ -146,7 +144,7 @@ public abstract class BaseSalesforceConnector {
      * @param objects An array of one or more sObjects objects.
      * @param type    Type of object to create
      * @return An array of {@link com.sforce.soap.partner.SaveResult} if async is false
-     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error {@link com.sforce.ws.ConnectionException} when there is an error
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_create.htm">create()</a>
      * @since 4.0
      */
@@ -175,8 +173,9 @@ public abstract class BaseSalesforceConnector {
      * @param contentType         The Content Type for this Job results. When specifying a content type different from
      *                            XML for a query type use {@link #queryResultStream(com.sforce.async.BatchInfo)}
      *                            batchResultStream} method to retrieve results.
+     * @param concurrencyMode     The concurrency mode of the job, either Parallel or Serial.
      * @return A {@link com.sforce.async.JobInfo} that identifies the created Job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
-     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error {@link com.sforce.ws.ConnectionException} when there is an error
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
      * @since 4.3
      */
@@ -185,8 +184,8 @@ public abstract class BaseSalesforceConnector {
     @InvalidateConnectionOn(exception = AsyncApiException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
-    public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName, @Optional ContentType contentType) throws Exception {
-        return createJobInfo(operation, type, externalIdFieldName, contentType);
+    public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName, @Optional ContentType contentType, @Optional ConcurrencyMode concurrencyMode) throws Exception {
+        return createJobInfo(operation, type, externalIdFieldName, contentType, concurrencyMode);
     }
 
     /**
@@ -206,6 +205,25 @@ public abstract class BaseSalesforceConnector {
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public JobInfo closeJob(String jobId) throws Exception {
         return getBulkConnection().closeJob(jobId);
+    }
+
+    /**
+     * Aborts an open Job given its ID.
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:abort-job}
+     *
+     * @param jobId The Job ID identifying the Job to be aborted.
+     * @return A {@link JobInfo} that identifies the aborted Job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_abort.htm">abortJob()</a>
+     * @since 5.0
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = AsyncApiException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
+    public JobInfo abortJob(String jobId) throws Exception {
+        return getBulkConnection().abortJob(jobId);
     }
 
     /**
@@ -229,6 +247,29 @@ public abstract class BaseSalesforceConnector {
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchInfo createBatch(JobInfo jobInfo, @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return createBatchAndCompleteRequest(jobInfo, objects);
+    }
+
+    /**
+     * Creates a Batch using the given stream within the specified Job.
+     * <p/>
+     * This call uses the Bulk API. The operation will be done in asynchronous fashion.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:create-batch-stream}
+     *
+     * @param jobInfo The {@link JobInfo} in which the batch will be created.
+     * @param stream A stream containing the data. This parameter defaults to payload content.
+     * @return A {@link com.sforce.async.BatchInfo} that identifies the batch job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_batchinfo.htm}
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_create.htm">createBatch()</a>
+     * @since 5.0
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
+    public BatchInfo createBatchStream(JobInfo jobInfo, @Optional @Default("#[payload]") InputStream stream) throws Exception {
+        return getBulkConnection().createBatchFromStream(jobInfo, stream);
     }
 
     /**
@@ -431,7 +472,7 @@ public abstract class BaseSalesforceConnector {
     public BatchInfo upsertBulk(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Information", order = 2) String externalIdFieldName,
                                 @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
-        return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName, null), objects);
+        return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName, null, null), objects);
     }
 
     /**
@@ -473,6 +514,27 @@ public abstract class BaseSalesforceConnector {
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
     public BatchResult batchResult(BatchInfo batchInfo) throws Exception {
         return getBulkConnection().getBatchResult(batchInfo.getJobId(), batchInfo.getId());
+    }
+
+    /**
+     * Access {@link com.sforce.async.BatchResult} of a submitted {@link BatchInfo}.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:batch-result-stream}
+     *
+     * @param batchInfo the {@link BatchInfo} being monitored
+     * @return {@link java.io.InputStream} representing result of the batch job result.
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_get_results.htm">getBatchResult()</a>
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_batches_interpret_status.htm">BatchInfo status</a>
+     * @since 5.0
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
+    public InputStream batchResultStream(BatchInfo batchInfo) throws Exception {
+        return getBulkConnection().getBatchResultStream(batchInfo.getJobId(), batchInfo.getId());
     }
 
     /**
@@ -1179,10 +1241,10 @@ public abstract class BaseSalesforceConnector {
     }
 
     private JobInfo createJobInfo(OperationEnum op, String type) throws AsyncApiException {
-        return createJobInfo(op, type, null, null);
+        return createJobInfo(op, type, null, null, null);
     }
 
-    private JobInfo createJobInfo(OperationEnum op, String type, String externalIdFieldName, ContentType contentType) throws AsyncApiException {
+    private JobInfo createJobInfo(OperationEnum op, String type, String externalIdFieldName, ContentType contentType, ConcurrencyMode concurrencyMode) throws AsyncApiException {
         JobInfo jobInfo = new JobInfo();
         jobInfo.setOperation(op);
         jobInfo.setObject(type);
@@ -1191,6 +1253,9 @@ public abstract class BaseSalesforceConnector {
         }
         if (contentType != null) {
             jobInfo.setContentType(contentType);
+        }
+        if (concurrencyMode != null) {
+            jobInfo.setConcurrencyMode(concurrencyMode);
         }
         return getBulkConnection().createJob(jobInfo);
     }
@@ -1234,5 +1299,13 @@ public abstract class BaseSalesforceConnector {
 
     public ObjectStore getTimeObjectStore() {
         return timeObjectStore;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }

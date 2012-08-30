@@ -120,7 +120,7 @@ public class SalesforceModuleTest {
             }
           });
 
-        JobInfo actualJobInfo = connector.createJob(OperationEnum.upsert, "Account", "NewField", ContentType.CSV);
+        JobInfo actualJobInfo = connector.createJob(OperationEnum.upsert, "Account", "NewField", ContentType.CSV, null);
         Mockito.verify(bulkConnection).createJob(expectedJobInfo.capture());
         
         assertEquals(expectedJobInfo.getValue(), actualJobInfo);
@@ -141,6 +141,20 @@ public class SalesforceModuleTest {
         Mockito.when(bulkConnection.closeJob(jobId)).thenReturn(expectedJobInfo);
         JobInfo actualJobInfo = connector.closeJob(jobId);
         
+        assertEquals(expectedJobInfo, actualJobInfo);
+    }
+
+    @Test
+    public void testAbortJob() throws Exception {
+        SalesforceConnector connector = new SalesforceConnector();
+        BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
+        connector.setBulkConnection(bulkConnection);
+        JobInfo expectedJobInfo = new JobInfo();
+        String jobId = "uVsd234k23neasd";
+
+        Mockito.when(bulkConnection.abortJob(jobId)).thenReturn(expectedJobInfo);
+        JobInfo actualJobInfo = connector.abortJob(jobId);
+
         assertEquals(expectedJobInfo, actualJobInfo);
     }
     
@@ -192,6 +206,25 @@ public class SalesforceModuleTest {
         Mockito.when(bulkConnection.createBatchFromStream(expectedJobInfo.capture(),
                 Mockito.isA(InputStream.class))).thenReturn(expectedBatchInfo);
         BatchInfo actualBatchInfo = connector.createBatchForQuery(actualJobInfo, query);
+
+        assertEquals(expectedBatchInfo, actualBatchInfo);
+        assertEquals(expectedJobInfo.getValue(), actualJobInfo);
+    }
+
+    @Test
+    public void testCreateBatchStream() throws Exception {
+        SalesforceConnector connector = new SalesforceConnector();
+        BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
+        ArgumentCaptor<JobInfo> expectedJobInfo = ArgumentCaptor.forClass(JobInfo.class);
+        connector.setBulkConnection(bulkConnection);
+
+        JobInfo actualJobInfo = new JobInfo();
+        InputStream stream = Mockito.mock(InputStream.class);
+
+        BatchInfo expectedBatchInfo = new BatchInfo();
+        Mockito.when(bulkConnection.createBatchFromStream(expectedJobInfo.capture(),
+                Mockito.isA(InputStream.class))).thenReturn(expectedBatchInfo);
+        BatchInfo actualBatchInfo = connector.createBatchStream(actualJobInfo, stream);
 
         assertEquals(expectedBatchInfo, actualBatchInfo);
         assertEquals(expectedJobInfo.getValue(), actualJobInfo);
@@ -575,7 +608,7 @@ public class SalesforceModuleTest {
     }
 
     @Test
-    public void testBatchResultStream() throws Exception {
+    public void testQueryResultStream() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
         BatchInfo batchInfo = setupBulkConnection(connector);
         QueryResultList queryResultList = Mockito.mock(QueryResultList.class);
@@ -596,7 +629,7 @@ public class SalesforceModuleTest {
     }
 
     @Test
-    public void testBatchResultStreamNoResults() throws Exception {
+    public void testQueryResultStreamNoResults() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
         BatchInfo batchInfo = setupBulkConnection(connector);
         QueryResultList queryResultList = Mockito.mock(QueryResultList.class);
@@ -607,6 +640,18 @@ public class SalesforceModuleTest {
         when(queryResultList.getResult()).thenReturn(queryResults);
         InputStream actualIs = connector.queryResultStream(batchInfo);
         assertEquals(null, actualIs);
+    }
+
+    @Test
+    public void testBatchResultsStream() throws Exception {
+        SalesforceConnector connector = new SalesforceConnector();
+        BatchInfo batchInfo = setupBulkConnection(connector);
+        BulkConnection bulkConnection = connector.getBulkConnection();
+        InputStream stream = Mockito.mock(InputStream.class);
+
+        when(bulkConnection.getBatchResultStream(batchInfo.getJobId(), batchInfo.getId())).thenReturn(stream);
+        InputStream actualIs = connector.batchResultStream(batchInfo);
+        assertEquals(stream, actualIs);
     }
 
 
