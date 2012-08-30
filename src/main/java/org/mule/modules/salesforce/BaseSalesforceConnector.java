@@ -10,16 +10,7 @@
 
 package org.mule.modules.salesforce;
 
-import com.sforce.async.AsyncApiException;
-import com.sforce.async.AsyncExceptionCode;
-import com.sforce.async.BatchInfo;
-import com.sforce.async.BatchRequest;
-import com.sforce.async.BatchResult;
-import com.sforce.async.BulkConnection;
-import com.sforce.async.ContentType;
-import com.sforce.async.JobInfo;
-import com.sforce.async.OperationEnum;
-import com.sforce.async.QueryResultList;
+import com.sforce.async.*;
 import com.sforce.soap.partner.DeleteResult;
 import com.sforce.soap.partner.DescribeGlobalResult;
 import com.sforce.soap.partner.DescribeSObjectResult;
@@ -175,6 +166,7 @@ public abstract class BaseSalesforceConnector {
      * @param contentType         The Content Type for this Job results. When specifying a content type different from
      *                            XML for a query type use {@link #queryResultStream(com.sforce.async.BatchInfo)}
      *                            batchResultStream} method to retrieve results.
+     * @param concurrencyMode     The concurrency mode of the job, either Parallel or Serial.
      * @return A {@link com.sforce.async.JobInfo} that identifies the created Job. {@see http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_reference_jobinfo.htm}
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_create.htm">createJob()</a>
@@ -185,8 +177,8 @@ public abstract class BaseSalesforceConnector {
     @InvalidateConnectionOn(exception = AsyncApiException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
-    public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName, @Optional ContentType contentType) throws Exception {
-        return createJobInfo(operation, type, externalIdFieldName, contentType);
+    public JobInfo createJob(OperationEnum operation, String type, @Optional String externalIdFieldName, @Optional ContentType contentType, @Optional ConcurrencyMode concurrencyMode) throws Exception {
+        return createJobInfo(operation, type, externalIdFieldName, contentType, concurrencyMode);
     }
 
     /**
@@ -473,7 +465,7 @@ public abstract class BaseSalesforceConnector {
     public BatchInfo upsertBulk(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                 @Placement(group = "Information", order = 2) String externalIdFieldName,
                                 @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
-        return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName, null), objects);
+        return createBatchAndCompleteRequest(createJobInfo(OperationEnum.upsert, type, externalIdFieldName, null, null), objects);
     }
 
     /**
@@ -1242,10 +1234,10 @@ public abstract class BaseSalesforceConnector {
     }
 
     private JobInfo createJobInfo(OperationEnum op, String type) throws AsyncApiException {
-        return createJobInfo(op, type, null, null);
+        return createJobInfo(op, type, null, null, null);
     }
 
-    private JobInfo createJobInfo(OperationEnum op, String type, String externalIdFieldName, ContentType contentType) throws AsyncApiException {
+    private JobInfo createJobInfo(OperationEnum op, String type, String externalIdFieldName, ContentType contentType, ConcurrencyMode concurrencyMode) throws AsyncApiException {
         JobInfo jobInfo = new JobInfo();
         jobInfo.setOperation(op);
         jobInfo.setObject(type);
@@ -1254,6 +1246,9 @@ public abstract class BaseSalesforceConnector {
         }
         if (contentType != null) {
             jobInfo.setContentType(contentType);
+        }
+        if (concurrencyMode != null) {
+            jobInfo.setConcurrencyMode(concurrencyMode);
         }
         return getBulkConnection().createJob(jobInfo);
     }

@@ -120,7 +120,7 @@ public class SalesforceModuleTest {
             }
           });
 
-        JobInfo actualJobInfo = connector.createJob(OperationEnum.upsert, "Account", "NewField", ContentType.CSV);
+        JobInfo actualJobInfo = connector.createJob(OperationEnum.upsert, "Account", "NewField", ContentType.CSV, null);
         Mockito.verify(bulkConnection).createJob(expectedJobInfo.capture());
         
         assertEquals(expectedJobInfo.getValue(), actualJobInfo);
