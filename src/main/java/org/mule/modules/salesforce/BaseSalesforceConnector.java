@@ -11,19 +11,7 @@
 package org.mule.modules.salesforce;
 
 import com.sforce.async.*;
-import com.sforce.soap.partner.DeleteResult;
-import com.sforce.soap.partner.DescribeGlobalResult;
-import com.sforce.soap.partner.DescribeSObjectResult;
-import com.sforce.soap.partner.EmptyRecycleBinResult;
-import com.sforce.soap.partner.GetDeletedResult;
-import com.sforce.soap.partner.GetUpdatedResult;
-import com.sforce.soap.partner.GetUserInfoResult;
-import com.sforce.soap.partner.LeadConvert;
-import com.sforce.soap.partner.LeadConvertResult;
-import com.sforce.soap.partner.PartnerConnection;
-import com.sforce.soap.partner.QueryResult;
-import com.sforce.soap.partner.SaveResult;
-import com.sforce.soap.partner.UpsertResult;
+import com.sforce.soap.partner.*;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 import org.apache.log4j.Logger;
@@ -82,6 +70,22 @@ public abstract class BaseSalesforceConnector {
     @Configurable
     @Optional
     private String clientId;
+
+    /**
+     * The ID of a specific assignment rule to run for the Case or Lead. The assignment rule can be active or inactive. The ID can be retrieved by querying the AssignmentRule object. If specified, do not specify useDefaultRule. This element is ignored for accounts, because all territory assignment rules are applied.
+     *
+     * If the value is not in correct ID format (15-character or 18-character Salesforce ID), the call fails and a MALFORMED_ID exception is returned.
+     */
+    @Configurable
+    @Optional
+    private String assignmentRuleId;
+
+    /**
+     * If true for a Case or Lead, uses the default (active) assignment rule for a Case or Lead. If specified, do not specify an assignmentRuleId. If true for an Account, all territory assignment rules are applied, and if false, no territory assignment rules are applied.
+     */
+    @Configurable
+    @Optional
+    private Boolean useDefaultRule;
 
     private ObjectStoreHelper objectStoreHelper;
 
@@ -1297,6 +1301,30 @@ public abstract class BaseSalesforceConnector {
         return objectStoreHelper;
     }
 
+    protected void setConnectionOptions(PartnerConnection connection) {
+        //call options
+        String clientId = getClientId();
+        if (clientId != null) {
+            CallOptions_element callOptions = new CallOptions_element();
+            callOptions.setClient(clientId);
+            connection.__setCallOptions(callOptions);
+        }
+
+        //assignment rule
+        String assignmentRuleId = getAssignmentRuleId();
+        Boolean useDefaultRule = getUseDefaultRule();
+        if (assignmentRuleId != null || useDefaultRule != null) {
+            AssignmentRuleHeader_element assignmentRule = new AssignmentRuleHeader_element();
+            if (assignmentRuleId != null) {
+                assignmentRule.setAssignmentRuleId(assignmentRuleId);
+            }
+            if (useDefaultRule != null) {
+                assignmentRule.setUseDefaultRule(useDefaultRule);
+            }
+            connection.__setAssignmentRuleHeader(assignmentRule);
+        }
+    }
+
     public ObjectStore getTimeObjectStore() {
         return timeObjectStore;
     }
@@ -1307,5 +1335,21 @@ public abstract class BaseSalesforceConnector {
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
+    }
+
+    public String getAssignmentRuleId() {
+        return assignmentRuleId;
+    }
+
+    public void setAssignmentRuleId(String assignmentRuleId) {
+        this.assignmentRuleId = assignmentRuleId;
+    }
+
+    public Boolean getUseDefaultRule() {
+        return useDefaultRule;
+    }
+
+    public void setUseDefaultRule(Boolean useDefaultRule) {
+        this.useDefaultRule = useDefaultRule;
     }
 }
