@@ -76,6 +76,13 @@ public abstract class BaseSalesforceConnector {
     @Optional
     private ObjectStore timeObjectStore;
 
+    /**
+     * Client ID for partners
+     */
+    @Configurable
+    @Optional
+    private String clientId;
+
     private ObjectStoreHelper objectStoreHelper;
 
     @Inject
@@ -1292,5 +1299,13 @@ public abstract class BaseSalesforceConnector {
 
     public ObjectStore getTimeObjectStore() {
         return timeObjectStore;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }

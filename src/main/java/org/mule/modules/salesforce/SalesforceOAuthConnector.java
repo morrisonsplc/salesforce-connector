@@ -12,6 +12,7 @@ package org.mule.modules.salesforce;
 
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.BulkConnection;
+import com.sforce.soap.partner.CallOptions_element;
 import com.sforce.soap.partner.Connector;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
@@ -135,6 +136,9 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
         config.setServiceEndpoint(serviceEndpoint);
 
         this.partnerConnection = Connector.newConnection(config);
+        CallOptions_element callOptions = new CallOptions_element();
+        callOptions.setClient(getClientId());
+        this.partnerConnection.__setCallOptions(callOptions);
 
         String restEndpoint = "https://" + (new URL(instanceId)).getHost() + "/services/async/23.0";
         config.setRestEndpoint(restEndpoint);
