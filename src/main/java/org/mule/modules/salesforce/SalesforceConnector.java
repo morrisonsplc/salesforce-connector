@@ -11,10 +11,7 @@ package org.mule.modules.salesforce;
 
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.BulkConnection;
-import com.sforce.soap.partner.CallOptions_element;
-import com.sforce.soap.partner.Connector;
-import com.sforce.soap.partner.LoginResult;
-import com.sforce.soap.partner.PartnerConnection;
+import com.sforce.soap.partner.*;
 import com.sforce.soap.partner.fault.ApiFault;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
@@ -24,7 +21,6 @@ import org.mule.api.ConnectionExceptionCode;
 import org.mule.api.annotations.Connect;
 import org.mule.api.annotations.ConnectionIdentifier;
 import org.mule.api.annotations.Disconnect;
-import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.display.Placement;
@@ -186,9 +182,7 @@ public class SalesforceConnector extends BaseSalesforceConnector {
 
         try {
             connection = Connector.newConnection(connectorConfig);
-            CallOptions_element callOptions = new CallOptions_element();
-            callOptions.setClient(getClientId());
-            connection.__setCallOptions(callOptions);
+            setConnectionOptions(connection);
         } catch (ConnectionException e) {
             throw new org.mule.api.ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage(), e);
         }
