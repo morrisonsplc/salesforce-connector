@@ -87,6 +87,15 @@ public abstract class BaseSalesforceConnector {
     @Optional
     private Boolean useDefaultRule;
 
+    /**
+     * If true, truncate field values that are too long, which is the behavior in API versions 14.0 and earlier.
+     *
+     * Default is false: no change in behavior. If a string or textarea value is too large, the operation fails and the fault code STRING_TOO_LONG is returned.
+     */
+    @Configurable
+    @Optional
+    private Boolean allowFieldTruncationSupport;
+
     private ObjectStoreHelper objectStoreHelper;
 
     @Inject
@@ -1323,6 +1332,12 @@ public abstract class BaseSalesforceConnector {
             }
             connection.__setAssignmentRuleHeader(assignmentRule);
         }
+
+        //allow field truncation
+        Boolean allowFieldTruncationSupport = getAllowFieldTruncationSupport();
+        if (allowFieldTruncationSupport != null) {
+            connection.setAllowFieldTruncationHeader(allowFieldTruncationSupport);
+        }
     }
 
     public ObjectStore getTimeObjectStore() {
@@ -1351,5 +1366,13 @@ public abstract class BaseSalesforceConnector {
 
     public void setUseDefaultRule(Boolean useDefaultRule) {
         this.useDefaultRule = useDefaultRule;
+    }
+
+    public Boolean getAllowFieldTruncationSupport() {
+        return allowFieldTruncationSupport;
+    }
+
+    public void setAllowFieldTruncationSupport(Boolean allowFieldTruncationSupport) {
+        this.allowFieldTruncationSupport = allowFieldTruncationSupport;
     }
 }
