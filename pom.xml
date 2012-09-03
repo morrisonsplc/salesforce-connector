@@ -14,6 +14,12 @@
     <packaging>mule-module</packaging>
     <name>Mule Salesforce Connector</name>
 
+    <properties>
+        <category>Community</category>
+        <licensePath>LICENSE.md</licensePath>
+        <devkit.studio.package.skip>false</devkit.studio.package.skip>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
