@@ -17,7 +17,7 @@
     <properties>
         <category>Community</category>
         <licensePath>LICENSE.md</licensePath>
-        <devkit.studio.package.skip>true</devkit.studio.package.skip>
+        <devkit.studio.package.skip>false</devkit.studio.package.skip>
     </properties>
 
     <build>
