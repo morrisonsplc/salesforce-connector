@@ -162,23 +162,21 @@ public class SalesforceConnector extends BaseSalesforceConnector {
                                      @Optional @Placement(group = "Proxy Settings") @Password String proxyPassword) throws org.mule.api.ConnectionException {
 
         ConnectorConfig connectorConfig = createConnectorConfig(url, username, password + securityToken, proxyHost, proxyPort, proxyUsername, proxyPassword);
-        connectorConfig.addMessageHandler(new MessageHandler() {
-            @Override
-            public void handleRequest(URL endpoint, byte[] request) {
-                if (LOGGER.isDebugEnabled()) {
+        if (LOGGER.isDebugEnabled()) {
+            connectorConfig.addMessageHandler(new MessageHandler() {
+                @Override
+                public void handleRequest(URL endpoint, byte[] request) {
                     LOGGER.debug("Sending request to " + endpoint.toString());
                     LOGGER.debug(new String(request));
                 }
-            }
 
-            @Override
-            public void handleResponse(URL endpoint, byte[] response) {
-                if (LOGGER.isDebugEnabled()) {
+                @Override
+                public void handleResponse(URL endpoint, byte[] response) {
                     LOGGER.debug("Receiving response from " + endpoint.toString());
                     LOGGER.debug(new String(response));
                 }
-            }
-        });
+            });
+        }
 
         try {
             connection = Connector.newConnection(connectorConfig);

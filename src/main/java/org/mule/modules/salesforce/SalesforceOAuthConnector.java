@@ -108,23 +108,21 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
     @OAuthPostAuthorization
     public void postAuthorize() throws ConnectionException, MalformedURLException, AsyncApiException {
         ConnectorConfig config = new ConnectorConfig();
-        config.addMessageHandler(new MessageHandler() {
-            @Override
-            public void handleRequest(URL endpoint, byte[] request) {
-                if (LOGGER.isDebugEnabled()) {
+        if (LOGGER.isDebugEnabled()) {
+            config.addMessageHandler(new MessageHandler() {
+                @Override
+                public void handleRequest(URL endpoint, byte[] request) {
                     LOGGER.debug("Sending request to " + endpoint.toString());
                     LOGGER.debug(new String(request));
                 }
-            }
 
-            @Override
-            public void handleResponse(URL endpoint, byte[] response) {
-                if (LOGGER.isDebugEnabled()) {
+                @Override
+                public void handleResponse(URL endpoint, byte[] response) {
                     LOGGER.debug("Receiving response from " + endpoint.toString());
                     LOGGER.debug(new String(response));
                 }
-            }
-        });
+            });
+        }
 
         config.setSessionId(accessToken);
         config.setManualLogin(true);
