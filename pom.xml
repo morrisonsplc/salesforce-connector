@@ -10,14 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-sfdc</artifactId>
-    <version>5.0-SNAPSHOT</version>
+    <version>5.0.1-SNAPSHOT</version>
     <packaging>mule-module</packaging>
     <name>Mule Salesforce Connector</name>
 
     <properties>
         <category>Community</category>
         <licensePath>LICENSE.md</licensePath>
-        <devkit.studio.package.skip>false</devkit.studio.package.skip>
+        <devkit.studio.package.skip>true</devkit.studio.package.skip>
     </properties>
 
     <build>
