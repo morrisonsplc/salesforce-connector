@@ -910,7 +910,7 @@ public class SalesforceModuleTest {
     public void testCreateConnectorConfig() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
 
-        ConnectorConfig config = connector.createConnectorConfig(new URL("http://www.salesforce.com"), "username", "password", "", 0, "", "");
+        ConnectorConfig config = connector.createConnectorConfig("http://www.salesforce.com", "username", "password", "", 0, "", "");
 
         assertEquals(config.getUsername(), "username");
         assertEquals(config.getPassword(), "password");
@@ -924,7 +924,7 @@ public class SalesforceModuleTest {
     public void testCreateConnectorConfigWithProxy() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
 
-        ConnectorConfig config = connector.createConnectorConfig(new URL("http://www.salesforce.com"), "username", "password", "proxyhost", 80, "aa", "bb");
+        ConnectorConfig config = connector.createConnectorConfig("http://www.salesforce.com", "username", "password", "proxyhost", 80, "aa", "bb");
 
         assertEquals(config.getUsername(), "username");
         assertEquals(config.getPassword(), "password");
