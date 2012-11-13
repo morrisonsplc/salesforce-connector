@@ -143,6 +143,9 @@
 <!-- BEGIN_INCLUDE(sfdc:query-single) -->
 <sfdc:query-single config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/>
 <!-- END_INCLUDE(sfdc:query-single) -->
+<!-- BEGIN_INCLUDE(sfdc:search) -->
+<sfdc:search config-ref="mySalesforceConfig" query="Find {salesforce} RETURNING Solution(id, SolutionName, SolutionNumber, Mule_Version__c, Product__c)" />
+<!-- END_INCLUDE(sfdc:search) -->
 <!-- BEGIN_INCLUDE(sfdc:update) -->
 <sfdc:update config-ref="mySalesforceConfig" type="Account">
     <sfdc:objects>
