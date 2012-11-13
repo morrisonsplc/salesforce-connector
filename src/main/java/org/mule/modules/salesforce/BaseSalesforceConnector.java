@@ -694,6 +694,32 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     }
 
     /**
+     * Search for objects using Salesforce Object Search Language
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:search}
+     *
+     * @param query Query string that specifies the object to query, the fields to return, and any conditions for including a specific object in the query. For more information, see Salesforce Object Search Language (SOSL).
+     * @return An array of {@link SObject}s
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_search.htm">search()</a>
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
+    public List<Map<String, Object>> search(@Placement(group = "Query") String query) throws Exception {
+        SearchResult searchResult = getConnection().search(query);
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        
+        for (SearchRecord object : searchResult.getSearchRecords()) {
+            result.add(object.getRecord().toMap());
+        }
+
+        return result;
+    }    
+    
+    /**
      * Executes a query against the specified object and returns the first record that matches the specified criteria.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:query-single}
