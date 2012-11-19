@@ -33,7 +33,7 @@
 </sfdc:create-bulk>
 <!-- END_INCLUDE(sfdc:create-bulk) -->
 <!-- BEGIN_INCLUDE(sfdc:create) -->
-<sfdc:create config-ref="Salesforce3" type="Account" doc:name="Salesforce">
+<sfdc:create config-ref="Salesforce3" type="Account">
     <sfdc:objects>
         <sfdc:object>
              <sfdc:inner-object key="BillingStreet">30 Maiden Lane</sfdc:inner-object>
