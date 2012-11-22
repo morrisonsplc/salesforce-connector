@@ -1,6 +1,6 @@
 <!-- BEGIN_INCLUDE(sfdc:config) -->
-<sfdc:config name="salesforce-default" username="${salesforce.username}"
-             password="${salesforce.password}" securityToken="${salesforce.securityToken}"/>
+<sfdc:config name="salesforce-default" username="someUserName"
+             password="somePassword" securityToken="someSecurityToken"/>
 <!-- END_INCLUDE(sfdc:config) -->
 <!-- BEGIN_INCLUDE(sfdc:config-with-oauth) -->
 <sfdc:config-with-oauth name="salesforce-default-oauth" ... />
@@ -33,15 +33,15 @@
 </sfdc:create-bulk>
 <!-- END_INCLUDE(sfdc:create-bulk) -->
 <!-- BEGIN_INCLUDE(sfdc:create) -->
-<sfdc:create config-ref="mySalesforceConfig" type="Account">
+<sfdc:create config-ref="Salesforce3" type="Account">
     <sfdc:objects>
         <sfdc:object>
-            <Name>MuleSoft</Name>
-            <BillingStreet>30 Maiden Lane</BillingStreet>
-            <BillingCity>San Francisco</BillingCity>
-            <BillingState>CA</BillingState>
-            <BillingPostalCode>94108</BillingPostalCode>
-            <BillingCountry>US</BillingCountry>
+             <sfdc:inner-object key="BillingStreet">30 Maiden Lane</sfdc:inner-object>
+             <sfdc:inner-object key="BillingCity">San Francisco</sfdc:inner-object>
+             <sfdc:inner-object key="BillingCountry">US</sfdc:inner-object>
+             <sfdc:inner-object key="BillingState">CA</sfdc:inner-object>
+             <sfdc:inner-object key="Name">MuleSoft</sfdc:inner-object>
+             <sfdc:inner-object key="BillingPostalCode">94108</sfdc:inner-object>
         </sfdc:object>
     </sfdc:objects>
 </sfdc:create>
@@ -143,6 +143,9 @@
 <!-- BEGIN_INCLUDE(sfdc:query-single) -->
 <sfdc:query-single config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/>
 <!-- END_INCLUDE(sfdc:query-single) -->
+<!-- BEGIN_INCLUDE(sfdc:search) -->
+<sfdc:search config-ref="mySalesforceConfig" query="Find {salesforce} RETURNING Solution(id, SolutionName, SolutionNumber, Mule_Version__c, Product__c)" />
+<!-- END_INCLUDE(sfdc:search) -->
 <!-- BEGIN_INCLUDE(sfdc:update) -->
 <sfdc:update config-ref="mySalesforceConfig" type="Account">
     <sfdc:objects>

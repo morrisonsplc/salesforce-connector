@@ -15,6 +15,7 @@ import com.sforce.soap.partner.*;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 import org.apache.log4j.Logger;
+import org.mule.api.MuleContext;
 import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.InvalidateConnectionOn;
@@ -30,13 +31,13 @@ import org.mule.api.annotations.param.Optional;
 import org.mule.api.callback.SourceCallback;
 import org.mule.api.callback.StopSourceCallback;
 import org.mule.api.config.MuleProperties;
+import org.mule.api.context.MuleContextAware;
 import org.mule.api.registry.Registry;
 import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
 import org.springframework.util.StringUtils;
 
-import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
@@ -48,13 +49,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseSalesforceConnector {
+public abstract class BaseSalesforceConnector implements MuleContextAware {
     private static final Logger LOGGER = Logger.getLogger(BaseSalesforceConnector.class);
 
     /**
      * Object store manager to obtain a store to support {@link this#getUpdatedObjects}
      */
-    @Inject
     private ObjectStoreManager objectStoreManager;
 
     /**
@@ -98,7 +98,6 @@ public abstract class BaseSalesforceConnector {
 
     private ObjectStoreHelper objectStoreHelper;
 
-    @Inject
     private Registry registry;
 
     /**
@@ -695,6 +694,32 @@ public abstract class BaseSalesforceConnector {
     }
 
     /**
+     * Search for objects using Salesforce Object Search Language
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:search}
+     *
+     * @param query Query string that specifies the object to query, the fields to return, and any conditions for including a specific object in the query. For more information, see Salesforce Object Search Language (SOSL).
+     * @return An array of {@link SObject}s
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_search.htm">search()</a>
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
+    public List<Map<String, Object>> search(@Placement(group = "Query") String query) throws Exception {
+        SearchResult searchResult = getConnection().search(query);
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        
+        for (SearchRecord object : searchResult.getSearchRecords()) {
+            result.add(object.getRecord().toMap());
+        }
+
+        return result;
+    }    
+    
+    /**
      * Executes a query against the specified object and returns the first record that matches the specified criteria.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:query-single}
@@ -1289,6 +1314,9 @@ public abstract class BaseSalesforceConnector {
         SObject sObject = new SObject();
         for (String key : map.keySet()) {
             sObject.setType(type);
+            if (key.equals("fieldsToNull"))
+            sObject.setFieldsToNull((String[]) map.get(key));
+            else
             sObject.setField(key, map.get(key));
         }
         return sObject;
@@ -1374,5 +1402,11 @@ public abstract class BaseSalesforceConnector {
 
     public void setAllowFieldTruncationSupport(Boolean allowFieldTruncationSupport) {
         this.allowFieldTruncationSupport = allowFieldTruncationSupport;
+    }
+    
+    @Override
+    public void setMuleContext(MuleContext context) {
+        setObjectStoreManager(((ObjectStoreManager) context.getRegistry().get(MuleProperties.OBJECT_STORE_MANAGER)));
+        setRegistry((Registry) context.getRegistry());
     }
 }

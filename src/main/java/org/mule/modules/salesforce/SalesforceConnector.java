@@ -156,7 +156,7 @@ public class SalesforceConnector extends BaseSalesforceConnector {
     public synchronized void connect(@ConnectionKey String username,
                                      @Password String password,
                                      String securityToken,
-                                     @Optional @Default("https://login.salesforce.com/services/Soap/u/23.0") URL url,
+                                     @Optional @Default("https://login.salesforce.com/services/Soap/u/23.0") String url,
                                      @Optional @Placement(group = "Proxy Settings") String proxyHost,
                                      @Optional @Placement(group = "Proxy Settings") @Default("80") int proxyPort,
                                      @Optional @Placement(group = "Proxy Settings") String proxyUsername,
@@ -240,13 +240,13 @@ public class SalesforceConnector extends BaseSalesforceConnector {
      * @param proxyPassword
      * @return
      */
-    protected ConnectorConfig createConnectorConfig(URL endpoint, String username, String password, String proxyHost, int proxyPort, String proxyUsername, String proxyPassword) {
+    protected ConnectorConfig createConnectorConfig(String endpoint, String username, String password, String proxyHost, int proxyPort, String proxyUsername, String proxyPassword) {
         ConnectorConfig config = new ConnectorConfig();
         config.setUsername(username);
         config.setPassword(password);
 
-        config.setAuthEndpoint(endpoint.toString());
-        config.setServiceEndpoint(endpoint.toString());
+        config.setAuthEndpoint(endpoint);
+        config.setServiceEndpoint(endpoint);
 
         config.setManualLogin(true);
 
