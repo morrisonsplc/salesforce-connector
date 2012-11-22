@@ -130,11 +130,12 @@ public class SalesforceConnector extends BaseSalesforceConnector {
         if (connection != null && loginResult != null) {
             try {
                 connection.logout();
-                loginResult = null;
-                connection = null;
             } catch (ConnectionException ce) {
                 LOGGER.error(ce);
-            }
+            } finally {
+                loginResult = null;
+                connection = null;
+			}            
         }
     }
 
