@@ -121,7 +121,7 @@ public class SalesforceConnector extends BaseSalesforceConnector {
      */
     @Disconnect
     public synchronized void destroySession() {
-        if (getBayeuxClient() != null) {
+        if (isInitializedBayeuxClient()) {
             if (getBayeuxClient().isConnected()) {
                 getBayeuxClient().disconnect();
             }

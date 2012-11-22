@@ -128,6 +128,10 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         return bc;
     }
 
+    protected boolean isInitializedBayeuxClient() {
+        return this.bc != null;
+    }
+    
     protected void setBayeuxClient(SalesforceBayeuxClient bc) {
         this.bc = bc;
     }
