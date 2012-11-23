@@ -16,6 +16,7 @@ import com.sforce.soap.partner.fault.ApiFault;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.MessageHandler;
+import com.sforce.ws.SessionRenewer;
 import org.apache.log4j.Logger;
 import org.mule.api.ConnectionExceptionCode;
 import org.mule.api.annotations.Connect;
@@ -262,6 +263,25 @@ public class SalesforceConnector extends BaseSalesforceConnector {
             }
         }
 
+        SessionRenewer sessionRenewer = new SessionRenewer() {
+            public SessionRenewalHeader renewSession(ConnectorConfig config) throws ConnectionException {
+
+                try {
+                    reconnect();
+                } catch (org.mule.api.ConnectionException e) {
+                    throw new ConnectionException(e.getMessage(), e);
+                }
+
+                SessionRenewer.SessionRenewalHeader sessionRenewalHeader = new SessionRenewer.SessionRenewalHeader();
+                sessionRenewalHeader.name = new javax.xml.namespace.QName("urn:partner.soap.sforce.com", "SessionHeader");
+                sessionRenewalHeader.headerElement = connection.getSessionHeader();
+                
+                return sessionRenewalHeader;
+            }
+        };
+        
+        config.setSessionRenewer(sessionRenewer);
+        
         return config;
     }
 
