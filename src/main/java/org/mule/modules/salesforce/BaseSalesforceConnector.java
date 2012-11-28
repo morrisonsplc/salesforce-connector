@@ -1023,7 +1023,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         Calendar startTime = (Calendar) serverTime.clone();
         Calendar endTime = (Calendar) serverTime.clone();
 
-        endTime.add(Calendar.MINUTE, duration);
+        startTime.add(Calendar.MINUTE, -(duration));
         return getDeletedRange(type, startTime, endTime);
     }
 
@@ -1050,7 +1050,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         Calendar startTime = (Calendar) serverTime.clone();
         Calendar endTime = (Calendar) serverTime.clone();
 
-        endTime.add(Calendar.MINUTE, duration);
+        startTime.add(Calendar.MINUTE, -(duration));
         return getUpdatedRange(type, startTime, endTime);
     }
 
