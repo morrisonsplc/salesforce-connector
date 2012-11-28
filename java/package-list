@@ -1,4 +1,10 @@
 com.sforce.async
+com.sforce.async.holders
+com.sforce.async.transformers
+com.sforce.bulk
+com.sforce.rest
+com.sforce.rest.pojo
+com.sforce.rest.tools
 com.sforce.soap.partner
 com.sforce.soap.partner.fault
 com.sforce.soap.partner.sobject
@@ -13,8 +19,14 @@ com.sforce.ws.util
 com.sforce.ws.wsdl
 org.mule.modules.salesforce
 org.mule.modules.salesforce.adapters
+org.mule.modules.salesforce.agents
 org.mule.modules.salesforce.config
+org.mule.modules.salesforce.config.spring
+org.mule.modules.salesforce.connectivity
+org.mule.modules.salesforce.oauth
+org.mule.modules.salesforce.process
 org.mule.modules.salesforce.processors
+org.mule.modules.salesforce.retry
 org.mule.modules.salesforce.sources
 org.mule.modules.salesforce.transformers
 
