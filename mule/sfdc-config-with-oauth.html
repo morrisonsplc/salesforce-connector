@@ -522,6 +522,16 @@ Summary:
 	 
     <tr class=" api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../mule/sfdc-config-with-oauth.html#paginated-query">&lt;sfdc:paginated-query&gt;</a></nobr>
+        
+        <div class="jd-descrdiv">Executes a paginated query against the specified object and returns data that matches the specified criteria.</div>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc-config-with-oauth.html#query">&lt;sfdc:query&gt;</a></nobr>
         
         <div class="jd-descrdiv">Executes a query against the specified object and returns data that matches the specified criteria.</div>
@@ -530,7 +540,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc-config-with-oauth.html#query-all">&lt;sfdc:query-all&gt;</a></nobr>
         
@@ -540,7 +550,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc-config-with-oauth.html#query-single">&lt;sfdc:query-single&gt;</a></nobr>
         
@@ -550,7 +560,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc-config-with-oauth.html#retrieve">&lt;sfdc:retrieve&gt;</a></nobr>
         
@@ -560,7 +570,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc-config-with-oauth.html#search">&lt;sfdc:search&gt;</a></nobr>
         
@@ -572,7 +582,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc-config-with-oauth.html#update">&lt;sfdc:update&gt;</a></nobr>
         
@@ -582,7 +592,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc-config-with-oauth.html#update-single">&lt;sfdc:update-single&gt;</a></nobr>
         
@@ -592,7 +602,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/sfdc-config-with-oauth.html#upsert">&lt;sfdc:upsert&gt;</a></nobr>
         
@@ -2826,6 +2836,115 @@ of the object store that he wishes to use to save and restore access tokens.</p>
     <div class="jd-tagdata">
         <h5 class="jd-tagtitle">API Information</h5>
         <ul class="nolist"><li><a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdatedrange.htm">getUpdatedRange()</a></li></ul>
+    </div>
+  
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Exception Payloads</h5>
+      <table class="jd-sumtable">
+        <tr><th>Payload Class</th><th>Description</th></tr>
+        
+        <tr>
+            <td>Exception</td>
+            <td><code><a href="../java/com/sforce/ws/ConnectionException.html">ConnectionException</a></code> when there is an error</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="paginated-query"></A>
+
+<div class="jd-details api apilevel-">
+    <h4 class="jd-details-title">
+      <span class="sympad">&lt;sfdc:paginated-query&gt;</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Executes a paginated query against the specified object and returns data that matches the specified criteria.
+ <p/>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;sfdc:paginated-query config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/&gt;</pre></div></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Attributes</h5>
+
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th><th>Java Type</th><th>MIME Type</th><th>Encoding</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol"></td>
+        </tr>
+          
+          
+                
+                    <tr class=" api apilevel-" >
+                        <td class="jd-linkcol"><nobr>query</nobr></td>
+                        <td class="jd-descrcol"></td>
+                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>Query string that specifies the object to query, the fields to return, and any conditions for
+              including a specific object in the query. For more information, see Salesforce Object Query
+              Language (SOQL).</td>
+                        <td class="jd-descrcol">String</td>
+                        <td class="jd-descrcol">*/*</td>
+                        <td class="jd-descrcol">UTF-8</td>
+                    </tr>
+                
+                
+          
+                
+                    <tr class="alt-color api apilevel-" >
+                        <td class="jd-linkcol"><nobr>queryResultObject</nobr></td>
+                        <td class="jd-descrcol"></td>
+                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>QueryResultObject returned by a previous call to this operation.
+                          If this is set the other parameter will be ignored.</td>
+                        <td class="jd-descrcol"><a href="../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a></td>
+                        <td class="jd-descrcol">*/*</td>
+                        <td class="jd-descrcol"></td>
+                    </tr>
+                
+                
+          
+          
+          
+              <tr><th colspan="12">OAuth Parameters<br/><span style="font-weight: 200;">The following values are always required when using OAuth as the authentication mechanism.</span></th></tr>
+                    <tr class=" api apilevel-" >
+                        <td class="jd-linkcol"><nobr>accessTokenId</nobr></td>
+                        <td class="jd-descrcol"></td>
+                        <td class="jd-descrcol" width="100%">Access token identifier used to retrieve an access token from the store</td>
+                        <td class="jd-descrcol"></td>
+                        <td class="jd-descrcol"></td>
+                        <td class="jd-descrcol"></td>
+                    </tr>
+          
+        </table>
+  </div>
+  
+  
+      <div class="jd-tagdata">
+         <h5 class="jd-tagtitle">Returns</h5>
+         <table id="lconfig" class="jd-sumtable">
+             <tr>
+                <th>Return Type</th>
+                <th>Description</th>
+             </tr>
+             <tr>
+                <td class="jd-descrcol"><a href="../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a></td>
+                <td class="jd-descrcol"><code><a href="../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a></code> with the results of the query or null.</td>
+             </tr>
+         </table>
+  </div>
+    
+    <div class="jd-tagdata">
+        <h5 class="jd-tagtitle">API Information</h5>
+        <ul class="nolist"><li><a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a></li></ul>
     </div>
   
   <div class="jd-tagdata">

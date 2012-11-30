@@ -74,7 +74,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../../../../../favicon.ico" />
 <title>
 
-  CreateBulkMessageProcessor
+  PaginatedQueryMessageProcessor
 
 
 | Mule Salesforce Connector
@@ -291,7 +291,7 @@
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateBatchForQueryMessageProcessor.html">CreateBatchForQueryMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateBatchMessageProcessor.html">CreateBatchMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateBatchStreamMessageProcessor.html">CreateBatchStreamMessageProcessor</a></li>
-          <li class="selected api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html">CreateBulkMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html">CreateBulkMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateJobMessageProcessor.html">CreateJobMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateMessageProcessor.html">CreateMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/CreateSingleMessageProcessor.html">CreateSingleMessageProcessor</a></li>
@@ -307,7 +307,7 @@
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/GetUpdatedRangeMessageProcessor.html">GetUpdatedRangeMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/GetUserInfoMessageProcessor.html">GetUserInfoMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/HardDeleteBulkMessageProcessor.html">HardDeleteBulkMessageProcessor</a></li>
-          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html">PaginatedQueryMessageProcessor</a></li>
+          <li class="selected api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html">PaginatedQueryMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/PublishTopicMessageProcessor.html">PublishTopicMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QueryAllMessageProcessor.html">QueryAllMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/salesforce/processors/QueryMessageProcessor.html">QueryMessageProcessor</a></li>
@@ -511,7 +511,7 @@ Summary:
      
     
     class
-<h1>CreateBulkMessageProcessor</h1>
+<h1>PaginatedQueryMessageProcessor</h1>
 
 
 
@@ -605,7 +605,7 @@ Summary:
         
             <td class="jd-inheritance-space">&nbsp;&nbsp;&nbsp;&#x21b3;</td>
         
-        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.salesforce.processors.CreateBulkMessageProcessor</td>
+        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.salesforce.processors.PaginatedQueryMessageProcessor</td>
     </tr>
     
 
@@ -621,7 +621,7 @@ Summary:
 
 
 <h2>Class Overview</h2>
-<p>CreateBulkMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#createBulk(java.lang.String, java.util.List<java.util.Map<java.lang.String, java.lang.Object>>)">createBulk(java.lang.String, java.util.List)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code>. For each argument there is a field in this processor to match it.  Before invoking the actual method the processor will evaluate and transform where possible to the expected argument type.
+<p>PaginatedQueryMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html#paginatedQuery(java.lang.String, org.mule.modules.salesforce.QueryResultObject)">paginatedQuery(java.lang.String, org.mule.modules.salesforce.QueryResultObject)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></code>. For each argument there is a field in this processor to match it.  Before invoking the actual method the processor will evaluate and transform where possible to the expected argument type.
  
 </p>
 
@@ -824,8 +824,8 @@ org.mule.api.lifecycle.Stoppable
           protected
           
           
-          List&lt;Map&lt;String,&nbsp;Object&gt;&gt;</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#_objectsType">_objectsType</a></td>
+          <a href="../../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a></nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#_queryResultObjectType">_queryResultObjectType</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -836,7 +836,7 @@ org.mule.api.lifecycle.Stoppable
           
           
           String</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#_typeType">_typeType</a></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#_queryType">_queryType</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -847,7 +847,7 @@ org.mule.api.lifecycle.Stoppable
           
           
           Object</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#objects">objects</a></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#query">query</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -858,7 +858,7 @@ org.mule.api.lifecycle.Stoppable
           
           
           Object</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#type">type</a></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#queryResultObject">queryResultObject</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -1199,7 +1199,7 @@ org.mule.api.lifecycle.Stoppable
             </nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#CreateBulkMessageProcessor()">CreateBulkMessageProcessor</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#PaginatedQueryMessageProcessor()">PaginatedQueryMessageProcessor</a></span>()</nobr>
         
   </td></tr>
 
@@ -1228,7 +1228,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#dispose()">dispose</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#dispose()">dispose</a></span>()</nobr>
         
   </td></tr>
 
@@ -1244,7 +1244,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#initialise()">initialise</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#initialise()">initialise</a></span>()</nobr>
         
         <div class="jd-descrdiv">Obtains the expression manager from the Mule context and initialises the connector.</div>
   
@@ -1262,7 +1262,7 @@ org.mule.api.lifecycle.Stoppable
             MuleEvent</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#process(org.mule.api.MuleEvent)">process</a></span>(MuleEvent event)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#process(org.mule.api.MuleEvent)">process</a></span>(MuleEvent event)</nobr>
         
         <div class="jd-descrdiv">Invokes the MessageProcessor.</div>
   
@@ -1280,7 +1280,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#setFlowConstruct(org.mule.api.construct.FlowConstruct)">setFlowConstruct</a></span>(FlowConstruct flowConstruct)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#setFlowConstruct(org.mule.api.construct.FlowConstruct)">setFlowConstruct</a></span>(FlowConstruct flowConstruct)</nobr>
         
         <div class="jd-descrdiv">Sets flow construct</div>
   
@@ -1298,7 +1298,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#setMuleContext(org.mule.api.MuleContext)">setMuleContext</a></span>(MuleContext context)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#setMuleContext(org.mule.api.MuleContext)">setMuleContext</a></span>(MuleContext context)</nobr>
         
         <div class="jd-descrdiv">Set the Mule context</div>
   
@@ -1316,9 +1316,9 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#setObjects(java.lang.Object)">setObjects</a></span>(Object value)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#setQuery(java.lang.Object)">setQuery</a></span>(Object value)</nobr>
         
-        <div class="jd-descrdiv">Sets objects</div>
+        <div class="jd-descrdiv">Sets query</div>
   
   </td></tr>
 
@@ -1334,9 +1334,9 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#setType(java.lang.Object)">setType</a></span>(Object value)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#setQueryResultObject(java.lang.Object)">setQueryResultObject</a></span>(Object value)</nobr>
         
-        <div class="jd-descrdiv">Sets type</div>
+        <div class="jd-descrdiv">Sets queryResultObject</div>
   
   </td></tr>
 
@@ -1352,7 +1352,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#start()">start</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#start()">start</a></span>()</nobr>
         
   </td></tr>
 
@@ -1368,7 +1368,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/CreateBulkMessageProcessor.html#stop()">stop</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/processors/PaginatedQueryMessageProcessor.html#stop()">stop</a></span>()</nobr>
         
   </td></tr>
 
@@ -2653,7 +2653,7 @@ From interface
 
 
 
-<A NAME="_objectsType"></A>
+<A NAME="_queryResultObjectType"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2661,9 +2661,9 @@ From interface
         protected 
          
          
-        List&lt;Map&lt;String,&nbsp;Object&gt;&gt;
+        <a href="../../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a>
       </span>
-        _objectsType
+        _queryResultObjectType
     </h4>
       <div class="api-level">
         
@@ -2683,7 +2683,7 @@ From interface
 
 
 
-<A NAME="_typeType"></A>
+<A NAME="_queryType"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2693,7 +2693,7 @@ From interface
          
         String
       </span>
-        _typeType
+        _queryType
     </h4>
       <div class="api-level">
         
@@ -2713,7 +2713,7 @@ From interface
 
 
 
-<A NAME="objects"></A>
+<A NAME="query"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2723,7 +2723,7 @@ From interface
          
         Object
       </span>
-        objects
+        query
     </h4>
       <div class="api-level">
         
@@ -2743,7 +2743,7 @@ From interface
 
 
 
-<A NAME="type"></A>
+<A NAME="queryResultObject"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2753,7 +2753,7 @@ From interface
          
         Object
       </span>
-        type
+        queryResultObject
     </h4>
       <div class="api-level">
         
@@ -2782,7 +2782,7 @@ From interface
 
 
 
-<A NAME="CreateBulkMessageProcessor()"></A>
+<A NAME="PaginatedQueryMessageProcessor()"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2794,7 +2794,7 @@ From interface
          
         
       </span>
-      <span class="sympad">CreateBulkMessageProcessor</span>
+      <span class="sympad">PaginatedQueryMessageProcessor</span>
       <span class="normal">()</span>
     </h4>
       <div class="api-level">
@@ -3030,7 +3030,7 @@ From interface
 </div>
 
 
-<A NAME="setObjects(java.lang.Object)"></A>
+<A NAME="setQuery(java.lang.Object)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -3042,7 +3042,7 @@ From interface
          
         void
       </span>
-      <span class="sympad">setObjects</span>
+      <span class="sympad">setQuery</span>
       <span class="normal">(Object value)</span>
     </h4>
       <div class="api-level">
@@ -3055,7 +3055,7 @@ From interface
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Sets objects</p></div>
+  <div class="jd-tagdata jd-tagdescr"><p>Sets query</p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
@@ -3071,7 +3071,7 @@ From interface
 </div>
 
 
-<A NAME="setType(java.lang.Object)"></A>
+<A NAME="setQueryResultObject(java.lang.Object)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -3083,7 +3083,7 @@ From interface
          
         void
       </span>
-      <span class="sympad">setType</span>
+      <span class="sympad">setQueryResultObject</span>
       <span class="normal">(Object value)</span>
     </h4>
       <div class="api-level">
@@ -3096,7 +3096,7 @@ From interface
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Sets type</p></div>
+  <div class="jd-tagdata jd-tagdescr"><p>Sets queryResultObject</p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">

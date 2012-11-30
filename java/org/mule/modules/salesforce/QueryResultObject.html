@@ -74,7 +74,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../../../../favicon.ico" />
 <title>
 
-  ObjectStoreHelper
+  QueryResultObject
 
 
 | Mule Salesforce Connector
@@ -278,8 +278,8 @@
     <li><h2>Classes</h2>
       <ul>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></li>
-          <li class="selected api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a></li>
-          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/ObjectStoreHelper.html">ObjectStoreHelper</a></li>
+          <li class="selected api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceBayeuxClient.html">SalesforceBayeuxClient</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceBayeuxMessageListener.html">SalesforceBayeuxMessageListener</a></li>
           <li class="api apilevel-"><a href="../../../../../java/org/mule/modules/salesforce/SalesforceConnector.html">SalesforceConnector</a></li>
@@ -357,12 +357,9 @@ Summary:
 
 
 
-  <a href="#constants">Constants</a>
-  
 
 
-
-  &#124; <a href="#lfields">Fields</a>
+  <a href="#lfields">Fields</a>
   
 
 
@@ -401,7 +398,7 @@ Summary:
      
     
     class
-<h1>ObjectStoreHelper</h1>
+<h1>QueryResultObject</h1>
 
 
 
@@ -434,7 +431,7 @@ Summary:
         
             <td class="jd-inheritance-space">&nbsp;&nbsp;&nbsp;&#x21b3;</td>
         
-        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.salesforce.ObjectStoreHelper</td>
+        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.salesforce.QueryResultObject</td>
     </tr>
     
 
@@ -487,29 +484,6 @@ Summary:
 
 
 
-<!-- =========== ENUM CONSTANT SUMMARY =========== -->
-<table id="constants" class="jd-sumtable"><tr><th colspan="12">Constants</th></tr>
-
-
-    
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol">String</td>
-        <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#LATEST_UPDATE_TIME_BACKUP_KEY">LATEST_UPDATE_TIME_BACKUP_KEY</a></td>
-        <td class="jd-descrcol" width="100%"></td>
-    </tr>
-    
-    
-    <tr class=" api apilevel-" >
-        <td class="jd-typecol">String</td>
-        <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#LATEST_UPDATE_TIME_KEY">LATEST_UPDATE_TIME_KEY</a></td>
-        <td class="jd-descrcol" width="100%"></td>
-    </tr>
-    
-    
-
-</table>
-
-
 
 
 
@@ -525,19 +499,8 @@ Summary:
           private
           
           
-          String</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#keyPrefix">keyPrefix</a></td>
-          <td class="jd-descrcol" width="100%"></td>
-      </tr>
-      
-    
-      <tr class=" api apilevel-" >
-          <td class="jd-typecol"><nobr>
-          private
-          
-          
-          ObjectStore</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#objectStore">objectStore</a></td>
+          <a href="../../../../../java/com/sforce/soap/partner/QueryResult.html">QueryResult</a></nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/QueryResultObject.html#queryResult">queryResult</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -567,7 +530,7 @@ Summary:
             </nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#ObjectStoreHelper(java.lang.String, org.mule.api.store.ObjectStore)">ObjectStoreHelper</a></span>(String keyPrefix, ObjectStore objectStore)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/QueryResultObject.html#QueryResultObject(com.sforce.soap.partner.QueryResult)">QueryResultObject</a></span>(<a href="../../../../../java/com/sforce/soap/partner/QueryResult.html">QueryResult</a> queryResult)</nobr>
         
   </td></tr>
 
@@ -593,10 +556,10 @@ Summary:
             
             
             
-            String</nobr>
+            List&lt;Map&lt;String,&nbsp;Object&gt;&gt;</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getLastUpdateTimeKey(java.lang.String)">getLastUpdateTimeKey</a></span>(String type)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/QueryResultObject.html#getData()">getData</a></span>()</nobr>
         
   </td></tr>
 
@@ -612,7 +575,7 @@ Summary:
             String</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getLatestUpdateTimeBackupKey(java.lang.String)">getLatestUpdateTimeBackupKey</a></span>(String type)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/QueryResultObject.html#getQueryLocator()">getQueryLocator</a></span>()</nobr>
         
   </td></tr>
 
@@ -625,42 +588,10 @@ Summary:
             
             
             
-            Calendar</nobr>
+            boolean</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#getTimestamp(java.lang.String)">getTimestamp</a></span>(String type)</nobr>
-        
-  </td></tr>
-
-
-	 
-    <tr class=" api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#resetTimestamps(java.lang.String)">resetTimestamps</a></span>(String type)</nobr>
-        
-  </td></tr>
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/ObjectStoreHelper.html#updateTimestamp(com.sforce.soap.partner.GetUpdatedResult, java.lang.String)">updateTimestamp</a></span>(<a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a> getUpdatedResult, String type)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/QueryResultObject.html#hasMore()">hasMore</a></span>()</nobr>
         
   </td></tr>
 
@@ -904,91 +835,6 @@ From class
 <!-- Constants -->
 
 
-<!-- ========= ENUM CONSTANTS DETAIL ======== -->
-<h2>Constants</h2>
-
-
-
-
-<A NAME="LATEST_UPDATE_TIME_BACKUP_KEY"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        private 
-        static 
-        final 
-        String
-      </span>
-        LATEST_UPDATE_TIME_BACKUP_KEY
-    </h4>
-      <div class="api-level">
-        
-
-
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-
-    
-        <div class="jd-tagdata">
-        <span class="jd-tagtitle">Constant Value: </span>
-        <span>
-            
-                "latestUpdateTimeBackup"
-            
-        </span>
-        </div>
-    
-    </div>
-</div>
-
-
-
-<A NAME="LATEST_UPDATE_TIME_KEY"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        private 
-        static 
-        final 
-        String
-      </span>
-        LATEST_UPDATE_TIME_KEY
-    </h4>
-      <div class="api-level">
-        
-
-
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-
-    
-        <div class="jd-tagdata">
-        <span class="jd-tagtitle">Constant Value: </span>
-        <span>
-            
-                "latestUpdateTime"
-            
-        </span>
-        </div>
-    
-    </div>
-</div>
-
-
-
-
 <!-- Fields -->
 
 
@@ -998,7 +844,7 @@ From class
 
 
 
-<A NAME="keyPrefix"></A>
+<A NAME="queryResult"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1006,39 +852,9 @@ From class
         private 
          
          
-        String
+        <a href="../../../../../java/com/sforce/soap/partner/QueryResult.html">QueryResult</a>
       </span>
-        keyPrefix
-    </h4>
-      <div class="api-level">
-        
-
-
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-
-    
-    </div>
-</div>
-
-
-
-<A NAME="objectStore"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        private 
-         
-         
-        ObjectStore
-      </span>
-        objectStore
+        queryResult
     </h4>
       <div class="api-level">
         
@@ -1067,7 +883,7 @@ From class
 
 
 
-<A NAME="ObjectStoreHelper(java.lang.String, org.mule.api.store.ObjectStore)"></A>
+<A NAME="QueryResultObject(com.sforce.soap.partner.QueryResult)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1079,8 +895,8 @@ From class
          
         
       </span>
-      <span class="sympad">ObjectStoreHelper</span>
-      <span class="normal">(String keyPrefix, ObjectStore objectStore)</span>
+      <span class="sympad">QueryResultObject</span>
+      <span class="normal">(<a href="../../../../../java/com/sforce/soap/partner/QueryResult.html">QueryResult</a> queryResult)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1097,11 +913,7 @@ From class
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
         <tr>
-          <th>keyPrefix</td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>objectStore</td>
+          <th>queryResult</td>
           <td></td>
         </tr>
       </table>
@@ -1126,7 +938,38 @@ From class
 
 
 
-<A NAME="getLastUpdateTimeKey(java.lang.String)"></A>
+<A NAME="getData()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        List&lt;Map&lt;String,&nbsp;Object&gt;&gt;
+      </span>
+      <span class="sympad">getData</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    </div>
+</div>
+
+
+<A NAME="getQueryLocator()"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1138,8 +981,8 @@ From class
          
         String
       </span>
-      <span class="sympad">getLastUpdateTimeKey</span>
-      <span class="normal">(String type)</span>
+      <span class="sympad">getQueryLocator</span>
+      <span class="normal">()</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1152,21 +995,12 @@ From class
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p></p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>type</td>
-          <td></td>
-        </tr>
-      </table>
-  </div>
 
     </div>
 </div>
 
 
-<A NAME="getLatestUpdateTimeBackupKey(java.lang.String)"></A>
+<A NAME="hasMore()"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -1176,10 +1010,10 @@ From class
          
          
          
-        String
+        boolean
       </span>
-      <span class="sympad">getLatestUpdateTimeBackupKey</span>
-      <span class="normal">(String type)</span>
+      <span class="sympad">hasMore</span>
+      <span class="normal">()</span>
     </h4>
       <div class="api-level">
         <div>
@@ -1192,166 +1026,6 @@ From class
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p></p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>type</td>
-          <td></td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
-<A NAME="getTimestamp(java.lang.String)"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        Calendar
-      </span>
-      <span class="sympad">getTimestamp</span>
-      <span class="normal">(String type)</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>type</td>
-          <td></td>
-        </tr>
-      </table>
-  </div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Throws</h5>
-      <table class="jd-tagtable">  
-        <tr>
-            <th>ObjectStoreException</td>
-            <td></td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
-<A NAME="resetTimestamps(java.lang.String)"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">resetTimestamps</span>
-      <span class="normal">(String type)</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>type</td>
-          <td></td>
-        </tr>
-      </table>
-  </div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Throws</h5>
-      <table class="jd-tagtable">  
-        <tr>
-            <th>ObjectStoreException</td>
-            <td></td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
-<A NAME="updateTimestamp(com.sforce.soap.partner.GetUpdatedResult, java.lang.String)"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">updateTimestamp</span>
-      <span class="normal">(<a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a> getUpdatedResult, String type)</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>getUpdatedResult</td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>type</td>
-          <td></td>
-        </tr>
-      </table>
-  </div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Throws</h5>
-      <table class="jd-tagtable">  
-        <tr>
-            <th>ObjectStoreException</td>
-            <td></td>
-        </tr>
-      </table>
-  </div>
 
     </div>
 </div>
