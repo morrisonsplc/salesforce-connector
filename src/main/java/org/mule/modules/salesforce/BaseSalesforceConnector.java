@@ -633,6 +633,41 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     }
 
     /**
+     * Executes a paginated query against the specified object and returns data that matches the specified criteria.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:paginated-query}
+     *
+     * @param query Query string that specifies the object to query, the fields to return, and any conditions for
+     *              including a specific object in the query. For more information, see Salesforce Object Query
+     *              Language (SOQL).
+     * @param queryResultObject QueryResultObject returned by a previous call to this operation.
+     *                          If this is set the other parameter will be ignored.
+     * @return {@link QueryResultObject} with the results of the query or null.
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
+     * @since 4.0
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
+    public QueryResultObject paginatedQuery(@Placement(group = "Query") @Optional String query, @Optional QueryResultObject queryResultObject) throws Exception {    
+        if (queryResultObject == null) {
+            QueryResult queryResult = getConnection().query(query);
+            if (queryResult != null) return new QueryResultObject(queryResult);
+        }
+        else {
+            if (queryResultObject.hasMore()){
+                QueryResult queryResult = getConnection().queryMore(queryResultObject.getQueryLocator());
+                if (queryResult != null) return new QueryResultObject(queryResult);
+            }
+        }
+        
+        return null;
+    }
+
+    /**
      * Executes a query against the specified object and returns data that matches the specified criteria.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:query}

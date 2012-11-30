@@ -137,6 +137,9 @@
 <!-- BEGIN_INCLUDE(sfdc:publish-topic) -->
 <sfdc:publish-topic config-ref="mySalesforceConfig" topicName="AccountTopic" query="SELECT Id FROM Account"/>
 <!-- END_INCLUDE(sfdc:publish-topic) -->
+<!-- BEGIN_INCLUDE(sfdc:paginated-query) -->
+<sfdc:paginated-query config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/>
+<!-- END_INCLUDE(sfdc:paginated-query) -->
 <!-- BEGIN_INCLUDE(sfdc:query) -->
 <sfdc:query config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/>
 <!-- END_INCLUDE(sfdc:query) -->
