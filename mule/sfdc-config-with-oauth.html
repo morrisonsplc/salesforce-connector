@@ -2868,6 +2868,9 @@ of the object store that he wishes to use to save and restore access tokens.</p>
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p>Executes a paginated query against the specified object and returns data that matches the specified criteria.
+ The returned class QueryResultObject provides the methods getData() to retrieve the results in a List<Maps> 
+ and hasMore() to check if there are more pages to retrieve from the server.
+ The query result object contains up to 500 rows of data by default and can be increased up to 2,000 rows.
  <p/>
  <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;sfdc:paginated-query config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/&gt;</pre></div></p></div>
   <div class="jd-tagdata">
@@ -2912,10 +2915,22 @@ of the object store that he wishes to use to save and restore access tokens.</p>
                 
                 
           
+                
+                    <tr class=" api apilevel-" >
+                        <td class="jd-linkcol"><nobr>withDeletedRecords</nobr></td>
+                        <td class="jd-descrcol">false</td>
+                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>Flag that specifies whether or not to retrieve records that have been deleted.</td>
+                        <td class="jd-descrcol">Boolean</td>
+                        <td class="jd-descrcol">*/*</td>
+                        <td class="jd-descrcol"></td>
+                    </tr>
+                
+                
+          
           
           
               <tr><th colspan="12">OAuth Parameters<br/><span style="font-weight: 200;">The following values are always required when using OAuth as the authentication mechanism.</span></th></tr>
-                    <tr class=" api apilevel-" >
+                    <tr class="alt-color api apilevel-" >
                         <td class="jd-linkcol"><nobr>accessTokenId</nobr></td>
                         <td class="jd-descrcol"></td>
                         <td class="jd-descrcol" width="100%">Access token identifier used to retrieve an access token from the store</td>

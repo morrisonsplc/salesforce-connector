@@ -1326,7 +1326,7 @@ Summary:
             <a href="../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/BaseSalesforceConnector.html#paginatedQuery(java.lang.String, org.mule.modules.salesforce.QueryResultObject)">paginatedQuery</a></span>(String query, <a href="../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a> queryResultObject)</nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/salesforce/BaseSalesforceConnector.html#paginatedQuery(java.lang.String, org.mule.modules.salesforce.QueryResultObject, java.lang.Boolean)">paginatedQuery</a></span>(String query, <a href="../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a> queryResultObject, Boolean withDeletedRecords)</nobr>
         
         <div class="jd-descrdiv">Executes a paginated query against the specified object and returns data that matches the specified criteria.</div>
   
@@ -4187,7 +4187,7 @@ From interface
 </div>
 
 
-<A NAME="paginatedQuery(java.lang.String, org.mule.modules.salesforce.QueryResultObject)"></A>
+<A NAME="paginatedQuery(java.lang.String, org.mule.modules.salesforce.QueryResultObject, java.lang.Boolean)"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -4200,7 +4200,7 @@ From interface
         <a href="../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a>
       </span>
       <span class="sympad">paginatedQuery</span>
-      <span class="normal">(String query, <a href="../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a> queryResultObject)</span>
+      <span class="normal">(String query, <a href="../../../../../java/org/mule/modules/salesforce/QueryResultObject.html">QueryResultObject</a> queryResultObject, Boolean withDeletedRecords)</span>
     </h4>
       <div class="api-level">
         <div>
@@ -4213,6 +4213,9 @@ From interface
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p>Executes a paginated query against the specified object and returns data that matches the specified criteria.
+ The returned class QueryResultObject provides the methods getData() to retrieve the results in a List<Maps> 
+ and hasMore() to check if there are more pages to retrieve from the server.
+ The query result object contains up to 500 rows of data by default and can be increased up to 2,000 rows.
  <p/>
  </p></div>
   <div class="jd-tagdata">
@@ -4228,6 +4231,10 @@ From interface
           <th>queryResultObject</td>
           <td>QueryResultObject returned by a previous call to this operation.
                           If this is set the other parameter will be ignored.</td>
+        </tr>
+        <tr>
+          <th>withDeletedRecords</td>
+          <td>Flag that specifies whether or not to retrieve records that have been deleted.</td>
         </tr>
       </table>
   </div>

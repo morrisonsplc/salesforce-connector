@@ -3855,6 +3855,9 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p>Executes a paginated query against the specified object and returns data that matches the specified criteria.
+ The returned class QueryResultObject provides the methods getData() to retrieve the results in a List<Maps> 
+ and hasMore() to check if there are more pages to retrieve from the server.
+ The query result object contains up to 500 rows of data by default and can be increased up to 2,000 rows.
  <p/>
  <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;sfdc:paginated-query config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/&gt;</pre></div></p></div>
   <div class="jd-tagdata">
@@ -3899,10 +3902,22 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                 
                 
           
+                
+                    <tr class=" api apilevel-" >
+                        <td class="jd-linkcol"><nobr>withDeletedRecords</nobr></td>
+                        <td class="jd-descrcol">false</td>
+                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>Flag that specifies whether or not to retrieve records that have been deleted.</td>
+                        <td class="jd-descrcol">Boolean</td>
+                        <td class="jd-descrcol">*/*</td>
+                        <td class="jd-descrcol"></td>
+                    </tr>
+                
+                
+          
           
               <tr><th colspan="12">Connection Parameters<br/><span style="font-weight: 200;">This are only required if you didn't specified them at the configuration element. They are also useful for overriding the values of the configurations or even if you need to extract them from the Mule message since they support expression evaluation.</span></th></tr>
                 
-                    <tr class=" api apilevel-" >
+                    <tr class="alt-color api apilevel-" >
                         <td class="jd-linkcol"><nobr>username</nobr></td>
                         <td class="jd-descrcol"></td>
                         <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Username used to initialize the session</td>
@@ -3912,7 +3927,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     </tr>
                     
                 
-                    <tr class="alt-color api apilevel-" >
+                    <tr class=" api apilevel-" >
                         <td class="jd-linkcol"><nobr>password</nobr></td>
                         <td class="jd-descrcol"></td>
                         <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Password used to authenticate the user</td>
@@ -3922,7 +3937,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     </tr>
                     
                 
-                    <tr class=" api apilevel-" >
+                    <tr class="alt-color api apilevel-" >
                         <td class="jd-linkcol"><nobr>securityToken</nobr></td>
                         <td class="jd-descrcol"></td>
                         <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>User's security token</td>
@@ -3932,7 +3947,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     </tr>
                     
                 
-                    <tr class="alt-color api apilevel-" >
+                    <tr class=" api apilevel-" >
                         <td class="jd-linkcol"><nobr>url</nobr></td>
                         <td class="jd-descrcol">https://login.salesforce.com/services/Soap/u/23.0</td>
                         <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Salesforce endpoint URL</td>
@@ -3942,7 +3957,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     </tr>
                     
                 
-                    <tr class=" api apilevel-" >
+                    <tr class="alt-color api apilevel-" >
                         <td class="jd-linkcol"><nobr>proxyHost</nobr></td>
                         <td class="jd-descrcol"></td>
                         <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Hostname of the proxy</td>
@@ -3952,7 +3967,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     </tr>
                     
                 
-                    <tr class="alt-color api apilevel-" >
+                    <tr class=" api apilevel-" >
                         <td class="jd-linkcol"><nobr>proxyPort</nobr></td>
                         <td class="jd-descrcol">80</td>
                         <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Port of the proxy</td>
@@ -3962,7 +3977,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     </tr>
                     
                 
-                    <tr class=" api apilevel-" >
+                    <tr class="alt-color api apilevel-" >
                         <td class="jd-linkcol"><nobr>proxyUsername</nobr></td>
                         <td class="jd-descrcol"></td>
                         <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Username used to authenticate against the proxy</td>
@@ -3972,7 +3987,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     </tr>
                     
                 
-                    <tr class="alt-color api apilevel-" >
+                    <tr class=" api apilevel-" >
                         <td class="jd-linkcol"><nobr>proxyPassword</nobr></td>
                         <td class="jd-descrcol"></td>
                         <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Password used to authenticate against the proxy</td>
