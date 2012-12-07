@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.3.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/5.0/mule-sfdc.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd ">
+
+	<context:property-placeholder location="${SALESFORCE_AUTOMATION_CREDENTIALS}" />
+
+	<sfdc:config name="Salesforce" doc:name="Salesforce"
+		password="${salesforce.password}" username="${salesforce.username}"
+		securityToken="${salesforce.securityToken}" url="${salesforce.url}" />
+
+	<flow name="abort-job" doc:name="abort-job">
+		<sfdc:abort-job config-ref="Salesforce" doc:name="Abort job"
+			jobId="#[payload.jobId]">
+		</sfdc:abort-job>
+		<logger message="### abort-job #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="batch-info" doc:name="batch-info">
+		<sfdc:batch-info config-ref="Salesforce" doc:name="Batch info">
+			<sfdc:batch-info ref="#[payload.batchInfoReference]" />
+		</sfdc:batch-info>
+		<logger message="### batch-info #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="batch-result" doc:name="batch-result">
+		<sfdc:batch-result config-ref="Salesforce" doc:name="Batch result">
+			<sfdc:batch-info ref="#[payload.batchInfoReference]" />
+		</sfdc:batch-result>
+		<logger message="### batch-result #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="batch-result-stream" doc:name="batch-result-stream">
+		<sfdc:batch-result-stream config-ref="Salesforce"
+			doc:name="Batch result stream">
+			<sfdc:batch-info ref="#[payload.batchInfoReference]" />
+		</sfdc:batch-result-stream>
+		<logger message="### batch-result-stream #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="close-job" doc:name="close-job">
+		<sfdc:close-job config-ref="Salesforce" doc:name="Close job"
+			jobId="#[payload.jobId]">
+		</sfdc:close-job>
+		<logger message="### close-job #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="convert-lead-default-values" doc:name="convert-lead-default-values">
+		<sfdc:convert-lead config-ref="Salesforce" doc:name="Salesforce"
+			contactId="#[payload.contactId]" convertedStatus="#[payload.convertedStatus]"
+			leadId="#[payload.leadId]">
+		</sfdc:convert-lead>
+		<logger message="### convert-lead-default-values #[payload]"
+			level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="create-from-message" doc:name="create-from-message">
+		<sfdc:create config-ref="Salesforce" doc:name="Create"
+			type="#[payload.type]">
+			<sfdc:objects ref="#[payload.sObjectFieldMappingsFromMessage]">
+			</sfdc:objects>
+		</sfdc:create>
+		<!-- <json:json-to-object-transformer doc:name="JSON to Object"/> -->
+		<logger message="### create #[payload]" level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="create-batch-from-message" doc:name="create-batch-from-message">
+		<sfdc:create-batch config-ref="Salesforce" doc:name="Create batch">
+			<sfdc:job-info ref="#[payload.jobInfoReference]" />
+			<sfdc:objects ref="#[payload.fromMessage]" />
+		</sfdc:create-batch>
+		<logger message="### create-batch #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="create-batch-for-query" doc:name="create-batch-for-query">
+		<sfdc:create-batch-for-query config-ref="Salesforce"
+			doc:name="Create batch for query" query="#[payload.query]">
+			<sfdc:job-info ref="#[payload.jobInfoReference]" />
+		</sfdc:create-batch-for-query>
+		<logger message="### create-batch-for-query #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="create-batch-stream" doc:name="create-batch-stream">
+		<sfdc:create-batch-stream config-ref="Salesforce"
+			doc:name="Create batch stream" stream-ref="#[payload.streamReference]">
+			<sfdc:job-info ref="#[payload.jobInfoReference]" />
+		</sfdc:create-batch-stream>
+		<logger message="### create-batch-stream #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="create-bulk-from-message" doc:name="create-bulk-from-message">
+		<sfdc:create-bulk config-ref="Salesforce" doc:name="Create bulk"
+			type="#[payload.sObjectType]">
+			<sfdc:objects ref="#[payload.fromMessage]" />
+		</sfdc:create-bulk>
+		<logger message="### create-bulk #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="create-job" doc:name="create-job">
+		<sfdc:create-job config-ref="Salesforce" doc:name="Create job"
+			type="#[payload.type]" concurrencyMode="Parallel" contentType="XML"
+			externalIdFieldName="#[payload.externalIdFieldName]" operation="hardDelete">
+		</sfdc:create-job>
+		<logger message="### create-job #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="create-single-from-message" doc:name="create-single-from-message">
+		<sfdc:create-single config-ref="Salesforce"
+			doc:name="Create single" type="#[payload.type]">
+			<sfdc:object ref="#[payload.sObjectFieldMappingsFromMessage]" />
+		</sfdc:create-single>
+		<logger message="### create-single #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="delete-from-message" doc:name="delete-from-message">
+		<sfdc:delete config-ref="Salesforce" doc:name="Delete">
+			<sfdc:ids ref="#[payload.idsToDeleteFromMessage]" />
+		</sfdc:delete>
+		<logger message="### delete #[payload]" level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="describe-global" doc:name="describe-global">
+		<sfdc:describe-global config-ref="Salesforce"
+			doc:name="Describe global">
+		</sfdc:describe-global>
+		<logger message="### describe-global #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="describe-sobject" doc:name="describe-sobject">
+		<sfdc:describe-sobject config-ref="Salesforce"
+			doc:name="Describe sObject" type="#[payload.type]">
+		</sfdc:describe-sobject>
+		<logger message="### describe-sobject #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+
+	<flow name="empty-recycle-bin-from-message" doc:name="empty-recycle-bin-from-message">
+		<sfdc:empty-recycle-bin config-ref="Salesforce"
+			doc:name="Empty recycle bin">
+			<sfdc:ids ref="#[payload.idsToDeleteFromMessage]" />
+		</sfdc:empty-recycle-bin>
+		<logger message="### empty-recycle-bin #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="get-deleted" doc:name="get-deleted">
+		<sfdc:get-deleted config-ref="Salesforce" doc:name="Get deleted"
+			type="#[payload.type]" duration="#[payload.duration]">
+		</sfdc:get-deleted>
+		<logger message="### get-deleted #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+
+	<flow name="get-deleted-range" doc:name="get-deleted-range">
+		<sfdc:get-deleted-range config-ref="Salesforce"
+			doc:name="Get deleted range" type="#[payload.type]" endTime="#[payload.endTime]"
+			startTime="#[payload.startTime]">
+		</sfdc:get-deleted-range>
+		<logger message="### get-deleted-range #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+
+	<flow name="get-updated" doc:name="get-updated">
+		<sfdc:get-updated config-ref="Salesforce" doc:name="Get updated"
+			type="#[payload.type]" duration="#[payload.duration]">
+		</sfdc:get-updated>
+		<logger message="### get-updated #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+
+	<flow name="get-updated-objects-from-message" doc:name="get-updated-objects-from-message">
+		<sfdc:get-updated-objects config-ref="Salesforce"
+			doc:name="Get updated objects" type="#[payload.type]"
+			initialTimeWindow="#[payload.initialTimeWindow]">
+			<sfdc:fields ref="#[payload.fieldsFromMessage]" />
+		</sfdc:get-updated-objects>
+		<logger message="### get-updated-objects #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+
+	<flow name="get-updated-range" doc:name="get-updated-range">
+		<sfdc:get-updated-range config-ref="Salesforce"
+			doc:name="Get updated range" type="#[payload.type]" endTime="#[payload.endTime]"
+			startTime="#[payload.startTime]">
+		</sfdc:get-updated-range>
+		<logger message="### get-updated-range #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="get-user-info" doc:name="get-user-info">
+		<sfdc:get-user-info config-ref="Salesforce"
+			doc:name="Get user info">
+		</sfdc:get-user-info>
+		<logger message="### get-user-info" level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="hard-delete-bulk-from-message" doc:name="hard-delete-bulk-from-message">
+		<sfdc:hard-delete-bulk config-ref="Salesforce"
+			doc:name="Hard delete bulk" type="#[payload.sObjectType]">
+			<sfdc:objects ref="#[payload.salesforceSObjectsListFromMessage]" />
+		</sfdc:hard-delete-bulk>
+		<logger message="### hard-delete-bulk #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="publish-topic" doc:name="publish-topic">
+		<sfdc:publish-topic config-ref="Salesforce"
+			doc:name="Publish topic" description="#[payload.description]" query="#[payload.query]"
+			topicName="#[payload.topicName]">
+		</sfdc:publish-topic>
+		<logger message="### publish-topic #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="query" doc:name="query">
+		<sfdc:query config-ref="Salesforce" doc:name="Query"
+			query="#[payload.query]">
+		</sfdc:query>
+		<logger message="### query #[payload]" level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="query-all" doc:name="query-all">
+		<sfdc:query-all config-ref="Salesforce" doc:name="Query all"
+			query="#[payload.query]">
+		</sfdc:query-all>
+		<logger message="### query-all #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="query-result-stream" doc:name="query-result-stream">
+		<sfdc:query-result-stream config-ref="Salesforce"
+			doc:name="Query result stream">
+			<sfdc:batch-info ref="#[payload.batchInfoReference]" />
+		</sfdc:query-result-stream>
+		<logger message="### query-result-stream #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="query-single" doc:name="query-single">
+		<sfdc:query-single config-ref="Salesforce" doc:name="Query single"
+			query="#[payload.query]">
+		</sfdc:query-single>
+		<logger message="### query-single #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="reset-updated-objects-timestamp" doc:name="reset-updated-objects-timestamp">
+		<sfdc:reset-updated-objects-timestamp
+			config-ref="Salesforce" doc:name="Reset updated objects timestamp"
+			type="#[payload.sObjectType]">
+		</sfdc:reset-updated-objects-timestamp>
+		<logger message="### reset-updated-objects-timestamp #[payload]"
+			level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="retrieve-from-message" doc:name="retrieve-from-message">
+		<sfdc:retrieve config-ref="Salesforce" doc:name="Retrieve"
+			type="#[payload.type]">
+			<sfdc:ids ref="#[payload.idsToRetrieveFromMessage]" />
+			<sfdc:fields ref="#[payload.fieldsToRetrieveFromMessage]" />
+		</sfdc:retrieve>
+		<logger message="### retrieve #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="search" doc:name="search">
+		<sfdc:search config-ref="Salesforce" doc:name="Search"
+			query="#[payload.query]">
+		</sfdc:search>
+		<logger message="### search #[payload]" level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="update-from-message" doc:name="update-from-message">
+		<sfdc:update config-ref="Salesforce" doc:name="Update"
+			type="#[payload.type]">
+			<sfdc:objects ref="#[payload.salesforceSObjectsListFromMessage]" />
+		</sfdc:update>
+		<logger message="### update #[payload]" level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="update-bulk-from-message" doc:name="update-bulk-from-message">
+		<sfdc:update-bulk config-ref="Salesforce" doc:name="Update bulk"
+			type="#[payload.type]">
+			<sfdc:objects ref="#[payload.salesforceSObjectsListFromMessage]" />
+		</sfdc:update-bulk>
+		<logger message="### update-bulk #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="update-single-from-message" doc:name="update-single-from-message">
+		<sfdc:update-single config-ref="Salesforce"
+			doc:name="Udpate single" type="#[payload.type]">
+			<sfdc:object ref="#[payload.salesforceObjectFromMessage]" />
+		</sfdc:update-single>
+		<logger message="### update-single #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="upsert-from-message" doc:name="upsert-from-message">
+		<sfdc:upsert config-ref="Salesforce" doc:name="Upsert"
+			externalIdFieldName="#[payload.externalIdFieldName]" type="#[payload.type]">
+			<sfdc:objects ref="#[payload.salesforceSObjectsListFromMessage]" />
+		</sfdc:upsert>
+		<logger message="### upsert #[payload]" level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="upsert-bulk-from-message" doc:name="upsert-bulk-from-message">
+		<sfdc:upsert-bulk config-ref="Salesforce" doc:name="Upsert bulk"
+			externalIdFieldName="#[payload.externalIdFieldName]" type="#[payload.type]">
+			<sfdc:objects ref="#[payload.salesforceSObjectsList]" />
+		</sfdc:upsert-bulk>
+		<logger message="### upsert-bulk #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="paginated-query" doc:name="paginated-query">
+		<sfdc:paginated-query config-ref="Salesforce"
+			query="#[payload.query]" doc:name="Paginated query" />
+		<logger message="### paginated-query #[payload]" level="INFO"
+			doc:name="Logger" />
+	</flow>
+
+	<flow name="paginated-query-with-deleted-records" doc:name="paginated-query-with-deleted-records">
+		<sfdc:paginated-query config-ref="Salesforce"
+			query="#[payload.query]" doc:name="Paginated query"
+			withDeletedRecords="true" />
+		<logger message="### paginated-query-with-deleted-records #[payload]"
+			level="INFO" doc:name="Logger" />
+	</flow>
+
+	<flow name="paginated-query-by-queryResultObject-ref" doc:name="paginated-query-by-queryResultObject-ref">
+		<sfdc:paginated-query config-ref="Salesforce"
+			queryResultObject-ref="#[payload.queryResultObjectRef]" doc:name="Paginated query" withDeletedRecords="true" />
+		<logger message="### paginated-query-by-queryResultObject-ref #[payload]"
+			level="INFO" doc:name="Logger" />
+	</flow>
+
+</mule>

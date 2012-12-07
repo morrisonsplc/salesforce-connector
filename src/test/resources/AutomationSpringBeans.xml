@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>automation-credentials.properties</value>
+		</property>
+	</bean>
+
+    <!-- get user info -->
+
+	<util:map id="getUserInfoResult" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="userName" value="${salesforce.username}"/>
+    </util:map>
+    
+    <!-- create -->
+    
+    <util:map id="firstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="secondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="sObjectFieldMappingsList">
+	    <ref bean="firstSObjectFieldMappingsMap" />
+	    <ref bean="secondSObjectFieldMappingsMap" />
+    </util:list> 
+    
+    <util:map id="createRecord" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="sObjectFieldMappingsList"/>
+    </util:map>
+    
+     <!-- create-single -->
+    
+    <util:map id="SObjectFieldMappings" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+
+    <util:map id="createSingleRecord" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="SObjectFieldMappings"/>
+    </util:map>
+    
+     <!-- get deleted -->
+    
+    <util:map id="getDeletedFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="getDeletedSecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="getDeletedSObjectFieldMappingsList">
+	    <ref bean="getDeletedFirstSObjectFieldMappingsMap" />
+	    <ref bean="getDeletedSecondSObjectFieldMappingsMap" />
+    </util:list> 
+    
+    <util:map id="getDeletedTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="getDeletedSObjectFieldMappingsList"/>
+        <entry key="duration" value="10"/>
+    </util:map>
+    
+     <!-- get deleted range -->
+    
+    <util:map id="getDeletedRangeFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="getDeletedRangeSecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="getDeletedRangeSObjectFieldMappingsList">
+	    <ref bean="getDeletedRangeFirstSObjectFieldMappingsMap" />
+	    <ref bean="getDeletedRangeSecondSObjectFieldMappingsMap" />
+    </util:list> 
+    
+    <util:map id="getDeletedRangeTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="getDeletedRangeSObjectFieldMappingsList"/>
+        <entry key="duration" value="10"/>
+    </util:map>
+    
+    <!-- update -->
+    
+    <util:map id="updateFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="updateSecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="updateSObjectFieldMappingsList">
+	    <ref bean="updateFirstSObjectFieldMappingsMap" />
+	    <ref bean="updateSecondSObjectFieldMappingsMap" />
+    </util:list> 
+    
+    <util:map id="updateFirstSalesforceSObjectMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="UpdatedName"/>
+    </util:map>
+    
+    <util:map id="updateSecondSalesforceSObjectMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Description" value="Description"/>
+    </util:map>
+    
+    <util:list id="updateSalesforceSObjectsList">
+	    <ref bean="updateFirstSalesforceSObjectMap" />
+	    <ref bean="updateSecondSalesforceSObjectMap" />
+    </util:list> 
+    
+    <util:map id="updateCreateRecord" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="updateSObjectFieldMappingsList"/>
+        <entry key="salesforceSObjectsListFromMessage" value-ref="updateSalesforceSObjectsList"/>
+    </util:map>
+    
+    <!-- update-single -->
+    
+    <util:map id="updateSingleSObjectFieldMappings" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="updateSingleSalesforceSObject" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="updatedName"/>
+    </util:map>
+
+    <util:map id="updateSingleTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="updateSingleSObjectFieldMappings"/>
+        <entry key="salesforceObjectFromMessage" value-ref="updateSingleSalesforceSObject"/>
+    </util:map>
+    
+    <!-- get-updated -->
+    
+    <util:map id="getUpdatedFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="getUpdatedSecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="getUpdatedSObjectFieldMappingsList">
+	    <ref bean="updateFirstSObjectFieldMappingsMap" />
+	    <ref bean="updateSecondSObjectFieldMappingsMap" />
+    </util:list> 
+    
+    <util:map id="getUpdatedFirstSalesforceSObjectMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="UpdatedName"/>
+    </util:map>
+    
+    <util:map id="getUpdatedSecondSalesforceSObjectMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Description" value="Description"/>
+    </util:map>
+    
+    <util:list id="getUpdatedSalesforceSObjectsList">
+	    <ref bean="updateFirstSalesforceSObjectMap" />
+	    <ref bean="updateSecondSalesforceSObjectMap" />
+    </util:list> 
+    
+    <util:map id="getUpdatedTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="getUpdatedSObjectFieldMappingsList"/>
+        <entry key="salesforceSObjectsListFromMessage" value-ref="getUpdatedSalesforceSObjectsList"/>
+        <entry key="duration" value="10"/>
+    </util:map>
+    
+    <!-- get-updated-range -->
+    
+    <util:map id="getUpdatedRangeFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="getUpdatedRangeSecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="getUpdatedRangeSObjectFieldMappingsList">
+	    <ref bean="updateFirstSObjectFieldMappingsMap" />
+	    <ref bean="updateSecondSObjectFieldMappingsMap" />
+    </util:list> 
+    
+    <util:map id="getUpdatedRangeFirstSalesforceSObjectMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="UpdatedName"/>
+    </util:map>
+    
+    <util:map id="getUpdatedRangeSecondSalesforceSObjectMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Description" value="Description"/>
+    </util:map>
+    
+    <util:list id="getUpdatedRangeSalesforceSObjectsList">
+	    <ref bean="updateFirstSalesforceSObjectMap" />
+	    <ref bean="updateSecondSalesforceSObjectMap" />
+    </util:list> 
+    
+    <util:map id="getUpdatedRangeTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="getUpdatedRangeSObjectFieldMappingsList"/>
+        <entry key="salesforceSObjectsListFromMessage" value-ref="getUpdatedRangeSalesforceSObjectsList"/>
+        <entry key="duration" value="180"/>
+    </util:map>
+ 
+    <!-- query -->
+    
+    <util:map id="queryFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="querySecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="querySObjectFieldMappingsList">
+	    <ref bean="queryFirstSObjectFieldMappingsMap" />
+	    <ref bean="querySecondSObjectFieldMappingsMap" />
+    </util:list> 
+
+    <util:map id="queryTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="querySObjectFieldMappingsList"/>
+        <entry key="query" value="SELECT Id, Name, BillingCity FROM Account WHERE BillingCity = 'San Francisco'"/>
+    </util:map>
+    
+    <!-- query-all -->
+    
+    <util:map id="queryAllFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="queryAllSecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="queryAllSObjectFieldMappingsList">
+	    <ref bean="queryAllFirstSObjectFieldMappingsMap" />
+	    <ref bean="queryAllSecondSObjectFieldMappingsMap" />
+    </util:list> 
+
+    <util:map id="queryAllTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="queryAllSObjectFieldMappingsList"/>
+        <entry key="query" value="SELECT Id, Name, BillingCity FROM Account WHERE BillingCity = 'San Francisco'"/>
+    </util:map>
+    
+    <!-- query-single -->
+    
+    <util:map id="querySingleFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="querySingleBillingCity"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="querySingleSecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="querySingleBillingCity"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="querySingleSObjectFieldMappingsList">
+	    <ref bean="querySingleFirstSObjectFieldMappingsMap" />
+	    <ref bean="querySingleSecondSObjectFieldMappingsMap" />
+    </util:list> 
+
+    <util:map id="querySingleTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="querySingleSObjectFieldMappingsList"/>
+        <entry key="query" value="SELECT Id, Name, BillingCity FROM Account WHERE BillingCity = 'querySingleBillingCity'"/>
+    </util:map>
+    
+    <!-- paginated-query -->
+    
+    <util:map id="paginatedQuerySObjectFieldMappings" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+
+    <util:map id="paginatedQueryTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="paginatedQuerySObjectFieldMappings"/>
+        <entry key="query" value="SELECT Id, Name, BillingCity FROM Account WHERE BillingCity='San Francisco'"/>
+    </util:map>    
+   
+    <!-- retrieve -->
+    
+    <util:map id="retrieveFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="retrieveSecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="retrieveSObjectFieldMappingsList" value-type="java.util.HashMap">
+	    <ref bean="retrieveFirstSObjectFieldMappingsMap" />
+	    <ref bean="retrieveSecondSObjectFieldMappingsMap" />
+    </util:list> 
+    
+    <util:list id="fieldsToRetrieveFromMessageList" value-type="java.lang.String">
+	    <value>Name</value>
+    	<value>BillingCity</value>
+    </util:list> 
+
+    <util:map id="retrieveTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="retrieveSObjectFieldMappingsList"/>
+		<entry key="fieldsToRetrieveFromMessage" value-ref="fieldsToRetrieveFromMessageList"/>
+    </util:map>
+    
+    <!-- search -->
+    
+    <util:map id="searchFirstSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="3333333333"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="searchSecondSObjectFieldMappingsMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="3333333333"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="searchSObjectFieldMappingsList">
+	    <ref bean="searchFirstSObjectFieldMappingsMap" />
+	    <ref bean="searchSecondSObjectFieldMappingsMap" />
+    </util:list> 
+
+    <util:map id="searchTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="searchSObjectFieldMappingsList"/>
+        <entry key="query" value="FIND {3333*} IN Phone FIELDS RETURNING Contact(Id, Phone, FirstName, LastName), Account(Id, Phone, Name)"/>
+    </util:map>
+    
+    <!-- upsert --> 
+    
+    <util:map id="upsertSalesforceSObjectMap" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Amarello"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="3333333333"/>
+        <entry key="Website" value="www.amarello.com"/>
+    </util:map>
+    
+    <util:list id="upsertSalesforceSObjectsList">
+	    <ref bean="upsertSalesforceSObjectMap" />
+    </util:list> 
+    
+    <util:map id="upsertSObjectFieldMappings" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+
+    <util:map id="upsertTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="upsertSObjectFieldMappings"/>
+        <entry key="externalIdFieldName" value="Id"/> 
+        <entry key="salesforceSObjectsListFromMessage" value-ref="upsertSalesforceSObjectsList"/>
+    </util:map>
+    
+    <!-- convert-lead -->
+    
+    <util:map id="convertLeadAccountSObjectFieldMappings" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="1111-1111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+
+    <util:map id="convertLeadAccount" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="convertLeadAccountSObjectFieldMappings"/>
+    </util:map>
+    
+    <util:map id="convertLeadLeadSObjectFieldMappings" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="LastName" value="Mallard"/>
+        <entry key="FirstName" value="Jay"/>
+        <entry key="Company" value="Wingo Ducks"/>
+        <entry key="Phone" value="(707) 555-0328"/>
+    </util:map>
+
+    <util:map id="convertLeadLead" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Lead"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="convertLeadLeadSObjectFieldMappings"/>
+    </util:map>
+
+    <util:map id="convertLeadTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="lead" value-ref="convertLeadLead"/>
+        <entry key="account" value-ref="convertLeadAccount"/>
+        <entry key="convertedStatus" value="Closed - Converted"/>
+    </util:map>
+    
+	<!--   	Message source -->
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+				<value>automation-error-messages</value>
+		</property>
+	</bean>
+
+</beans>
