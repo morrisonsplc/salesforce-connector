@@ -838,7 +838,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      *                               Select Id, MasterLabel from LeadStatus where IsConverted=true
      * @param sendEmailToOwner       Specifies whether to send a notification email to the owner specified in the
      *                               ownerId (true) or not (false, the default).
-     * @return A list of {@link com.sforce.soap.partner.LeadConvertResult}
+     * @return A {@link com.sforce.soap.partner.LeadConvertResult} object
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_convertlead.htm">convertLead()</a>
      * @since 4.0
@@ -848,7 +848,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
-    public LeadConvertResult convertLead(String leadId, String contactId,
+    public LeadConvertResult convertLead(String leadId, @Optional String contactId,
                                          @Optional String accountId,
                                          @Optional @Default("false") Boolean overWriteLeadSource,
                                          @Optional @Default("false") Boolean doNotCreateOpportunity,
