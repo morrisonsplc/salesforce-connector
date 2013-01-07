@@ -1039,7 +1039,11 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     <tr class="alt-color api apilevel-" >
                         <td class="jd-linkcol"><nobr>initialTimeWindow</nobr></td>
                         <td class="jd-descrcol"></td>
-                        <td class="jd-descrcol">Time window (in minutes) to use the first time this method is called</td>
+                        <td class="jd-descrcol">Time window (in minutes) used to calculate the start time (in time range) the first time
+                          this operation is called. E.g: if initialTimeWindow equals 2, the start time will be
+                          the current time (now) minus 2 minutes, then the range to retrieve the updated object will
+                          be (now - 2 minutes; now). After first call the start time will be calculated from the
+                          object store getting the last time this operation was exec</td>
                         <td class="jd-descrcol">int</td>
                         <td class="jd-descrcol">*/*</td>
                         <td class="jd-descrcol"></td>
@@ -1170,14 +1174,14 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
              </tr>
              <tr>
                 <td class="jd-descrcol">List&lt;Map&lt;String,&nbsp;Object&gt;&gt;</td>
-                <td class="jd-descrcol"><code><a href="../java/com/sforce/soap/partner/GetDeletedResult.html">GetDeletedResult</a></code></td>
+                <td class="jd-descrcol">List with the updated objects in the calculated time range</td>
              </tr>
          </table>
   </div>
     
     <div class="jd-tagdata">
         <h5 class="jd-tagtitle">API Information</h5>
-        <ul class="nolist"><li><a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a></li></ul>
+        <ul class="nolist"><li>This operation extends <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a></li></ul>
     </div>
   
   <div class="jd-tagdata">
@@ -1674,7 +1678,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
     
     <div class="jd-tagdata">
         <h5 class="jd-tagtitle">API Information</h5>
-        <ul class="nolist"><li><a href="http://www.salesforce.com/us/developer/docs/api/Content/pushtopic.htm">Push Topic</a></li></ul>
+        <ul class="nolist"><li><a href="http://www.salesforce.com/us/developer/docs/api_streaming/Content/pushtopic.htm">Push Topic</a></li></ul>
     </div>
   
   <div class="jd-tagdata">
@@ -3619,7 +3623,9 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
              </tr>
              <tr>
                 <td class="jd-descrcol"><a href="../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a></td>
-                <td class="jd-descrcol"><code><a href="../java/com/sforce/soap/partner/GetDeletedResult.html">GetDeletedResult</a></code></td>
+                <td class="jd-descrcol"><code><a href="../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a></code> object containing an array of GetUpdatedResult objects containing the ID of each
+ created or updated object and the date/time (Coordinated Universal Time (UTC) time zone) on which it was created
+ or updated, respectively</td>
              </tr>
          </table>
   </div>

@@ -3896,7 +3896,9 @@ From interface
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Returns</h5>
-      <ul class="nolist"><li><code><a href="../../../../../java/com/sforce/soap/partner/GetDeletedResult.html">GetDeletedResult</a></code></li></ul>
+      <ul class="nolist"><li><code><a href="../../../../../java/com/sforce/soap/partner/GetUpdatedResult.html">GetUpdatedResult</a></code> object containing an array of GetUpdatedResult objects containing the ID of each
+ created or updated object and the date/time (Coordinated Universal Time (UTC) time zone) on which it was created
+ or updated, respectively</li></ul>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Throws</h5>
@@ -3953,7 +3955,11 @@ From interface
         </tr>
         <tr>
           <th>initialTimeWindow</td>
-          <td>Time window (in minutes) to use the first time this method is called</td>
+          <td>Time window (in minutes) used to calculate the start time (in time range) the first time
+                          this operation is called. E.g: if initialTimeWindow equals 2, the start time will be
+                          the current time (now) minus 2 minutes, then the range to retrieve the updated object will
+                          be (now - 2 minutes; now). After first call the start time will be calculated from the
+                          object store getting the last time this operation was exec</td>
         </tr>
         <tr>
           <th>fields</td>
@@ -3963,7 +3969,7 @@ From interface
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Returns</h5>
-      <ul class="nolist"><li><code><a href="../../../../../java/com/sforce/soap/partner/GetDeletedResult.html">GetDeletedResult</a></code></li></ul>
+      <ul class="nolist"><li>List with the updated objects in the calculated time range</li></ul>
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Throws</h5>
