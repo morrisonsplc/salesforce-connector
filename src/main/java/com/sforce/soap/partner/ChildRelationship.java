@@ -134,6 +134,34 @@ public class ChildRelationship implements com.sforce.ws.bind.XMLizable {
     relationshipName__is_set = true;
   }
   
+  /**
+   * element  : restrictedDelete of type {http://www.w3.org/2001/XMLSchema}boolean
+   * java type: boolean
+   */
+  private static final com.sforce.ws.bind.TypeInfo restrictedDelete__typeInfo =
+    new com.sforce.ws.bind.TypeInfo("urn:partner.soap.sforce.com","restrictedDelete","http://www.w3.org/2001/XMLSchema","boolean",0,1,true);
+
+  private boolean restrictedDelete__is_set = false;
+
+  private boolean restrictedDelete;
+
+  public boolean getRestrictedDelete() {
+    return restrictedDelete;
+  }
+
+  
+
+  public boolean isRestrictedDelete() {
+    return restrictedDelete;
+  }
+
+  
+
+  public void setRestrictedDelete(boolean restrictedDelete) {
+    this.restrictedDelete = restrictedDelete;
+    restrictedDelete__is_set = true;
+  }
+  
 
   /**
    */
@@ -154,6 +182,7 @@ public class ChildRelationship implements com.sforce.ws.bind.XMLizable {
     __typeMapper.writeBoolean(__out, deprecatedAndHidden__typeInfo, deprecatedAndHidden, deprecatedAndHidden__is_set);
     __typeMapper.writeString(__out, field__typeInfo, field, field__is_set);
     __typeMapper.writeString(__out, relationshipName__typeInfo, relationshipName, relationshipName__is_set);
+    __typeMapper.writeBoolean(__out, restrictedDelete__typeInfo, restrictedDelete, restrictedDelete__is_set);
   }
 
 
@@ -187,6 +216,10 @@ public class ChildRelationship implements com.sforce.ws.bind.XMLizable {
     if (__typeMapper.isElement(__in, relationshipName__typeInfo)) {
       setRelationshipName((java.lang.String)__typeMapper.readString(__in, relationshipName__typeInfo, java.lang.String.class));
     }
+    __in.peekTag();
+    if (__typeMapper.isElement(__in, restrictedDelete__typeInfo)) {
+      setRestrictedDelete((boolean)__typeMapper.readBoolean(__in, restrictedDelete__typeInfo, boolean.class));
+    }
   }
 
   public String toString() {
@@ -203,6 +236,8 @@ public class ChildRelationship implements com.sforce.ws.bind.XMLizable {
     sb.append("'"+com.sforce.ws.util.Verbose.toString(field)+"'\n");
     sb.append(" relationshipName=");
     sb.append("'"+com.sforce.ws.util.Verbose.toString(relationshipName)+"'\n");
+    sb.append(" restrictedDelete=");
+    sb.append("'"+com.sforce.ws.util.Verbose.toString(restrictedDelete)+"'\n");
     sb.append("]\n");
     return sb.toString();
   }

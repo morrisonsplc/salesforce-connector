@@ -7,6 +7,11 @@ public enum ExceptionCode {
 
   
   /**
+   * Enumeration  : APEX_TRIGGER_COUPLING_LIMIT
+   */
+   APEX_TRIGGER_COUPLING_LIMIT,
+  
+  /**
    * Enumeration  : API_CURRENTLY_DISABLED
    */
    API_CURRENTLY_DISABLED,
@@ -107,6 +112,11 @@ public enum ExceptionCode {
    EMAIL_TO_CASE_NOT_ENABLED,
   
   /**
+   * Enumeration  : ENVIRONMENT_HUB_MEMBERSHIP_CONFLICT
+   */
+   ENVIRONMENT_HUB_MEMBERSHIP_CONFLICT,
+  
+  /**
    * Enumeration  : EXCEEDED_ID_LIMIT
    */
    EXCEEDED_ID_LIMIT,
@@ -132,6 +142,31 @@ public enum ExceptionCode {
    EXCEEDED_QUOTA,
   
   /**
+   * Enumeration  : EXTERNAL_OBJECT_AUTHENTICATION_EXCEPTION
+   */
+   EXTERNAL_OBJECT_AUTHENTICATION_EXCEPTION,
+  
+  /**
+   * Enumeration  : EXTERNAL_OBJECT_CONNECTION_EXCEPTION
+   */
+   EXTERNAL_OBJECT_CONNECTION_EXCEPTION,
+  
+  /**
+   * Enumeration  : EXTERNAL_OBJECT_EXCEPTION
+   */
+   EXTERNAL_OBJECT_EXCEPTION,
+  
+  /**
+   * Enumeration  : EXTERNAL_OBJECT_UNSUPPORTED_EXCEPTION
+   */
+   EXTERNAL_OBJECT_UNSUPPORTED_EXCEPTION,
+  
+  /**
+   * Enumeration  : FEDERATED_SEARCH_ERROR
+   */
+   FEDERATED_SEARCH_ERROR,
+  
+  /**
    * Enumeration  : FEED_NOT_ENABLED_FOR_OBJECT
    */
    FEED_NOT_ENABLED_FOR_OBJECT,
@@ -145,6 +180,11 @@ public enum ExceptionCode {
    * Enumeration  : FUNCTIONALITY_TEMPORARILY_UNAVAILABLE
    */
    FUNCTIONALITY_TEMPORARILY_UNAVAILABLE,
+  
+  /**
+   * Enumeration  : ILLEGAL_QUERY_PARAMETER_VALUE
+   */
+   ILLEGAL_QUERY_PARAMETER_VALUE,
   
   /**
    * Enumeration  : INACTIVE_OWNER_OR_USER
@@ -200,6 +240,11 @@ public enum ExceptionCode {
    * Enumeration  : INVALID_ID_FIELD
    */
    INVALID_ID_FIELD,
+  
+  /**
+   * Enumeration  : INVALID_INPUT_COMBINATION
+   */
+   INVALID_INPUT_COMBINATION,
   
   /**
    * Enumeration  : INVALID_LOCALE_LANGUAGE

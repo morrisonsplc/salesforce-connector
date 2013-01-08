@@ -1204,7 +1204,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         if (result.getSize() == 0) {
             SObject pushTopic = new SObject();
             pushTopic.setType("PushTopic");
-            pushTopic.setField("ApiVersion", "23.0");
+            pushTopic.setField("ApiVersion", "26.0");
             if (description != null) {
                 pushTopic.setField("Description", description);
             }
