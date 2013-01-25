@@ -12,6 +12,8 @@ package org.mule.modules.salesforce;
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.BulkConnection;
 import com.sforce.soap.partner.*;
+import com.sforce.soap.partner.Connector;
+import com.sforce.soap.partner.Field;
 import com.sforce.soap.partner.fault.ApiFault;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
@@ -19,18 +21,18 @@ import com.sforce.ws.MessageHandler;
 import com.sforce.ws.SessionRenewer;
 import org.apache.log4j.Logger;
 import org.mule.api.ConnectionExceptionCode;
-import org.mule.api.annotations.Connect;
-import org.mule.api.annotations.ConnectionIdentifier;
-import org.mule.api.annotations.Disconnect;
-import org.mule.api.annotations.ValidateConnection;
+import org.mule.api.annotations.*;
 import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.display.Placement;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
+import org.mule.common.metadata.*;
+import org.mule.common.metadata.datatype.DataType;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.*;
 
 
 /**
@@ -48,9 +50,146 @@ import java.net.URL;
  *
  * @author MuleSoft, Inc.
  */
-@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.3")
+@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.4")
 public class SalesforceConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceConnector.class);
+
+
+    @MetaDataKeyRetriever
+    public List<MetaDataKey> getMetaDataKeys() throws Exception {
+        long start = System.currentTimeMillis();
+
+        List<MetaDataKey> keys = new ArrayList<MetaDataKey>();
+        DescribeGlobalResult describeGlobal = null;
+
+        describeGlobal = describeGlobal();
+
+
+        if (describeGlobal != null)
+        {
+            DescribeGlobalSObjectResult[] sobjects = describeGlobal.getSobjects();
+            for (DescribeGlobalSObjectResult sobject : sobjects) {
+                keys.add(new DefaultMetaDataKey(sobject.getName(), sobject.getLabel()));
+            }
+        }
+
+        //TODO: remove sytem out
+        long stop = System.currentTimeMillis();
+        System.out.println("Time to get keys: " + Long.toString(stop-start) + "ms");
+
+        return keys;
+    }
+
+    @MetaDataRetriever
+    public MetaData getMetaData(MetaDataKey key) throws Exception {
+        DescribeSObjectResult describeSObject = null;
+
+        describeSObject = describeSObject(key.getId());
+
+
+        MetaData metaData = null;
+        if (describeSObject != null)
+        {
+            Field[] fields = describeSObject.getFields();
+            Map<String, SimpleMetaDataModel> map = new HashMap<String, SimpleMetaDataModel>(fields.length);
+            for (Field f : fields)
+            {
+                SimpleMetaDataModel fieldModel = getModelForField(f);
+                map.put(f.getName(), fieldModel);
+            }
+
+            MetaDataModel stringMdm = new DefaultMetaDataModel(DataType.STRING);
+            MetaDataModel model = new DefaultMapMetaDataModel<String>(stringMdm, map);
+            metaData = new DefaultMetaData(model);
+        }
+        return metaData;
+    }
+
+    private static final Set<String> parentNames = Collections.singleton("sObject");
+    private SimpleMetaDataModel getModelForField(Field f)
+    {
+        DataType dataType = getDataType(f.getType());
+        String name = f.getName();
+        SimpleMetaDataModel model = new DefaultSimpleMetaDataModel(dataType, name, parentNames);
+        return model;
+    }
+
+    private DataType getDataType(FieldType fieldType)
+    {
+        DataType dt = DataType.POJO;
+        switch (fieldType) {
+            case _boolean:
+                dt = DataType.BOOLEAN;
+                break;
+            case _double:
+                dt = DataType.NUMBER;
+                break;
+            case _int:
+                dt = DataType.NUMBER;
+                break;
+            case anyType:
+                dt = DataType.POJO;
+                break;
+            case base64:
+                dt = DataType.STRING;
+                break;
+            case combobox:
+                dt = DataType.ENUM;
+                break;
+            case currency:
+                dt = DataType.STRING;
+                break;
+            case datacategorygroupreference:
+                dt = DataType.STRING;
+                break;
+            case date:
+                dt = DataType.DATE_TIME;
+                break;
+            case datetime:
+                dt = DataType.DATE_TIME;
+                break;
+            case email:
+                dt = DataType.STRING;
+                break;
+            case encryptedstring:
+                dt = DataType.STRING;
+                break;
+            case id:
+                dt = DataType.STRING;
+                break;
+            case multipicklist:
+                dt = DataType.ENUM;
+                break;
+            case percent:
+                dt = DataType.STRING;
+                break;
+            case phone:
+                dt = DataType.STRING;
+                break;
+            case picklist:
+                dt = DataType.ENUM;
+                break;
+            case reference:
+                dt = DataType.STRING;
+                break;
+            case string:
+                dt = DataType.STRING;
+                break;
+            case textarea:
+                dt = DataType.STRING;
+                break;
+            case time:
+                dt = DataType.DATE_TIME;
+                break;
+            case url:
+                dt = DataType.STRING;
+                break;
+            default:
+                dt = DataType.STRING;
+        }
+        return dt;
+    }
+
 
     /**
      * Partner connection

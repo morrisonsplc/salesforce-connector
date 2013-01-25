@@ -14,9 +14,16 @@
 
 package org.mule.modules.salesforce;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.common.Result;
+import org.mule.common.metadata.*;
+import org.mule.common.metadata.datatype.DataType;
 import org.mule.construct.Flow;
 import org.mule.tck.junit4.FunctionalTestCase;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Verifies that the connector produces a valid xsd.
@@ -29,13 +36,45 @@ public class SalesforceNamespaceHandlerTest extends FunctionalTestCase
         return "mule-config.xml";
     }
 
-    @Test
-    public void testFlow() throws Exception
-    {
-        // Flow flow = lookupFlowConstruct("Create");
-        // MuleEvent responseEvent = flow.process(getTestEvent("<anyPayload/>"));
+    private boolean hasConfiguration() {
+        ConnectorMetaDataEnabled connector = muleContext.getRegistry().lookupObject("Salesforce");
+        return connector != null;
     }
 
+    @Ignore
+    @Test
+    public void testGetMetaDataKeys() throws Exception
+    {
+        ConnectorMetaDataEnabled connector = (ConnectorMetaDataEnabled) muleContext.getRegistry().lookupObject("Salesforce");
+        if (connector != null) {
+            assertTrue(Result.Status.SUCCESS.equals(connector.getMetaDataKeys().getStatus()));
+        } else {
+            logger.info("Test testGetMetaDataKeys needs the real Salesforce config to work");
+        }
+    }
+
+    @Ignore
+    @Test
+    public void testCreate() throws Exception
+    {
+        if (hasConfiguration()) {
+            Result<MetaData> input = ((OperationMetaDataEnabled) ((org.mule.construct.Flow) muleContext.getRegistry().lookupFlowConstruct("Create-metaData"))
+                    .getMessageProcessors()
+                    .get(0)).getInputMetaData();
+            assertTrue(Result.Status.SUCCESS.equals(input.getStatus()));
+            assertTrue(DataType.LIST.equals(input.get().getPayload().getDataType()));
+            assertTrue(DataType.MAP.equals(input.get().getPayload().as(ListMetaDataModel.class).getElementModel().getDataType()));
+
+            Result<MetaData> output = ((OperationMetaDataEnabled) ((org.mule.construct.Flow) muleContext.getRegistry().lookupFlowConstruct("Create-metaData"))
+                    .getMessageProcessors()
+                    .get(0)).getOutputMetaData(null);
+            assertTrue(Result.Status.SUCCESS.equals(output.getStatus()));
+            assertTrue(DataType.LIST.equals(output.get().getPayload().getDataType()));
+            assertTrue(DataType.POJO.equals(output.get().getPayload().as(ListMetaDataModel.class).getElementModel().getDataType()));
+        } else {
+            logger.info("Test testGetMetaDataKeys needs the real Salesforce config to work");
+        }
+     }
     /**
      * Retrieve a flow by name from the registry
      * 

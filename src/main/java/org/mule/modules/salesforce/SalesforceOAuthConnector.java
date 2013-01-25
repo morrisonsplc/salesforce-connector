@@ -19,6 +19,7 @@ import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.MessageHandler;
 import org.apache.log4j.Logger;
 import org.mule.api.annotations.Configurable;
+import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.oauth.OAuth2;
 import org.mule.api.annotations.oauth.OAuthAccessToken;
 import org.mule.api.annotations.oauth.OAuthAccessTokenIdentifier;
@@ -104,6 +105,7 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
     public String getUserId() {
         return userId;
     }
+
 
     @OAuthPostAuthorization
     public void postAuthorize() throws ConnectionException, MalformedURLException, AsyncApiException {
