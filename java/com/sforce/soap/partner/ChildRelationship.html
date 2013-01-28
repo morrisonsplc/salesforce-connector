@@ -315,6 +315,9 @@
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/DescribeLayoutResult.html">DescribeLayoutResult</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/DescribeLayoutRow.html">DescribeLayoutRow</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/DescribeLayoutSection.html">DescribeLayoutSection</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/DescribeSearchScopeOrder_element.html">DescribeSearchScopeOrder_element</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/DescribeSearchScopeOrderResponse_element.html">DescribeSearchScopeOrderResponse_element</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/DescribeSearchScopeOrderResult.html">DescribeSearchScopeOrderResult</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/DescribeSObject_element.html">DescribeSObject_element</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/DescribeSObjectResponse_element.html">DescribeSObjectResponse_element</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/DescribeSObjectResult.html">DescribeSObjectResult</a></li>
@@ -407,6 +410,8 @@
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/SearchResult.html">SearchResult</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/SendEmail_element.html">SendEmail_element</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/SendEmailError.html">SendEmailError</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/SendEmailMessage_element.html">SendEmailMessage_element</a></li>
+          <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/SendEmailMessageResponse_element.html">SendEmailMessageResponse_element</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/SendEmailResponse_element.html">SendEmailResponse_element</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/SendEmailResult.html">SendEmailResult</a></li>
           <li class="api apilevel-"><a href="../../../../../java/com/sforce/soap/partner/SessionHeader_element.html">SessionHeader_element</a></li>
@@ -825,6 +830,41 @@ Summary:
       </tr>
       
     
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          private
+          
+          
+          boolean</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../com/sforce/soap/partner/ChildRelationship.html#restrictedDelete">restrictedDelete</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          private
+          
+          
+          boolean</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../com/sforce/soap/partner/ChildRelationship.html#restrictedDelete__is_set">restrictedDelete__is_set</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          private
+          static
+          final
+          <a href="../../../../../java/com/sforce/ws/bind/TypeInfo.html">TypeInfo</a></nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../com/sforce/soap/partner/ChildRelationship.html#restrictedDelete__typeInfo">restrictedDelete__typeInfo</a></td>
+          <td class="jd-descrcol" width="100%">element  : restrictedDelete of type {http://www.w3.org/2001/XMLSchema}boolean
+ java type: boolean
+</td>
+      </tr>
+      
+    
 
 </table>
 
@@ -962,7 +1002,7 @@ Summary:
             boolean</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../com/sforce/soap/partner/ChildRelationship.html#isCascadeDelete()">isCascadeDelete</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../com/sforce/soap/partner/ChildRelationship.html#getRestrictedDelete()">getRestrictedDelete</a></span>()</nobr>
         
   </td></tr>
 
@@ -978,7 +1018,39 @@ Summary:
             boolean</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../com/sforce/soap/partner/ChildRelationship.html#isCascadeDelete()">isCascadeDelete</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            boolean</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../com/sforce/soap/partner/ChildRelationship.html#isDeprecatedAndHidden()">isDeprecatedAndHidden</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            boolean</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../com/sforce/soap/partner/ChildRelationship.html#isRestrictedDelete()">isRestrictedDelete</a></span>()</nobr>
         
   </td></tr>
 
@@ -1089,6 +1161,22 @@ Summary:
             
             
             
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../com/sforce/soap/partner/ChildRelationship.html#setRestrictedDelete(boolean)">setRestrictedDelete</a></span>(boolean restrictedDelete)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             String</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
@@ -1098,7 +1186,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1926,6 +2014,98 @@ From interface
 
 
 
+<A NAME="restrictedDelete"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+         
+         
+        boolean
+      </span>
+        restrictedDelete
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="restrictedDelete__is_set"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+         
+         
+        boolean
+      </span>
+        restrictedDelete__is_set
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="restrictedDelete__typeInfo"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+        static 
+        final 
+        <a href="../../../../../java/com/sforce/ws/bind/TypeInfo.html">TypeInfo</a>
+      </span>
+        restrictedDelete__typeInfo
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>element  : restrictedDelete of type {http://www.w3.org/2001/XMLSchema}boolean
+ java type: boolean
+</p></div>
+
+    
+    </div>
+</div>
+
+
+
 
 <!-- Public ctors -->
 
@@ -2137,6 +2317,37 @@ From interface
 </div>
 
 
+<A NAME="getRestrictedDelete()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        boolean
+      </span>
+      <span class="sympad">getRestrictedDelete</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    </div>
+</div>
+
+
 <A NAME="isCascadeDelete()"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -2181,6 +2392,37 @@ From interface
         boolean
       </span>
       <span class="sympad">isDeprecatedAndHidden</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    </div>
+</div>
+
+
+<A NAME="isRestrictedDelete()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        boolean
+      </span>
+      <span class="sympad">isRestrictedDelete</span>
       <span class="normal">()</span>
     </h4>
       <div class="api-level">
@@ -2447,6 +2689,46 @@ From interface
       <table class="jd-tagtable">
         <tr>
           <th>relationshipName</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="setRestrictedDelete(boolean)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setRestrictedDelete</span>
+      <span class="normal">(boolean restrictedDelete)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>restrictedDelete</td>
           <td></td>
         </tr>
       </table>
