@@ -1109,7 +1109,9 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      *
      * @param type     Object type. The specified value must be a valid object for your organization.
      * @param duration The amount of time in minutes before now for which to return records from.
-     * @return {@link GetDeletedResult}
+     * @return {@link GetUpdatedResult} object containing an array of GetUpdatedResult objects containing the ID of each
+     * created or updated object and the date/time (Coordinated Universal Time (UTC) time zone) on which it was created
+     * or updated, respectively
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
@@ -1138,11 +1140,15 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-updated-objects}
      *
      * @param type              Object type. The specified value must be a valid object for your organization.
-     * @param initialTimeWindow Time window (in minutes) to use the first time this method is called
+     * @param initialTimeWindow Time window (in minutes) used to calculate the start time (in time range) the first time
+     *                          this operation is called. E.g: if initialTimeWindow equals 2, the start time will be
+     *                          the current time (now) minus 2 minutes, then the range to retrieve the updated object will
+     *                          be (now - 2 minutes; now). After first call the start time will be calculated from the
+     *                          object store getting the last time this operation was exec
      * @param fields            The fields to retrieve for the updated objects
-     * @return {@link GetDeletedResult}
+     * @return List with the updated objects in the calculated time range
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
-     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
+     * @api.doc This operation extends <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
     @Processor
     @OAuthProtected
@@ -1230,7 +1236,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * @param query       The SOQL query statement that determines which records' changes trigger events to be sent to
      *                    the channel. Maximum length: 1200 characters
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
-     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/pushtopic.htm">Push Topic</a>
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_streaming/Content/pushtopic.htm">Push Topic</a>
      * @since 4.0
      */
     @Processor
@@ -1245,7 +1251,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         if (result.getSize() == 0) {
             SObject pushTopic = new SObject();
             pushTopic.setType("PushTopic");
-            pushTopic.setField("ApiVersion", "23.0");
+            pushTopic.setField("ApiVersion", "26.0");
             if (description != null) {
                 pushTopic.setField("Description", description);
             }

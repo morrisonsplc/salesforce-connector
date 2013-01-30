@@ -42,6 +42,11 @@ public enum StatusCode {
    CANNOT_CHANGE_FIELD_TYPE_OF_APEX_REFERENCED_FIELD,
   
   /**
+   * Enumeration  : CANNOT_CHANGE_FIELD_TYPE_OF_REFERENCED_FIELD
+   */
+   CANNOT_CHANGE_FIELD_TYPE_OF_REFERENCED_FIELD,
+  
+  /**
    * Enumeration  : CANNOT_CREATE_ANOTHER_MANAGED_PACKAGE
    */
    CANNOT_CREATE_ANOTHER_MANAGED_PACKAGE,
@@ -90,6 +95,16 @@ public enum StatusCode {
    * Enumeration  : CANNOT_RENAME_APEX_REFERENCED_OBJECT
    */
    CANNOT_RENAME_APEX_REFERENCED_OBJECT,
+  
+  /**
+   * Enumeration  : CANNOT_RENAME_REFERENCED_FIELD
+   */
+   CANNOT_RENAME_REFERENCED_FIELD,
+  
+  /**
+   * Enumeration  : CANNOT_RENAME_REFERENCED_OBJECT
+   */
+   CANNOT_RENAME_REFERENCED_OBJECT,
   
   /**
    * Enumeration  : CANNOT_REPARENT_RECORD
@@ -160,6 +175,11 @@ public enum StatusCode {
    * Enumeration  : DELETE_FAILED
    */
    DELETE_FAILED,
+  
+  /**
+   * Enumeration  : DELETE_OPERATION_TOO_LARGE
+   */
+   DELETE_OPERATION_TOO_LARGE,
   
   /**
    * Enumeration  : DELETE_REQUIRED_ON_CASCADE
@@ -250,6 +270,11 @@ public enum StatusCode {
    * Enumeration  : ENTITY_IS_LOCKED
    */
    ENTITY_IS_LOCKED,
+  
+  /**
+   * Enumeration  : ENVIRONMENT_HUB_MEMBERSHIP_CONFLICT
+   */
+   ENVIRONMENT_HUB_MEMBERSHIP_CONFLICT,
   
   /**
    * Enumeration  : ERROR_IN_MAILER
@@ -452,6 +477,11 @@ public enum StatusCode {
    INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST,
   
   /**
+   * Enumeration  : INVALID_PACKAGE_VERSION
+   */
+   INVALID_PACKAGE_VERSION,
+  
+  /**
    * Enumeration  : INVALID_PARTNER_NETWORK_STATUS
    */
    INVALID_PARTNER_NETWORK_STATUS,
@@ -460,6 +490,11 @@ public enum StatusCode {
    * Enumeration  : INVALID_PERSON_ACCOUNT_OPERATION
    */
    INVALID_PERSON_ACCOUNT_OPERATION,
+  
+  /**
+   * Enumeration  : INVALID_QUERY_LOCATOR
+   */
+   INVALID_QUERY_LOCATOR,
   
   /**
    * Enumeration  : INVALID_READ_ONLY_USER_DML
@@ -690,6 +725,11 @@ public enum StatusCode {
    * Enumeration  : PRIVATE_CONTACT_ON_ASSET
    */
    PRIVATE_CONTACT_ON_ASSET,
+  
+  /**
+   * Enumeration  : QUERY_TIMEOUT
+   */
+   QUERY_TIMEOUT,
   
   /**
    * Enumeration  : RECORD_IN_USE_BY_WORKFLOW

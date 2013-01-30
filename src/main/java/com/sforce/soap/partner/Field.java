@@ -113,6 +113,34 @@ public class Field implements com.sforce.ws.bind.XMLizable {
   }
   
   /**
+   * element  : cascadeDelete of type {http://www.w3.org/2001/XMLSchema}boolean
+   * java type: boolean
+   */
+  private static final com.sforce.ws.bind.TypeInfo cascadeDelete__typeInfo =
+    new com.sforce.ws.bind.TypeInfo("urn:partner.soap.sforce.com","cascadeDelete","http://www.w3.org/2001/XMLSchema","boolean",0,1,true);
+
+  private boolean cascadeDelete__is_set = false;
+
+  private boolean cascadeDelete;
+
+  public boolean getCascadeDelete() {
+    return cascadeDelete;
+  }
+
+  
+
+  public boolean isCascadeDelete() {
+    return cascadeDelete;
+  }
+
+  
+
+  public void setCascadeDelete(boolean cascadeDelete) {
+    this.cascadeDelete = cascadeDelete;
+    cascadeDelete__is_set = true;
+  }
+  
+  /**
    * element  : caseSensitive of type {http://www.w3.org/2001/XMLSchema}boolean
    * java type: boolean
    */
@@ -344,6 +372,34 @@ public class Field implements com.sforce.ws.bind.XMLizable {
   public void setDigits(int digits) {
     this.digits = digits;
     digits__is_set = true;
+  }
+  
+  /**
+   * element  : displayLocationInDecimal of type {http://www.w3.org/2001/XMLSchema}boolean
+   * java type: boolean
+   */
+  private static final com.sforce.ws.bind.TypeInfo displayLocationInDecimal__typeInfo =
+    new com.sforce.ws.bind.TypeInfo("urn:partner.soap.sforce.com","displayLocationInDecimal","http://www.w3.org/2001/XMLSchema","boolean",0,1,true);
+
+  private boolean displayLocationInDecimal__is_set = false;
+
+  private boolean displayLocationInDecimal;
+
+  public boolean getDisplayLocationInDecimal() {
+    return displayLocationInDecimal;
+  }
+
+  
+
+  public boolean isDisplayLocationInDecimal() {
+    return displayLocationInDecimal;
+  }
+
+  
+
+  public void setDisplayLocationInDecimal(boolean displayLocationInDecimal) {
+    this.displayLocationInDecimal = displayLocationInDecimal;
+    displayLocationInDecimal__is_set = true;
   }
   
   /**
@@ -659,6 +715,34 @@ public class Field implements com.sforce.ws.bind.XMLizable {
   }
   
   /**
+   * element  : permissionable of type {http://www.w3.org/2001/XMLSchema}boolean
+   * java type: boolean
+   */
+  private static final com.sforce.ws.bind.TypeInfo permissionable__typeInfo =
+    new com.sforce.ws.bind.TypeInfo("urn:partner.soap.sforce.com","permissionable","http://www.w3.org/2001/XMLSchema","boolean",1,1,true);
+
+  private boolean permissionable__is_set = false;
+
+  private boolean permissionable;
+
+  public boolean getPermissionable() {
+    return permissionable;
+  }
+
+  
+
+  public boolean isPermissionable() {
+    return permissionable;
+  }
+
+  
+
+  public void setPermissionable(boolean permissionable) {
+    this.permissionable = permissionable;
+    permissionable__is_set = true;
+  }
+  
+  /**
    * element  : picklistValues of type {urn:partner.soap.sforce.com}PicklistEntry
    * java type: com.sforce.soap.partner.PicklistEntry[]
    */
@@ -766,6 +850,34 @@ public class Field implements com.sforce.ws.bind.XMLizable {
   public void setRelationshipOrder(int relationshipOrder) {
     this.relationshipOrder = relationshipOrder;
     relationshipOrder__is_set = true;
+  }
+  
+  /**
+   * element  : restrictedDelete of type {http://www.w3.org/2001/XMLSchema}boolean
+   * java type: boolean
+   */
+  private static final com.sforce.ws.bind.TypeInfo restrictedDelete__typeInfo =
+    new com.sforce.ws.bind.TypeInfo("urn:partner.soap.sforce.com","restrictedDelete","http://www.w3.org/2001/XMLSchema","boolean",0,1,true);
+
+  private boolean restrictedDelete__is_set = false;
+
+  private boolean restrictedDelete;
+
+  public boolean getRestrictedDelete() {
+    return restrictedDelete;
+  }
+
+  
+
+  public boolean isRestrictedDelete() {
+    return restrictedDelete;
+  }
+
+  
+
+  public void setRestrictedDelete(boolean restrictedDelete) {
+    this.restrictedDelete = restrictedDelete;
+    restrictedDelete__is_set = true;
   }
   
   /**
@@ -993,6 +1105,7 @@ public class Field implements com.sforce.ws.bind.XMLizable {
     __typeMapper.writeInt(__out, byteLength__typeInfo, byteLength, byteLength__is_set);
     __typeMapper.writeBoolean(__out, calculated__typeInfo, calculated, calculated__is_set);
     __typeMapper.writeString(__out, calculatedFormula__typeInfo, calculatedFormula, calculatedFormula__is_set);
+    __typeMapper.writeBoolean(__out, cascadeDelete__typeInfo, cascadeDelete, cascadeDelete__is_set);
     __typeMapper.writeBoolean(__out, caseSensitive__typeInfo, caseSensitive, caseSensitive__is_set);
     __typeMapper.writeString(__out, controllerName__typeInfo, controllerName, controllerName__is_set);
     __typeMapper.writeBoolean(__out, createable__typeInfo, createable, createable__is_set);
@@ -1002,6 +1115,7 @@ public class Field implements com.sforce.ws.bind.XMLizable {
     __typeMapper.writeBoolean(__out, dependentPicklist__typeInfo, dependentPicklist, dependentPicklist__is_set);
     __typeMapper.writeBoolean(__out, deprecatedAndHidden__typeInfo, deprecatedAndHidden, deprecatedAndHidden__is_set);
     __typeMapper.writeInt(__out, digits__typeInfo, digits, digits__is_set);
+    __typeMapper.writeBoolean(__out, displayLocationInDecimal__typeInfo, displayLocationInDecimal, displayLocationInDecimal__is_set);
     __typeMapper.writeBoolean(__out, externalId__typeInfo, externalId, externalId__is_set);
     __typeMapper.writeBoolean(__out, filterable__typeInfo, filterable, filterable__is_set);
     __typeMapper.writeBoolean(__out, groupable__typeInfo, groupable, groupable__is_set);
@@ -1014,11 +1128,13 @@ public class Field implements com.sforce.ws.bind.XMLizable {
     __typeMapper.writeBoolean(__out, nameField__typeInfo, nameField, nameField__is_set);
     __typeMapper.writeBoolean(__out, namePointing__typeInfo, namePointing, namePointing__is_set);
     __typeMapper.writeBoolean(__out, nillable__typeInfo, nillable, nillable__is_set);
+    __typeMapper.writeBoolean(__out, permissionable__typeInfo, permissionable, permissionable__is_set);
     __typeMapper.writeObject(__out, picklistValues__typeInfo, picklistValues, picklistValues__is_set);
     __typeMapper.writeInt(__out, precision__typeInfo, precision, precision__is_set);
     __typeMapper.writeObject(__out, referenceTo__typeInfo, referenceTo, referenceTo__is_set);
     __typeMapper.writeString(__out, relationshipName__typeInfo, relationshipName, relationshipName__is_set);
     __typeMapper.writeInt(__out, relationshipOrder__typeInfo, relationshipOrder, relationshipOrder__is_set);
+    __typeMapper.writeBoolean(__out, restrictedDelete__typeInfo, restrictedDelete, restrictedDelete__is_set);
     __typeMapper.writeBoolean(__out, restrictedPicklist__typeInfo, restrictedPicklist, restrictedPicklist__is_set);
     __typeMapper.writeInt(__out, scale__typeInfo, scale, scale__is_set);
     __typeMapper.writeObject(__out, soapType__typeInfo, soapType, soapType__is_set);
@@ -1057,6 +1173,10 @@ public class Field implements com.sforce.ws.bind.XMLizable {
       setCalculatedFormula((java.lang.String)__typeMapper.readString(__in, calculatedFormula__typeInfo, java.lang.String.class));
     }
     __in.peekTag();
+    if (__typeMapper.isElement(__in, cascadeDelete__typeInfo)) {
+      setCascadeDelete((boolean)__typeMapper.readBoolean(__in, cascadeDelete__typeInfo, boolean.class));
+    }
+    __in.peekTag();
     if (__typeMapper.verifyElement(__in, caseSensitive__typeInfo)) {
       setCaseSensitive((boolean)__typeMapper.readBoolean(__in, caseSensitive__typeInfo, boolean.class));
     }
@@ -1091,6 +1211,10 @@ public class Field implements com.sforce.ws.bind.XMLizable {
     __in.peekTag();
     if (__typeMapper.verifyElement(__in, digits__typeInfo)) {
       setDigits((int)__typeMapper.readInt(__in, digits__typeInfo, int.class));
+    }
+    __in.peekTag();
+    if (__typeMapper.isElement(__in, displayLocationInDecimal__typeInfo)) {
+      setDisplayLocationInDecimal((boolean)__typeMapper.readBoolean(__in, displayLocationInDecimal__typeInfo, boolean.class));
     }
     __in.peekTag();
     if (__typeMapper.isElement(__in, externalId__typeInfo)) {
@@ -1141,6 +1265,10 @@ public class Field implements com.sforce.ws.bind.XMLizable {
       setNillable((boolean)__typeMapper.readBoolean(__in, nillable__typeInfo, boolean.class));
     }
     __in.peekTag();
+    if (__typeMapper.verifyElement(__in, permissionable__typeInfo)) {
+      setPermissionable((boolean)__typeMapper.readBoolean(__in, permissionable__typeInfo, boolean.class));
+    }
+    __in.peekTag();
     if (__typeMapper.isElement(__in, picklistValues__typeInfo)) {
       setPicklistValues((com.sforce.soap.partner.PicklistEntry[])__typeMapper.readObject(__in, picklistValues__typeInfo, com.sforce.soap.partner.PicklistEntry[].class));
     }
@@ -1159,6 +1287,10 @@ public class Field implements com.sforce.ws.bind.XMLizable {
     __in.peekTag();
     if (__typeMapper.isElement(__in, relationshipOrder__typeInfo)) {
       setRelationshipOrder((int)__typeMapper.readInt(__in, relationshipOrder__typeInfo, int.class));
+    }
+    __in.peekTag();
+    if (__typeMapper.isElement(__in, restrictedDelete__typeInfo)) {
+      setRestrictedDelete((boolean)__typeMapper.readBoolean(__in, restrictedDelete__typeInfo, boolean.class));
     }
     __in.peekTag();
     if (__typeMapper.verifyElement(__in, restrictedPicklist__typeInfo)) {
@@ -1206,6 +1338,8 @@ public class Field implements com.sforce.ws.bind.XMLizable {
     sb.append("'"+com.sforce.ws.util.Verbose.toString(calculated)+"'\n");
     sb.append(" calculatedFormula=");
     sb.append("'"+com.sforce.ws.util.Verbose.toString(calculatedFormula)+"'\n");
+    sb.append(" cascadeDelete=");
+    sb.append("'"+com.sforce.ws.util.Verbose.toString(cascadeDelete)+"'\n");
     sb.append(" caseSensitive=");
     sb.append("'"+com.sforce.ws.util.Verbose.toString(caseSensitive)+"'\n");
     sb.append(" controllerName=");
@@ -1224,6 +1358,8 @@ public class Field implements com.sforce.ws.bind.XMLizable {
     sb.append("'"+com.sforce.ws.util.Verbose.toString(deprecatedAndHidden)+"'\n");
     sb.append(" digits=");
     sb.append("'"+com.sforce.ws.util.Verbose.toString(digits)+"'\n");
+    sb.append(" displayLocationInDecimal=");
+    sb.append("'"+com.sforce.ws.util.Verbose.toString(displayLocationInDecimal)+"'\n");
     sb.append(" externalId=");
     sb.append("'"+com.sforce.ws.util.Verbose.toString(externalId)+"'\n");
     sb.append(" filterable=");
@@ -1248,6 +1384,8 @@ public class Field implements com.sforce.ws.bind.XMLizable {
     sb.append("'"+com.sforce.ws.util.Verbose.toString(namePointing)+"'\n");
     sb.append(" nillable=");
     sb.append("'"+com.sforce.ws.util.Verbose.toString(nillable)+"'\n");
+    sb.append(" permissionable=");
+    sb.append("'"+com.sforce.ws.util.Verbose.toString(permissionable)+"'\n");
     sb.append(" picklistValues=");
     sb.append("'"+com.sforce.ws.util.Verbose.toString(picklistValues)+"'\n");
     sb.append(" precision=");
@@ -1258,6 +1396,8 @@ public class Field implements com.sforce.ws.bind.XMLizable {
     sb.append("'"+com.sforce.ws.util.Verbose.toString(relationshipName)+"'\n");
     sb.append(" relationshipOrder=");
     sb.append("'"+com.sforce.ws.util.Verbose.toString(relationshipOrder)+"'\n");
+    sb.append(" restrictedDelete=");
+    sb.append("'"+com.sforce.ws.util.Verbose.toString(restrictedDelete)+"'\n");
     sb.append(" restrictedPicklist=");
     sb.append("'"+com.sforce.ws.util.Verbose.toString(restrictedPicklist)+"'\n");
     sb.append(" scale=");

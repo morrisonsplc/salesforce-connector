@@ -35,7 +35,7 @@ Finally, in the _Enter Apex Code_ window, paste in the following Apex code, and 
 	PushTopic pushTopic = new PushTopic();
 	pushTopic.Name = 'AccountUpdates';
 	pushtopic.Query = 'SELECT Id FROM Account';
-	pushTopic.ApiVersion = 23.0;
+	pushTopic.ApiVersion = 26.0;
 	insert pushTopic;
 
 ### Using our connector
