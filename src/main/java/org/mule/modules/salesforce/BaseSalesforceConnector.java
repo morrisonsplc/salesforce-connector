@@ -10,11 +10,6 @@
 
 package org.mule.modules.salesforce;
 
-import com.sforce.async.*;
-import com.sforce.soap.partner.*;
-import com.sforce.soap.partner.sobject.SObject;
-import com.sforce.ws.ConnectionException;
-import org.apache.log4j.Logger;
 import org.mule.api.MuleContext;
 import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Configurable;
@@ -36,7 +31,38 @@ import org.mule.api.registry.Registry;
 import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
-import org.springframework.util.StringUtils;
+
+import com.sforce.async.AsyncApiException;
+import com.sforce.async.AsyncExceptionCode;
+import com.sforce.async.BatchInfo;
+import com.sforce.async.BatchRequest;
+import com.sforce.async.BatchResult;
+import com.sforce.async.BulkConnection;
+import com.sforce.async.ConcurrencyMode;
+import com.sforce.async.ContentType;
+import com.sforce.async.JobInfo;
+import com.sforce.async.OperationEnum;
+import com.sforce.async.QueryResultList;
+import com.sforce.soap.partner.AssignmentRuleHeader_element;
+import com.sforce.soap.partner.CallOptions_element;
+import com.sforce.soap.partner.DeleteResult;
+import com.sforce.soap.partner.DescribeGlobalResult;
+import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.EmptyRecycleBinResult;
+import com.sforce.soap.partner.GetDeletedResult;
+import com.sforce.soap.partner.GetUpdatedResult;
+import com.sforce.soap.partner.GetUserInfoResult;
+import com.sforce.soap.partner.LeadConvert;
+import com.sforce.soap.partner.LeadConvertResult;
+import com.sforce.soap.partner.PartnerConnection;
+import com.sforce.soap.partner.QueryResult;
+import com.sforce.soap.partner.SaveResult;
+import com.sforce.soap.partner.SearchRecord;
+import com.sforce.soap.partner.SearchResult;
+import com.sforce.soap.partner.SetPasswordResult;
+import com.sforce.soap.partner.UpsertResult;
+import com.sforce.soap.partner.sobject.SObject;
+import com.sforce.ws.ConnectionException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -48,6 +74,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 
 public abstract class BaseSalesforceConnector implements MuleContextAware {
     private static final Logger LOGGER = Logger.getLogger(BaseSalesforceConnector.class);
@@ -710,7 +739,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
 
         return result;
     }
-
+    
     /**
      * Retrieves data from specified objects, whether or not they have been deleted.
      * <p/>
@@ -1156,8 +1185,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:reset-updated-objects-timestamp}
      *
      * @param type The object type for which the timestamp should be reset.
-     * @throws org.mule.api.store.ObjectStoreException If there is an error trying to get a hold of the object
-     * store or retrieving the value
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      *
      */
     @Processor
@@ -1171,6 +1199,25 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         objectStoreHelper.resetTimestamps(type);
     }
 
+    /**
+     * Change the password of a User or SelfServiceUser to a value that you specify.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:set-password}
+     *
+     * @param userId The user to set the password for.
+     * @return The result of the operation.
+     * @throws org.mule.api.store.ObjectStoreException If there is an error trying to get a hold of the object
+     * store or retrieving the value
+     * @throws ConnectionException 
+     *
+     */
+    @Processor
+    @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
+    public SetPasswordResult setPassword(@Placement(group = "Information") @FriendlyName("User ID") String userId, @Placement(group = "Information") @FriendlyName("Password") String password) throws Exception {
+        return getConnection().setPassword(userId, password);
+    }
+
+    
     /**
      * Creates a topic which represents a query that is the basis for notifying
      * listeners of changes to records in an organization.
