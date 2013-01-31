@@ -279,5 +279,5 @@
 </sfdc:create-batch-stream>
 <!-- END_INCLUDE(sfdc:create-batch-stream) -->
 <!-- BEGIN_INCLUDE(sfdc:set-password) -->
-<sfdc:set-password userId="#[payload['Id']]" password="#[newPassword]"/>
+<sfdc:set-password userId="#[payload['Id']]" newPassword="#[newPassword]"/>
 <!-- END_INCLUDE(sfdc:set-password) -->

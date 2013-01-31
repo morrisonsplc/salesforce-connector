@@ -1211,16 +1211,14 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:set-password}
      *
      * @param userId The user to set the password for.
-     * @return The result of the operation.
-     * @throws org.mule.api.store.ObjectStoreException If there is an error trying to get a hold of the object
-     * store or retrieving the value
-     * @throws ConnectionException 
+     * @param newPassword The new password for the user.
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      *
      */
     @Processor
     @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
-    public SetPasswordResult setPassword(@Placement(group = "Information") @FriendlyName("User ID") String userId, @Placement(group = "Information") @FriendlyName("Password") String password) throws Exception {
-        return getConnection().setPassword(userId, password);
+    public void setPassword(@Placement(group = "Information") @FriendlyName("User ID") String userId, @Placement(group = "Information") @FriendlyName("Password") String newPassword) throws Exception {
+        getConnection().setPassword(userId, newPassword);
     }
 
     
