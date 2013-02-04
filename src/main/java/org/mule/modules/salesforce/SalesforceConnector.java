@@ -86,15 +86,14 @@ public class SalesforceConnector extends BaseSalesforceConnector {
 
         describeSObject = describeSObject(key.getId());
 
-
         MetaData metaData = null;
         if (describeSObject != null)
         {
             Field[] fields = describeSObject.getFields();
-            Map<String, SimpleMetaDataModel> map = new HashMap<String, SimpleMetaDataModel>(fields.length);
+            Map<String, MetaDataModel> map = new HashMap<String, MetaDataModel>(fields.length);
             for (Field f : fields)
             {
-                SimpleMetaDataModel fieldModel = getModelForField(f);
+                MetaDataModel fieldModel = getModelForField(f);
                 map.put(f.getName(), fieldModel);
             }
 
@@ -106,12 +105,15 @@ public class SalesforceConnector extends BaseSalesforceConnector {
     }
 
     private static final Set<String> parentNames = Collections.singleton("sObject");
-    private SimpleMetaDataModel getModelForField(Field f)
+    private MetaDataModel getModelForField(Field f)
     {
         DataType dataType = getDataType(f.getType());
         String name = f.getName();
-        SimpleMetaDataModel model = new DefaultSimpleMetaDataModel(dataType, name, parentNames);
-        return model;
+        if (DataType.POJO.equals(dataType)) {
+            return new DefaultPojoMetaDataModel(f.getClass());
+        } else {
+            return new DefaultSimpleMetaDataModel(dataType, name, parentNames);
+        }
     }
 
     private DataType getDataType(FieldType fieldType)
