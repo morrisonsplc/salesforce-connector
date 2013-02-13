@@ -112,6 +112,11 @@ public enum FieldType {
    datacategorygroupreference,
   
   /**
+   * Enumeration  : location
+   */
+   location,
+  
+  /**
    * Enumeration  : anyType
    */
    anyType,

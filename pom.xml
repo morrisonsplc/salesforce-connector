@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-sfdc</artifactId>
-    <version>5.1.4-SNAPSHOT</version>
+    <version>5.2.0-SNAPSHOT</version>
     <packaging>mule-module</packaging>
     <name>Mule Salesforce Connector</name>
 
@@ -19,6 +19,11 @@
         <category>Community</category>
         <licensePath>LICENSE.md</licensePath>
         <devkit.studio.package.skip>false</devkit.studio.package.skip>
+        <swagger.json>${basedir}/src/facebook_user_api.json</swagger.json>
+        <swagger.name>FacebookBasicConnector</swagger.name>
+        <swagger.output.dir>${basedir}/src/main/java</swagger.output.dir>
+        <swagger.output.package>org.mule.modules.salesforce</swagger.output.package>
+        <swagger.models.package>swagger.modules.fb</swagger.models.package>
     </properties>
 
     <build>
@@ -107,6 +112,33 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.14</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>mule-transport-http</artifactId>
+            <groupId>org.mule.transports</groupId>
+            <version>[3.0.0,4.0.0)</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.tools.devkit</groupId>
+            <artifactId>integration-tests-common</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.4</version>
         </dependency>
     </dependencies>
 

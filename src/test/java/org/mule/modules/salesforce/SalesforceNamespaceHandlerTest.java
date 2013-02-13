@@ -16,19 +16,25 @@ package org.mule.modules.salesforce;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.api.MuleEvent;
 import org.mule.common.Result;
 import org.mule.common.metadata.*;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.construct.Flow;
 import org.mule.tck.junit4.FunctionalTestCase;
+import org.mule.devkit.it.commons.ModuleFunctionalTestCase;
+
+
+import java.util.List;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Verifies that the connector produces a valid xsd.
  */
-public class SalesforceNamespaceHandlerTest extends FunctionalTestCase
+public class SalesforceNamespaceHandlerTest extends ModuleFunctionalTestCase
 {
     @Override
     protected String getConfigResources()
@@ -41,7 +47,6 @@ public class SalesforceNamespaceHandlerTest extends FunctionalTestCase
         return connector != null;
     }
 
-    @Ignore
     @Test
     public void testGetMetaDataKeys() throws Exception
     {
@@ -53,7 +58,6 @@ public class SalesforceNamespaceHandlerTest extends FunctionalTestCase
         }
     }
 
-    @Ignore
     @Test
     public void testCreate() throws Exception
     {
@@ -75,6 +79,17 @@ public class SalesforceNamespaceHandlerTest extends FunctionalTestCase
             logger.info("Test testGetMetaDataKeys needs the real Salesforce config to work");
         }
      }
+
+    @Test
+    public void testFacebook() throws Exception {
+        MuleEvent response = runFlow("facebook-test");
+        assertNotNull(response);
+        assertTrue(response.getMessage().getPayload() instanceof List);
+        User user = (User) response.getMessage().getPayload();
+
+        assertTrue("Ivan".equals(user.getFirst_name()));
+
+    }
     /**
      * Retrieve a flow by name from the registry
      * 

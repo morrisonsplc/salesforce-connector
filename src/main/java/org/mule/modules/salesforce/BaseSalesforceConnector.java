@@ -10,9 +10,6 @@
 
 package org.mule.modules.salesforce;
 
-import com.sforce.async.*;
-import com.sforce.soap.partner.*;
-import com.sforce.soap.partner.Field;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 import org.apache.log4j.Logger;
@@ -33,16 +30,49 @@ import org.mule.api.registry.Registry;
 import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
-import org.mule.common.DefaultResult;
-import org.mule.common.metadata.*;
-import org.mule.common.metadata.datatype.DataType;
 import org.springframework.util.StringUtils;
+
+import com.sforce.async.AsyncApiException;
+import com.sforce.async.AsyncExceptionCode;
+import com.sforce.async.BatchInfo;
+import com.sforce.async.BatchRequest;
+import com.sforce.async.BatchResult;
+import com.sforce.async.BulkConnection;
+import com.sforce.async.ConcurrencyMode;
+import com.sforce.async.ContentType;
+import com.sforce.async.JobInfo;
+import com.sforce.async.OperationEnum;
+import com.sforce.async.QueryResultList;
+import com.sforce.soap.partner.AssignmentRuleHeader_element;
+import com.sforce.soap.partner.CallOptions_element;
+import com.sforce.soap.partner.DeleteResult;
+import com.sforce.soap.partner.DescribeGlobalResult;
+import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.EmptyRecycleBinResult;
+import com.sforce.soap.partner.GetDeletedResult;
+import com.sforce.soap.partner.GetUpdatedResult;
+import com.sforce.soap.partner.GetUserInfoResult;
+import com.sforce.soap.partner.LeadConvert;
+import com.sforce.soap.partner.LeadConvertResult;
+import com.sforce.soap.partner.PartnerConnection;
+import com.sforce.soap.partner.QueryResult;
+import com.sforce.soap.partner.SaveResult;
+import com.sforce.soap.partner.SearchRecord;
+import com.sforce.soap.partner.SearchResult;
+import com.sforce.soap.partner.UpsertResult;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 
 public abstract class BaseSalesforceConnector implements MuleContextAware {
     private static final Logger LOGGER = Logger.getLogger(BaseSalesforceConnector.class);
@@ -1075,7 +1105,9 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      *
      * @param type     Object type. The specified value must be a valid object for your organization.
      * @param duration The amount of time in minutes before now for which to return records from.
-     * @return {@link GetDeletedResult}
+     * @return {@link GetUpdatedResult} object containing an array of GetUpdatedResult objects containing the ID of each
+     * created or updated object and the date/time (Coordinated Universal Time (UTC) time zone) on which it was created
+     * or updated, respectively
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
@@ -1104,11 +1136,15 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:get-updated-objects}
      *
      * @param type              Object type. The specified value must be a valid object for your organization.
-     * @param initialTimeWindow Time window (in minutes) to use the first time this method is called
+     * @param initialTimeWindow Time window (in minutes) used to calculate the start time (in time range) the first time
+     *                          this operation is called. E.g: if initialTimeWindow equals 2, the start time will be
+     *                          the current time (now) minus 2 minutes, then the range to retrieve the updated object will
+     *                          be (now - 2 minutes; now). After first call the start time will be calculated from the
+     *                          object store getting the last time this operation was exec
      * @param fields            The fields to retrieve for the updated objects
-     * @return {@link GetDeletedResult}
+     * @return List with the updated objects in the calculated time range
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
-     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
+     * @api.doc This operation extends <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_getupdated.htm">getUpdated()</a>
      */
     @Processor
     @OAuthProtected
@@ -1151,8 +1187,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:reset-updated-objects-timestamp}
      *
      * @param type The object type for which the timestamp should be reset.
-     * @throws org.mule.api.store.ObjectStoreException If there is an error trying to get a hold of the object
-     * store or retrieving the value
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      *
      */
     @Processor
@@ -1167,6 +1202,23 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     }
 
     /**
+     * Change the password of a User or SelfServiceUser to a value that you specify.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:set-password}
+     *
+     * @param userId The user to set the password for.
+     * @param newPassword The new password for the user.
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     *
+     */
+    @Processor
+    @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
+    public void setPassword(@Placement(group = "Information") @FriendlyName("User ID") String userId, @Placement(group = "Information") @FriendlyName("Password") String newPassword) throws Exception {
+        getConnection().setPassword(userId, newPassword);
+    }
+
+    
+    /**
      * Creates a topic which represents a query that is the basis for notifying
      * listeners of changes to records in an organization.
      * <p/>
@@ -1178,7 +1230,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * @param query       The SOQL query statement that determines which records' changes trigger events to be sent to
      *                    the channel. Maximum length: 1200 characters
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
-     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/pushtopic.htm">Push Topic</a>
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_streaming/Content/pushtopic.htm">Push Topic</a>
      * @since 4.0
      */
     @Processor
@@ -1193,7 +1245,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         if (result.getSize() == 0) {
             SObject pushTopic = new SObject();
             pushTopic.setType("PushTopic");
-            pushTopic.setField("ApiVersion", "23.0");
+            pushTopic.setField("ApiVersion", "26.0");
             if (description != null) {
                 pushTopic.setField("Description", description);
             }
