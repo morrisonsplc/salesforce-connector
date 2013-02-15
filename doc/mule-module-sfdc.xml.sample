@@ -279,5 +279,10 @@
 </sfdc:create-batch-stream>
 <!-- END_INCLUDE(sfdc:create-batch-stream) -->
 <!-- BEGIN_INCLUDE(sfdc:set-password) -->
-<sfdc:set-password userId="#[payload['Id']]" newPassword="#[newPassword]"/>
+<sfdc:set-password config-ref="mySalesforceConfig" userId="#[payload['Id']]" newPassword="#[newPassword]"/>
 <!-- END_INCLUDE(sfdc:set-password) -->
+<!-- BEGIN_INCLUDE(sfdc:create-batch-for-query) -->
+<sfdc:create-batch-for-query config-ref="mySalesforceConfig" query="#[payload]">
+    <sfdc:job-info id="#[flowVars['jobInfo']"/>
+</sfdc:create-batch-for-query>
+<!-- END_INCLUDE(sfdc:create-batch-for-query) -->

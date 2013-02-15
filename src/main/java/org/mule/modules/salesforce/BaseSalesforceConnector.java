@@ -1189,6 +1189,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:reset-updated-objects-timestamp}
      *
      * @param type The object type for which the timestamp should be reset.
+     * @throws ObjectStoreException if there is an error trying to reset the value in the ObjectStore
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      *
      */
