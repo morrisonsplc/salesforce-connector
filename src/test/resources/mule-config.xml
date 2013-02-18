@@ -12,9 +12,6 @@
   <sfdc:config name="salesforce-default" username="${salesforce.username}"
                  password="${salesforce.password}" securityToken="${salesforce.securityToken}"/>
 
-    <sfdc:config name="Salesforce" username="sap.dev@mulesoft.com.sap" password="Muleftwin2" securityToken="cBeJvxSGZztaziFK8xHvJ0ns"/>
-
-
   <flow name="Create">
     <sfdc:create type="Account" config-ref="salesforce-default">
       <sfdc:objects>
@@ -24,22 +21,17 @@
       </sfdc:objects>
     </sfdc:create>
   </flow>
-    
-    <!--<flow name="swagger-test">-->
-        <!--&lt;!&ndash;key: qyfxo73xbin3hqeszdu0v03caq6w1m2i&ndash;&gt;-->
-        <!--<swagger-connector:get-discussion-comments discussion_id=""/>-->
+
+
+    <!--<flow name="Create-metaData">-->
+        <!--<sfdc:create type="Account" config-ref="Salesforce">-->
+            <!--<sfdc:objects>-->
+                <!--<sfdc:object>-->
+                    <!--<Name>MuleSoft</Name>-->
+                <!--</sfdc:object>-->
+            <!--</sfdc:objects>-->
+        <!--</sfdc:create>-->
     <!--</flow>-->
-
-
-    <flow name="Create-metaData">
-        <sfdc:create type="Account" config-ref="Salesforce">
-            <sfdc:objects>
-                <sfdc:object>
-                    <Name>MuleSoft</Name>
-                </sfdc:object>
-            </sfdc:objects>
-        </sfdc:create>
-    </flow>
 
     <flow name="Query">
       <message-properties-transformer>
