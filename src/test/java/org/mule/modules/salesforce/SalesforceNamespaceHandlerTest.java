@@ -47,6 +47,7 @@ public class SalesforceNamespaceHandlerTest extends ModuleFunctionalTestCase
         return connector != null;
     }
 
+    @Ignore
     @Test
     public void testGetMetaDataKeys() throws Exception
     {
@@ -58,6 +59,7 @@ public class SalesforceNamespaceHandlerTest extends ModuleFunctionalTestCase
         }
     }
 
+    @Ignore
     @Test
     public void testCreate() throws Exception
     {
@@ -80,16 +82,6 @@ public class SalesforceNamespaceHandlerTest extends ModuleFunctionalTestCase
         }
      }
 
-    @Test
-    public void testFacebook() throws Exception {
-        MuleEvent response = runFlow("facebook-test");
-        assertNotNull(response);
-        assertTrue(response.getMessage().getPayload() instanceof List);
-        User user = (User) response.getMessage().getPayload();
-
-        assertTrue("Ivan".equals(user.getFirst_name()));
-
-    }
     /**
      * Retrieve a flow by name from the registry
      * 

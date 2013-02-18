@@ -53,7 +53,7 @@ import java.net.URL;
 @org.mule.api.annotations.Connector(name = "sfdc",
         schemaVersion = "5.0",
         friendlyName = "Salesforce (OAuth)",
-        minMuleVersion = "3.3",
+        minMuleVersion = "3.4",
         configElementName = "config-with-oauth")
 @OAuth2(authorizationUrl = "https://login.salesforce.com/services/oauth2/authorize",
         accessTokenUrl = "https://login.salesforce.com/services/oauth2/token",
