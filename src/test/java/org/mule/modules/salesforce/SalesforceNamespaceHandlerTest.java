@@ -16,25 +16,18 @@ package org.mule.modules.salesforce;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mule.api.MuleEvent;
 import org.mule.common.Result;
 import org.mule.common.metadata.*;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.construct.Flow;
 import org.mule.tck.junit4.FunctionalTestCase;
-import org.mule.devkit.it.commons.ModuleFunctionalTestCase;
 
-
-import java.util.List;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Verifies that the connector produces a valid xsd.
  */
-public class SalesforceNamespaceHandlerTest extends ModuleFunctionalTestCase
+public class SalesforceNamespaceHandlerTest extends FunctionalTestCase
 {
     @Override
     protected String getConfigResources()
