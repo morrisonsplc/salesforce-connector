@@ -378,6 +378,25 @@
   
   
 
+  
+  
+  
+  
+
+  
+   
+  
+  
+  
+  
+
+  
+   
+  
+  
+  
+  
+
 
 <div class="sum-details-links">
 
@@ -460,6 +479,10 @@ Summary:
         Initialisable 
       
         ProcessAdapter&lt;O&gt; 
+      
+        Testable 
+      
+        ConnectorMetaDataEnabled 
       
   
   
@@ -625,6 +648,12 @@ org.mule.api.lifecycle.Initialisable
   </div>
 </div>
 </td></tr>
+
+
+
+
+
+
 
 
 
@@ -910,6 +939,22 @@ org.mule.api.lifecycle.Initialisable
             
             
             
+            DefaultTestResult</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionManager.html#buildFailureTestResult(java.lang.Exception)">buildFailureTestResult</a></span>(Exception exception)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
@@ -919,7 +964,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -939,7 +984,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -959,7 +1004,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -979,7 +1024,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -999,7 +1044,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1015,7 +1060,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1031,7 +1076,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1047,7 +1092,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1067,6 +1112,22 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            Result&lt;MetaData&gt;</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionManager.html#getMetaData(org.mule.common.metadata.MetaDataKey)">getMetaData</a></span>(MetaDataKey metaDataKey)</nobr>
+        
+  </td></tr>
+
+
+	 
     <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
@@ -1074,10 +1135,10 @@ org.mule.api.lifecycle.Initialisable
             
             
             
-            String</nobr>
+            Result&lt;List&lt;MetaDataKey&gt;&gt;</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionManager.html#getModuleName()">getModuleName</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionManager.html#getMetaDataKeys()">getMetaDataKeys</a></span>()</nobr>
         
   </td></tr>
 
@@ -1093,13 +1154,29 @@ org.mule.api.lifecycle.Initialisable
             String</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionManager.html#getModuleVersion()">getModuleVersion</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionManager.html#getModuleName()">getModuleName</a></span>()</nobr>
         
   </td></tr>
 
 
 	 
     <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            String</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionManager.html#getModuleVersion()">getModuleVersion</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1119,7 +1196,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1139,7 +1216,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1155,7 +1232,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1175,7 +1252,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1195,7 +1272,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1215,7 +1292,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1235,7 +1312,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1255,7 +1332,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1275,7 +1352,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1295,7 +1372,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1315,7 +1392,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1335,7 +1412,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1355,7 +1432,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1371,7 +1448,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1391,7 +1468,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1407,7 +1484,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1425,7 +1502,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1443,7 +1520,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1461,7 +1538,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1479,7 +1556,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1497,7 +1574,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1515,7 +1592,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1533,7 +1610,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1551,7 +1628,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1569,7 +1646,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1587,7 +1664,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1605,7 +1682,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1623,7 +1700,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1641,7 +1718,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1659,7 +1736,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1677,7 +1754,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1695,7 +1772,7 @@ org.mule.api.lifecycle.Initialisable
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1709,6 +1786,22 @@ org.mule.api.lifecycle.Initialisable
         
         <div class="jd-descrdiv">Sets username</div>
   
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            TestResult</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/salesforce/connectivity/SalesforceConnectorConnectionManager.html#test()">test</a></span>()</nobr>
+        
   </td></tr>
 
 
@@ -2324,6 +2417,108 @@ From interface
 </td></tr>
 
 
+
+
+
+<tr class="api apilevel-" >
+<td colspan="12">
+  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-org.mule.common.Testable" class="jd-expando-trigger closed"
+          ><img id="inherited-methods-org.mule.common.Testable-trigger"
+          src="../../../../../../assets/images/triangle-closed.png"
+          class="jd-expando-trigger-img" /></a>
+From interface
+
+  org.mule.common.Testable
+
+<div id="inherited-methods-org.mule.common.Testable">
+  <div id="inherited-methods-org.mule.common.Testable-list"
+        class="jd-inheritedlinks">
+  </div>
+  <div id="inherited-methods-org.mule.common.Testable-summary" style="display: none;">
+    <table class="jd-sumtable-expando">
+    
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            abstract
+            
+            
+            
+            
+            TestResult</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">test</span>()</nobr>
+        
+  </td></tr>
+
+
+</table>
+  </div>
+</div>
+</td></tr>
+
+
+
+<tr class="api apilevel-" >
+<td colspan="12">
+  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-methods-org.mule.common.metadata.ConnectorMetaDataEnabled" class="jd-expando-trigger closed"
+          ><img id="inherited-methods-org.mule.common.metadata.ConnectorMetaDataEnabled-trigger"
+          src="../../../../../../assets/images/triangle-closed.png"
+          class="jd-expando-trigger-img" /></a>
+From interface
+
+  org.mule.common.metadata.ConnectorMetaDataEnabled
+
+<div id="inherited-methods-org.mule.common.metadata.ConnectorMetaDataEnabled">
+  <div id="inherited-methods-org.mule.common.metadata.ConnectorMetaDataEnabled-list"
+        class="jd-inheritedlinks">
+  </div>
+  <div id="inherited-methods-org.mule.common.metadata.ConnectorMetaDataEnabled-summary" style="display: none;">
+    <table class="jd-sumtable-expando">
+    
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            abstract
+            
+            
+            
+            
+            Result&lt;MetaData&gt;</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">getMetaData</span>(MetaDataKey arg0)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            abstract
+            
+            
+            
+            
+            Result&lt;List&lt;MetaDataKey&gt;&gt;</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad">getMetaDataKeys</span>()</nobr>
+        
+  </td></tr>
+
+
+</table>
+  </div>
+</div>
+</td></tr>
+
+
 </table>
 
 
@@ -2382,7 +2577,7 @@ From interface
         <span class="jd-tagtitle">Constant Value: </span>
         <span>
             
-                "UNNAMED.1373.24989b8"
+                "master.1476.47e461c"
             
         </span>
         </div>
@@ -2421,7 +2616,7 @@ From interface
         <span class="jd-tagtitle">Constant Value: </span>
         <span>
             
-                "3.3.2"
+                "3.4.0-RC1"
             
         </span>
         </div>
@@ -3169,6 +3364,46 @@ From interface
 </div>
 
 
+<A NAME="buildFailureTestResult(java.lang.Exception)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        DefaultTestResult
+      </span>
+      <span class="sympad">buildFailureTestResult</span>
+      <span class="normal">(Exception exception)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>exception</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
 <A NAME="destroyConnection(org.mule.modules.salesforce.connectivity.SalesforceConnectorConnectionKey, org.mule.modules.salesforce.adapters.SalesforceConnectorConnectionIdentifierAdapter)"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -3475,6 +3710,77 @@ From interface
   <div class="jd-tagdata jd-tagdescr"><p>Retrieves flowConstruct
  
 </p></div>
+
+    </div>
+</div>
+
+
+<A NAME="getMetaData(org.mule.common.metadata.MetaDataKey)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        Result&lt;MetaData&gt;
+      </span>
+      <span class="sympad">getMetaData</span>
+      <span class="normal">(MetaDataKey metaDataKey)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>metaDataKey</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="getMetaDataKeys()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        Result&lt;List&lt;MetaDataKey&gt;&gt;
+      </span>
+      <span class="sympad">getMetaDataKeys</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
 
     </div>
 </div>
@@ -4787,6 +5093,37 @@ From interface
         </tr>
       </table>
   </div>
+
+    </div>
+</div>
+
+
+<A NAME="test()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        TestResult
+      </span>
+      <span class="sympad">test</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
 
     </div>
 </div>

@@ -244,7 +244,7 @@ Summary:
           <th>Schema Version</th><td>5.0</td>
         </tr>
 <tr>
-          <th>Minimum Mule Version</th><td>3.3</td>
+          <th>Minimum Mule Version</th><td>3.4</td>
         </tr>
     </tbody></table>
   </div>
@@ -1199,8 +1199,8 @@ of the object store that he wishes to use to save and restore access tokens.</p>
                 
                     <tr>
                         <td><nobr>&lt;sfdc:fields&gt;</nobr></td>
-                        <td></td>
-                        <td>The fields to retrieve for the updated objects</td>
+                        <td>#[payload]</td>
+                        <td><i>Optional.&nbsp;</i>The fields to retrieve for the updated objects</td>
                         <td>List&lt;String&gt;</td>
                     </tr>
                 
@@ -1396,14 +1396,9 @@ of the object store that he wishes to use to save and restore access tokens.</p>
         <tr><th>Payload Class</th><th>Description</th></tr>
         
         <tr>
-            <td>Exception</td>
-            <td><code><a href="../java/com/sforce/ws/ConnectionException.html">ConnectionException</a></code> when there is an error
-
-</td>
-        </tr>
-        <tr>
             <td>ObjectStoreException</td>
-            <td></td>
+            <td><code><a href="../java/com/sforce/ws/ConnectionException.html">ConnectionException</a></code> when there is an error
+</td>
         </tr>
       </table>
   </div>
@@ -1427,7 +1422,7 @@ of the object store that he wishes to use to save and restore access tokens.</p>
       
   <div class="jd-tagdata jd-tagdescr"><p>Change the password of a User or SelfServiceUser to a value that you specify.
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;sfdc:set-password config-ref="mySalesforceConfig" userId="#[payload['Id']]" newPassword="#[newPassword]"/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;sfdc:set-password userId="#[payload['Id']]" config-ref="pepe" newPassword="#[newPassword]"/&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -2344,8 +2339,8 @@ of the object store that he wishes to use to save and restore access tokens.</p>
                 
                     <tr>
                         <td><nobr>&lt;sfdc:ids&gt;</nobr></td>
-                        <td></td>
-                        <td>Array of one or more IDs associated with the objects to delete.</td>
+                        <td>#[payload]</td>
+                        <td><i>Optional.&nbsp;</i>Array of one or more IDs associated with the objects to delete.</td>
                         <td>List&lt;String&gt;</td>
                     </tr>
                 
