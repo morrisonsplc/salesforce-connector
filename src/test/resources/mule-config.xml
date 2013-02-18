@@ -3,11 +3,9 @@
   xmlns:spring="http://www.springframework.org/schema/beans"
   xmlns:context="http://www.springframework.org/schema/context"
   xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
-  xmlns:facebook-basic-connector="http://www.mulesoft.org/schema/mule/facebook-basic-connector"
   xsi:schemaLocation="
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
         http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
-        http://www.mulesoft.org/schema/mule/facebook-basic-connector http://www.mulesoft.org/schema/mule/facebook-basic-connector/current/mule-facebook-basic-connector.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
@@ -16,7 +14,6 @@
 
     <sfdc:config name="Salesforce" username="sap.dev@mulesoft.com.sap" password="Muleftwin2" securityToken="cBeJvxSGZztaziFK8xHvJ0ns"/>
 
-  <facebook-basic-connector:config />
 
   <flow name="Create">
     <sfdc:create type="Account" config-ref="salesforce-default">
@@ -33,9 +30,6 @@
         <!--<swagger-connector:get-discussion-comments discussion_id=""/>-->
     <!--</flow>-->
 
-    <flow name="facebook-test">
-        <facebook-basic-connector:getuser user="ivanpostolski" metadata=""/>
-    </flow>
 
     <flow name="Create-metaData">
         <sfdc:create type="Account" config-ref="Salesforce">

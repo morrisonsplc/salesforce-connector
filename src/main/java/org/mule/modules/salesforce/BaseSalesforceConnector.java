@@ -13,14 +13,30 @@ package org.mule.modules.salesforce;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 import org.apache.log4j.Logger;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
 import org.mule.api.MuleContext;
-import org.mule.api.annotations.*;
+import org.mule.api.annotations.Category;
+import org.mule.api.annotations.Configurable;
+import org.mule.api.annotations.InvalidateConnectionOn;
+import org.mule.api.annotations.Processor;
+import org.mule.api.annotations.Source;
+import org.mule.api.annotations.SourceThreadingModel;
 import org.mule.api.annotations.display.FriendlyName;
 import org.mule.api.annotations.display.Placement;
 import org.mule.api.annotations.oauth.OAuthInvalidateAccessTokenOn;
 import org.mule.api.annotations.oauth.OAuthProtected;
 import org.mule.api.annotations.param.Default;
-import org.mule.api.annotations.param.MetaDataKeyParam;
 import org.mule.api.annotations.param.Optional;
 import org.mule.api.callback.SourceCallback;
 import org.mule.api.callback.StopSourceCallback;
@@ -30,7 +46,6 @@ import org.mule.api.registry.Registry;
 import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
-import org.springframework.util.StringUtils;
 
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.AsyncExceptionCode;
@@ -59,8 +74,10 @@ import com.sforce.soap.partner.QueryResult;
 import com.sforce.soap.partner.SaveResult;
 import com.sforce.soap.partner.SearchRecord;
 import com.sforce.soap.partner.SearchResult;
+import com.sforce.soap.partner.SetPasswordResult;
 import com.sforce.soap.partner.UpsertResult;
-
+import com.sforce.soap.partner.sobject.SObject;
+import com.sforce.ws.ConnectionException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -73,6 +90,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 
 public abstract class BaseSalesforceConnector implements MuleContextAware {
     private static final Logger LOGGER = Logger.getLogger(BaseSalesforceConnector.class);
@@ -1188,7 +1207,6 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      *
      * @param type The object type for which the timestamp should be reset.
      * @throws org.mule.api.store.ObjectStoreException {@link com.sforce.ws.ConnectionException} when there is an error
-     *
      */
     @Processor
     @Category(name = "Utility Calls", description = "API calls that your client applications can invoke to obtain the system timestamp, user information, and change user passwords.")
@@ -1408,12 +1426,14 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
 
     private SObject toSObject(String type, Map<String, Object> map) {
         SObject sObject = new SObject();
-        for (String key : map.keySet()) {
-            sObject.setType(type);
-            if (key.equals("fieldsToNull"))
-            sObject.setFieldsToNull((String[]) map.get(key));
-            else
-            sObject.setField(key, map.get(key));
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+        	sObject.setType(type);
+            if (key.equals("fieldsToNull")) {
+            	sObject.setFieldsToNull((String[]) entry.getValue());
+            } else {
+            	sObject.setField(key, entry.getValue());
+            }
         }
         return sObject;
     }
