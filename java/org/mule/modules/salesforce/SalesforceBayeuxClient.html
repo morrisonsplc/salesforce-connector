@@ -717,11 +717,33 @@ org.cometd.client.BayeuxClient
     
       <tr class="alt-color api apilevel-" >
           <td class="jd-typecol"><nobr>
+          private
+          
+          
+          boolean</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceBayeuxClient.html#needToResubscribe">needToResubscribe</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
           protected
           
           
           <a href="../../../../../java/org/mule/modules/salesforce/BaseSalesforceConnector.html">BaseSalesforceConnector</a></nobr></td>
           <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceBayeuxClient.html#salesforceConnector">salesforceConnector</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Map&lt;String,&nbsp;ClientSessionChannel.MessageListener&gt;</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceBayeuxClient.html#subscriptions">subscriptions</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -732,7 +754,7 @@ org.cometd.client.BayeuxClient
           
           
           Map&lt;String,&nbsp;ClientSessionChannel.MessageListener&gt;</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceBayeuxClient.html#subscriptions">subscriptions</a></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/salesforce/SalesforceBayeuxClient.html#subscriptionsCopy">subscriptionsCopy</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -3253,6 +3275,36 @@ From interface
 
 
 
+<A NAME="needToResubscribe"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+         
+         
+        boolean
+      </span>
+        needToResubscribe
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
 <A NAME="salesforceConnector"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -3294,6 +3346,36 @@ From interface
         Map&lt;String,&nbsp;ClientSessionChannel.MessageListener&gt;
       </span>
         subscriptions
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="subscriptionsCopy"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        Map&lt;String,&nbsp;ClientSessionChannel.MessageListener&gt;
+      </span>
+        subscriptionsCopy
     </h4>
       <div class="api-level">
         
