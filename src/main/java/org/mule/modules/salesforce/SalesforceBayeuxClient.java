@@ -40,6 +40,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     protected Map<String, org.cometd.bayeux.client.ClientSessionChannel.MessageListener> subscriptions;
     protected Map<String, org.cometd.bayeux.client.ClientSessionChannel.MessageListener> subscriptionsCopy;
     protected BaseSalesforceConnector salesforceConnector;
+    private boolean needToResubscribe = false;
 
     private static Map<String, Object> createLongPollingOptions() {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -61,9 +62,9 @@ public class SalesforceBayeuxClient extends BayeuxClient {
         this.subscriptionsCopy = Collections.synchronizedMap(new HashMap<String, ClientSessionChannel.MessageListener>());
         setCookies();
 
-	getChannel(Channel.META_CONNECT).addListener(new ClientSessionChannel.MessageListener() {
+	    getChannel(Channel.META_CONNECT).addListener(new ClientSessionChannel.MessageListener() {
             public void onMessage(ClientSessionChannel channel, Message message) {
-                if (message.isSuccessful() && subscriptions.size() > 0 ) {
+                if (message.isSuccessful() && subscriptions.size() > 0) {
                     for (String subscriptionChannel : subscriptions.keySet()) {
                     	LOGGER.info("subscribing " + subscriptionChannel + " for the first time");
                         getChannel(subscriptionChannel).subscribe(subscriptions.get(subscriptionChannel));                        
@@ -81,7 +82,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
                 	for (String subscriptionChannel : subscriptionsCopy.keySet()) 
                 	{
                 		LOGGER.info("Re-Subscribing to channel: " + subscriptionChannel);
-				getChannel(subscriptionChannel).subscribe(subscriptionsCopy.get(subscriptionChannel));                        
+				        getChannel(subscriptionChannel).subscribe(subscriptionsCopy.get(subscriptionChannel));
                     }
                 	needToResubscribe = false;
                 }
