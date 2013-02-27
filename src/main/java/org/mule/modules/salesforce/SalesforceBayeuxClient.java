@@ -38,6 +38,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
     protected static final String SESSIONID_COOKIE = "sid";
     protected static final String LANGUAGE_COOKIE = "language";
     protected Map<String, org.cometd.bayeux.client.ClientSessionChannel.MessageListener> subscriptions;
+    protected Map<String, org.cometd.bayeux.client.ClientSessionChannel.MessageListener> subscriptionsCopy;
     protected BaseSalesforceConnector salesforceConnector;
 
     private static Map<String, Object> createLongPollingOptions() {
@@ -57,17 +58,32 @@ public class SalesforceBayeuxClient extends BayeuxClient {
 
         this.salesforceConnector = salesforceConnector;
         this.subscriptions = Collections.synchronizedMap(new HashMap<String, ClientSessionChannel.MessageListener>());
+        this.subscriptionsCopy = Collections.synchronizedMap(new HashMap<String, ClientSessionChannel.MessageListener>());
         setCookies();
 
-        getChannel(Channel.META_CONNECT).addListener(new ClientSessionChannel.MessageListener() {
+	getChannel(Channel.META_CONNECT).addListener(new ClientSessionChannel.MessageListener() {
             public void onMessage(ClientSessionChannel channel, Message message) {
-                if (message.isSuccessful() && subscriptions.size() > 0) {
+                if (message.isSuccessful() && subscriptions.size() > 0 ) {
                     for (String subscriptionChannel : subscriptions.keySet()) {
-                        LOGGER.info("Subscribing to channel: " + subscriptionChannel);
-                        getChannel(subscriptionChannel).subscribe(subscriptions.get(subscriptionChannel));
+                    	LOGGER.info("subscribing " + subscriptionChannel + " for the first time");
+                        getChannel(subscriptionChannel).subscribe(subscriptions.get(subscriptionChannel));                        
                     }
                     // Removing the subscriptions already made so it doesn't re-subscribe on reconnect
                     subscriptions.clear();
+                    
+                }
+                else if(message.isSuccessful() == false && getState() == State.REHANDSHAKING)
+                {
+             		needToResubscribe = true;
+                }
+                else if(needToResubscribe && isConnected())
+                {
+                	for (String subscriptionChannel : subscriptionsCopy.keySet()) 
+                	{
+                		LOGGER.info("Re-Subscribing to channel: " + subscriptionChannel);
+				getChannel(subscriptionChannel).subscribe(subscriptionsCopy.get(subscriptionChannel));                        
+                    }
+                	needToResubscribe = false;
                 }
             }
         });
@@ -116,6 +132,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
         getChannel(channel).unsubscribe();
 
         this.subscriptions.remove(channel);
+        this.subscriptionsCopy.remove(channel);
     }
 
     public void subscribe(String channel, ClientSessionChannel.MessageListener messageListener) {
@@ -124,6 +141,7 @@ public class SalesforceBayeuxClient extends BayeuxClient {
             getChannel(channel).subscribe(messageListener);
         } else {
             this.subscriptions.put(channel, messageListener);
+            this.subscriptionsCopy.put(channel, messageListener);
         }
     }
 }
