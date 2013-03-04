@@ -19,6 +19,7 @@ import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.MessageHandler;
 import org.apache.log4j.Logger;
 import org.mule.api.annotations.Configurable;
+import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.oauth.OAuth2;
 import org.mule.api.annotations.oauth.OAuthAccessToken;
 import org.mule.api.annotations.oauth.OAuthAccessTokenIdentifier;
@@ -52,7 +53,7 @@ import java.net.URL;
 @org.mule.api.annotations.Connector(name = "sfdc",
         schemaVersion = "5.0",
         friendlyName = "Salesforce (OAuth)",
-        minMuleVersion = "3.3",
+        minMuleVersion = "3.4",
         configElementName = "config-with-oauth")
 @OAuth2(authorizationUrl = "https://login.salesforce.com/services/oauth2/authorize",
         accessTokenUrl = "https://login.salesforce.com/services/oauth2/token",
@@ -109,6 +110,7 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
     protected boolean isReadyToSubscribe() {
     	return this.accessToken != null;
     }
+
 
     @OAuthPostAuthorization
     public void postAuthorize() throws ConnectionException, MalformedURLException, AsyncApiException {

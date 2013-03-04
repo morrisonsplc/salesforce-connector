@@ -4,17 +4,18 @@
     <parent>
         <groupId>org.mule.tools.devkit</groupId>
         <artifactId>mule-devkit-parent</artifactId>
-        <version>3.3.2</version>
+        <version>3.4.0-RC1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-sfdc</artifactId>
-    <version>5.2.0-SNAPSHOT</version>
+    <version>5.3.1-SNAPSHOT</version>
     <packaging>mule-module</packaging>
     <name>Mule Salesforce Connector</name>
 
     <properties>
+        <!--<mule.version>3.4-M4-SNAPSHOT</mule.version>-->
         <category>Community</category>
         <licensePath>LICENSE.md</licensePath>
         <devkit.studio.package.skip>false</devkit.studio.package.skip>
@@ -107,6 +108,7 @@
             <artifactId>log4j</artifactId>
             <version>1.2.14</version>
         </dependency>
+
     </dependencies>
 
     <repositories>

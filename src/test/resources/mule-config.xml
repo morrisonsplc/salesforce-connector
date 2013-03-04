@@ -22,6 +22,17 @@
     </sfdc:create>
   </flow>
 
+
+    <!--<flow name="Create-metaData">-->
+        <!--<sfdc:create type="Account" config-ref="Salesforce">-->
+            <!--<sfdc:objects>-->
+                <!--<sfdc:object>-->
+                    <!--<Name>MuleSoft</Name>-->
+                <!--</sfdc:object>-->
+            <!--</sfdc:objects>-->
+        <!--</sfdc:create>-->
+    <!--</flow>-->
+
     <flow name="Query">
       <message-properties-transformer>
           <add-message-property key="SAVE_THIS" value="MULESOFT"/>
