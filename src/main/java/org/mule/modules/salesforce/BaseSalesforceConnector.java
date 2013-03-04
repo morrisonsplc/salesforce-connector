@@ -1,5 +1,5 @@
 /**
- * Mule Salesforce Connector
+2 * Mule Salesforce Connector
  *
  * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
  *
@@ -126,6 +126,27 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     private ObjectStoreHelper objectStoreHelper;
 
     private Registry registry;
+    
+    private static final List<PendingSuscription> pendingSuscriptions = new ArrayList<PendingSuscription>();
+    
+    private static class PendingSuscription {
+    	private String topic;
+    	
+    	private SourceCallback callback;
+    	
+    	private PendingSuscription(String topic, SourceCallback callback) {
+    		this.topic = topic;
+    		this.callback = callback;
+    	}
+    	
+    	public SourceCallback getCallback() {
+			return callback;
+		}
+    	
+    	public String getTopic() {
+			return topic;
+		}
+    }
 
     /**
      * Bayeux client
@@ -137,6 +158,8 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     protected abstract BulkConnection getBulkConnection();
 
     protected abstract String getSessionId();
+    
+    protected abstract boolean isReadyToSubscribe();
 
     protected SalesforceBayeuxClient getBayeuxClient() {
         try {
@@ -1308,14 +1331,30 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @OAuthProtected
     @Category(name = "Streaming API", description = "Create topics, to which applications can subscribe, receiving asynchronous notifications of changes to data in Salesforce, via the Bayeux protocol.")
     public StopSourceCallback subscribeTopic(final String topic, final SourceCallback callback) {
-        getBayeuxClient().subscribe("/topic" + topic, new SalesforceBayeuxMessageListener(callback));
+       final String topicName = "/topic" + topic;
+       
+       if (this.isReadyToSubscribe()) {
+    	   this.subscribe(topicName, callback);
+       } else {
+    	   pendingSuscriptions.add(new PendingSuscription(topicName, callback));
+       }
 
-        return new StopSourceCallback() {
+       return new StopSourceCallback() {
             @Override
             public void stop() throws Exception {
-                getBayeuxClient().unsubscribe("/topic" + topic);
+                getBayeuxClient().unsubscribe(topicName);
             }
         };
+    }
+    
+    protected void processPendingSuscriptions() {
+    	for (PendingSuscription p : pendingSuscriptions) {
+    		this.subscribe(p.getTopic(), p.getCallback());
+    	}
+    }
+    
+    private void subscribe(String topicName, SourceCallback callback) {
+    	this.getBayeuxClient().subscribe(topicName, new SalesforceBayeuxMessageListener(callback));
     }
 
     public void setObjectStoreManager(ObjectStoreManager objectStoreManager) {

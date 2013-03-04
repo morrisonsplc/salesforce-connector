@@ -139,6 +139,11 @@ public class SalesforceConnector extends BaseSalesforceConnector {
 			}            
         }
     }
+    
+    @Override
+    protected boolean isReadyToSubscribe() {
+    	return this.isConnected();
+    }
 
     /**
      * Creates a new Salesforce session
@@ -198,6 +203,8 @@ public class SalesforceConnector extends BaseSalesforceConnector {
         } catch (MalformedURLException e) {
             throw new org.mule.api.ConnectionException(ConnectionExceptionCode.UNKNOWN_HOST, null, e.getMessage(), e);
         }
+        
+        this.processPendingSuscriptions();
     }
 
     public void reconnect() throws org.mule.api.ConnectionException {

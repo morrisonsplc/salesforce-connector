@@ -104,6 +104,11 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
     public String getUserId() {
         return userId;
     }
+    
+    @Override
+    protected boolean isReadyToSubscribe() {
+    	return this.accessToken != null;
+    }
 
     @OAuthPostAuthorization
     public void postAuthorize() throws ConnectionException, MalformedURLException, AsyncApiException {
@@ -139,6 +144,8 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
         config.setRestEndpoint(restEndpoint);
 
         this.bulkConnection = new BulkConnection(config);
+        
+        this.processPendingSuscriptions();
     }
 
     public String getConsumerKey() {
