@@ -11,9 +11,8 @@ package org.mule.modules.salesforce;
 
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.BulkConnection;
-import com.sforce.soap.partner.*;
 import com.sforce.soap.partner.Connector;
-import com.sforce.soap.partner.Field;
+import com.sforce.soap.partner.*;
 import com.sforce.soap.partner.fault.ApiFault;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
@@ -50,6 +49,7 @@ import java.util.*;
  *
  * @author MuleSoft, Inc.
  */
+
 @org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.4")
 public class SalesforceConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceConnector.class);
@@ -57,68 +57,52 @@ public class SalesforceConnector extends BaseSalesforceConnector {
 
     @MetaDataKeyRetriever
     public List<MetaDataKey> getMetaDataKeys() throws Exception {
-        long start = System.currentTimeMillis();
 
         List<MetaDataKey> keys = new ArrayList<MetaDataKey>();
-        DescribeGlobalResult describeGlobal = null;
-
-        describeGlobal = describeGlobal();
+        DescribeGlobalResult describeGlobal = describeGlobal();
 
 
-        if (describeGlobal != null)
-        {
+        if (describeGlobal != null) {
             DescribeGlobalSObjectResult[] sobjects = describeGlobal.getSobjects();
             for (DescribeGlobalSObjectResult sobject : sobjects) {
                 keys.add(new DefaultMetaDataKey(sobject.getName(), sobject.getLabel()));
             }
         }
 
-        //TODO: remove sytem out
-        long stop = System.currentTimeMillis();
-        System.out.println("Time to get keys: " + Long.toString(stop-start) + "ms");
 
         return keys;
     }
 
     @MetaDataRetriever
     public MetaData getMetaData(MetaDataKey key) throws Exception {
-        DescribeSObjectResult describeSObject = null;
-
-        describeSObject = describeSObject(key.getId());
+        DescribeSObjectResult describeSObject = describeSObject(key.getId());
 
         MetaData metaData = null;
-        if (describeSObject != null)
-        {
+        if (describeSObject != null) {
             Field[] fields = describeSObject.getFields();
             Map<String, MetaDataModel> map = new HashMap<String, MetaDataModel>(fields.length);
-            for (Field f : fields)
-            {
+            for (Field f : fields) {
                 MetaDataModel fieldModel = getModelForField(f);
                 map.put(f.getName(), fieldModel);
             }
 
-            MetaDataModel stringMdm = new DefaultMetaDataModel(DataType.STRING);
-            MetaDataModel model = new DefaultMapMetaDataModel<String>(stringMdm, map);
+            MetaDataModel model = new DefaultDefinedMapMetaDataModel(map, key.getId());
             metaData = new DefaultMetaData(model);
         }
         return metaData;
     }
 
-    private static final Set<String> parentNames = Collections.singleton("sObject");
-    private MetaDataModel getModelForField(Field f)
-    {
+    private MetaDataModel getModelForField(Field f) {
         DataType dataType = getDataType(f.getType());
-        String name = f.getName();
         if (DataType.POJO.equals(dataType)) {
             return new DefaultPojoMetaDataModel(f.getClass());
         } else {
-            return new DefaultSimpleMetaDataModel(dataType, name, parentNames);
+            return new DefaultSimpleMetaDataModel(dataType);
         }
     }
 
-    private DataType getDataType(FieldType fieldType)
-    {
-        DataType dt = DataType.POJO;
+    private DataType getDataType(FieldType fieldType) {
+        DataType dt;
         switch (fieldType) {
             case _boolean:
                 dt = DataType.BOOLEAN;
@@ -277,7 +261,7 @@ public class SalesforceConnector extends BaseSalesforceConnector {
             } finally {
                 loginResult = null;
                 connection = null;
-			}            
+            }
         }
     }
 
@@ -416,13 +400,13 @@ public class SalesforceConnector extends BaseSalesforceConnector {
                 SessionRenewer.SessionRenewalHeader sessionRenewalHeader = new SessionRenewer.SessionRenewalHeader();
                 sessionRenewalHeader.name = new javax.xml.namespace.QName("urn:partner.soap.sforce.com", "SessionHeader");
                 sessionRenewalHeader.headerElement = connection.getSessionHeader();
-                
+
                 return sessionRenewalHeader;
             }
         };
-        
+
         config.setSessionRenewer(sessionRenewer);
-        
+
         return config;
     }
 
