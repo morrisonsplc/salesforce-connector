@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.mule.tools.devkit</groupId>
         <artifactId>mule-devkit-parent</artifactId>
-        <version>3.4.0-RC1</version>
+        <version>3.4-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -15,9 +15,10 @@
     <name>Mule Salesforce Connector</name>
 
     <properties>
-        <!--<mule.version>3.4-M4-SNAPSHOT</mule.version>-->
+<!--         <mule.version>3.4-M4-SNAPSHOT</mule.version> -->
         <category>Community</category>
         <licensePath>LICENSE.md</licensePath>
+        <devkit.version>3.4-SNAPSHOT</devkit.version>
         <devkit.studio.package.skip>false</devkit.studio.package.skip>
     </properties>
 

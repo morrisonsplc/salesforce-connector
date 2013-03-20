@@ -9,30 +9,51 @@
  */
 package org.mule.modules.salesforce;
 
-import com.sforce.async.AsyncApiException;
-import com.sforce.async.BulkConnection;
-import com.sforce.soap.partner.*;
-import com.sforce.soap.partner.Connector;
-import com.sforce.soap.partner.Field;
-import com.sforce.soap.partner.fault.ApiFault;
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
-import com.sforce.ws.MessageHandler;
-import com.sforce.ws.SessionRenewer;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.mule.api.ConnectionExceptionCode;
-import org.mule.api.annotations.*;
+import org.mule.api.annotations.Connect;
+import org.mule.api.annotations.ConnectionIdentifier;
+import org.mule.api.annotations.Disconnect;
+import org.mule.api.annotations.MetaDataKeyRetriever;
+import org.mule.api.annotations.MetaDataRetriever;
+import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.display.Placement;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
-import org.mule.common.metadata.*;
+import org.mule.common.metadata.DefaultMetaDataKey;
+import org.mule.common.metadata.DefaultPojoMetaDataModel;
+import org.mule.common.metadata.DefaultSimpleMetaDataModel;
+import org.mule.common.metadata.MetaData;
+import org.mule.common.metadata.MetaDataKey;
+import org.mule.common.metadata.MetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
+import com.sforce.async.AsyncApiException;
+import com.sforce.async.BulkConnection;
+import com.sforce.soap.partner.Connector;
+import com.sforce.soap.partner.DescribeGlobalResult;
+import com.sforce.soap.partner.DescribeGlobalSObjectResult;
+import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.Field;
+import com.sforce.soap.partner.FieldType;
+import com.sforce.soap.partner.LoginResult;
+import com.sforce.soap.partner.PartnerConnection;
+import com.sforce.soap.partner.fault.ApiFault;
+import com.sforce.ws.ConnectionException;
+import com.sforce.ws.ConnectorConfig;
+import com.sforce.ws.MessageHandler;
+import com.sforce.ws.SessionRenewer;
 
 
 /**
@@ -97,9 +118,9 @@ public class SalesforceConnector extends BaseSalesforceConnector {
                 map.put(f.getName(), fieldModel);
             }
 
-            MetaDataModel stringMdm = new DefaultMetaDataModel(DataType.STRING);
-            MetaDataModel model = new DefaultMapMetaDataModel<String>(stringMdm, map);
-            metaData = new DefaultMetaData(model);
+//            MetaDataModel stringMdm = new DefaultMetaDataModel(DataType.STRING);
+//            MetaDataModel model = new DefaultMapMetaDataModel<String>(stringMdm, map);
+//            metaData = new DefaultMetaData(model);
         }
         return metaData;
     }
@@ -112,7 +133,8 @@ public class SalesforceConnector extends BaseSalesforceConnector {
         if (DataType.POJO.equals(dataType)) {
             return new DefaultPojoMetaDataModel(f.getClass());
         } else {
-            return new DefaultSimpleMetaDataModel(dataType, name, parentNames);
+//            return new DefaultSimpleMetaDataModel(dataType, name, parentNames);
+            return new DefaultSimpleMetaDataModel(dataType);
         }
     }
 
