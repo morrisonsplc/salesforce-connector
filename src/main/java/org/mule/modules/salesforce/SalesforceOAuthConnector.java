@@ -55,8 +55,8 @@ import com.sforce.ws.MessageHandler;
         friendlyName = "Salesforce (OAuth)",
         minMuleVersion = "3.4",
         configElementName = "config-with-oauth")
-@OAuth2(authorizationUrl = "https://login.salesforce.com/services/oauth2/authorize",
-        accessTokenUrl = "https://login.salesforce.com/services/oauth2/token",
+@OAuth2(authorizationUrl = "https://test.salesforce.com/services/oauth2/authorize",
+        accessTokenUrl = "https://test.salesforce.com/services/oauth2/token",
         authorizationParameters = {
                 @OAuthAuthorizationParameter(name = "display", type = SalesforceOAuthDisplay.class,
                         description = "Tailors the login page to the user's device type."),
