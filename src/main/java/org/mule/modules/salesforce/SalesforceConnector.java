@@ -77,6 +77,22 @@ public class SalesforceConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceConnector.class);
 
 
+    /**
+     * This value could be used for specifing an active Salesforce session.
+     * <p>Please take into account you must specify all the connection parameters anyway since they will be used
+     * in case of needing a reconnection.</p>
+     */
+    @Optional
+    private String salesforceSessionId;
+
+    /**
+     * Specifies the service endpoint. This value will be only used in case of using sessionId configuration property.
+     * Otherwise the service endpoint will be retrieved from the login results.
+     */
+    @Optional
+    private String serviceEndpoint;
+
+
     @MetaDataKeyRetriever
     public List<MetaDataKey> getMetaDataKeys() throws Exception {
 
@@ -339,7 +355,14 @@ public class SalesforceConnector extends BaseSalesforceConnector {
             throw new org.mule.api.ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage(), e);
         }
 
-        reconnect();
+        if (getSalesforceSessionId() != null && getServiceEndpoint() != null) {
+            connection.getSessionHeader().setSessionId(getSalesforceSessionId());
+            connection.getConfig().setSessionId(getSalesforceSessionId());
+            connection.getConfig().setServiceEndpoint(getServiceEndpoint());
+        }
+        else {
+            reconnect();
+        }
 
         try {
             String restEndpoint = "https://" + (new URL(connectorConfig.getServiceEndpoint())).getHost() + "/services/async/26.0";
@@ -447,5 +470,21 @@ public class SalesforceConnector extends BaseSalesforceConnector {
     @Override
     protected BulkConnection getBulkConnection() {
         return bulkConnection;
+    }
+
+    public String getServiceEndpoint() {
+        return serviceEndpoint;
+    }
+
+    public void setServiceEndpoint(String serviceEndpoint) {
+        this.serviceEndpoint = serviceEndpoint;
+    }
+
+    public String getSalesforceSessionId() {
+        return salesforceSessionId;
+    }
+
+    public void setSalesforceSessionId(String salesforceSessionId) {
+        this.salesforceSessionId = salesforceSessionId;
     }
 }
