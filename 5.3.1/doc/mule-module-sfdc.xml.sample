@@ -1,0 +1,289 @@
+<!-- BEGIN_INCLUDE(sfdc:config) -->
+<sfdc:config name="salesforce-default" username="someUserName"
+             password="somePassword" securityToken="someSecurityToken"/>
+<!-- END_INCLUDE(sfdc:config) -->
+<!-- BEGIN_INCLUDE(sfdc:config-with-oauth) -->
+<sfdc:config-with-oauth name="salesforce-default-oauth" ... />
+<!-- END_INCLUDE(sfdc:config-with-oauth) -->
+<!-- BEGIN_INCLUDE(sfdc:convert-lead) -->
+<sfdc:convert-lead config-ref="mySalesforceConfig"
+                   leadId="001..." contactId="#[variable:contactId]" overWriteLeadSource="false" doNotCreateOpportunity="true"
+                   convertedStatus="Qualified" sendEmailToOwner="true"/>
+<!-- END_INCLUDE(sfdc:convert-lead) -->
+<!-- BEGIN_INCLUDE(sfdc:batch-splitter) -->
+<sfdc:batch-splitter config-ref="mySalesforceConfig" batchSize="200">
+    <sfdc:objects ref="#[payload]"/>
+</sfdc:batch-splitter>
+<sfdc:create-bulk config-ref="mySalesforceConfig" type="Account">
+    <sfdc:objects ref="#[payload]"/>
+</sfdc:create-bulk>
+<!-- END_INCLUDE(sfdc:batch-splitter) -->
+<!-- BEGIN_INCLUDE(sfdc:create-bulk) -->
+<sfdc:create-bulk config-ref="mySalesforceConfig" type="Account">
+    <sfdc:objects>
+        <sfdc:object>
+            <Name>MuleSoft</Name>
+            <BillingStreet>30 Maiden Lane</BillingStreet>
+            <BillingCity>San Francisco</BillingCity>
+            <BillingState>CA</BillingState>
+            <BillingPostalCode>94108</BillingPostalCode>
+            <BillingCountry>US</BillingCountry>
+        </sfdc:object>
+    </sfdc:objects>
+</sfdc:create-bulk>
+<!-- END_INCLUDE(sfdc:create-bulk) -->
+<!-- BEGIN_INCLUDE(sfdc:create) -->
+<sfdc:create config-ref="Salesforce3" type="Account">
+    <sfdc:objects>
+        <sfdc:object>
+             <sfdc:inner-object key="BillingStreet">30 Maiden Lane</sfdc:inner-object>
+             <sfdc:inner-object key="BillingCity">San Francisco</sfdc:inner-object>
+             <sfdc:inner-object key="BillingCountry">US</sfdc:inner-object>
+             <sfdc:inner-object key="BillingState">CA</sfdc:inner-object>
+             <sfdc:inner-object key="Name">MuleSoft</sfdc:inner-object>
+             <sfdc:inner-object key="BillingPostalCode">94108</sfdc:inner-object>
+        </sfdc:object>
+    </sfdc:objects>
+</sfdc:create>
+<!-- END_INCLUDE(sfdc:create) -->
+<!-- BEGIN_INCLUDE(sfdc:create-single) -->
+<sfdc:create-single config-ref="mySalesforceConfig" type="Account">
+    <sfdc:object>
+        <Name>MuleSoft</Name>
+        <BillingStreet>30 Maiden Lane</BillingStreet>
+        <BillingCity>San Francisco</BillingCity>
+        <BillingState>CA</BillingState>
+        <BillingPostalCode>94108</BillingPostalCode>
+        <BillingCountry>US</BillingCountry>
+    </sfdc:object>
+</sfdc:create-single>
+<!-- END_INCLUDE(sfdc:create-single) -->
+<!-- BEGIN_INCLUDE(sfdc:upsert) -->
+<sfdc:upsert config-ref="mySalesforceConfig" type="Account" externalIdFieldName="InternalAccountCode">
+    <sfdc:objects>
+        <sfdc:object>
+            <InternalAccountCode>A01596</InternalAccountCode>
+            <Name>MuleSoft</Name>
+            <BillingStreet>30 Maiden Lane</BillingStreet>
+            <BillingCity>San Francisco</BillingCity>
+            <BillingState>CA</BillingState>
+            <BillingPostalCode>94108</BillingPostalCode>
+            <BillingCountry>US</BillingCountry>
+        </sfdc:object>
+    </sfdc:objects>
+</sfdc:upsert>
+<!-- END_INCLUDE(sfdc:upsert) -->
+<!-- BEGIN_INCLUDE(sfdc:upsert-bulk) -->
+<sfdc:upsert-bulk config-ref="mySalesforceConfig" type="Account" externalIdFieldName="InternalAccountCode">
+    <sfdc:objects>
+        <sfdc:object>
+            <InternalAccountCode>A01596</InternalAccountCode>
+            <Name>MuleSoft</Name>
+            <BillingStreet>30 Maiden Lane</BillingStreet>
+            <BillingCity>San Francisco</BillingCity>
+            <BillingState>CA</BillingState>
+            <BillingPostalCode>94108</BillingPostalCode>
+            <BillingCountry>US</BillingCountry>
+        </sfdc:object>
+    </sfdc:objects>
+</sfdc:upsert-bulk>
+<!-- END_INCLUDE(sfdc:upsert-bulk) -->
+<!-- BEGIN_INCLUDE(sfdc:batch-info) -->
+<sfdc:batch-info config-ref="mySalesforceConfig">
+    <sfdc:batch-info ref="#[payload]"/>
+</sfdc:batch-info>
+<!-- END_INCLUDE(sfdc:batch-info) -->
+<!-- BEGIN_INCLUDE(sfdc:batch-result) -->
+<sfdc:batch-result config-ref="mySalesforceConfig">
+    <sfdc:batch-info ref="#[payload]"/>
+</sfdc:batch-result>
+<!-- END_INCLUDE(sfdc:batch-result) -->
+<!-- BEGIN_INCLUDE(sfdc:batch-result-stream) -->
+<sfdc:batch-result-stream config-ref="mySalesforceConfig">
+    <sfdc:batch-info ref="#[payload]"/>
+</sfdc:batch-result-stream>
+<!-- END_INCLUDE(sfdc:batch-result-stream) -->
+<!-- BEGIN_INCLUDE(sfdc:query-result-stream) -->
+<sfdc:query-result-stream config-ref="mySalesforceConfig">
+    <sfdc:batch-info ref="#[payload]"/>
+</sfdc:query-result-stream>
+<!-- END_INCLUDE(sfdc:query-result-stream) -->
+<!-- BEGIN_INCLUDE(sfdc:delete) -->
+<sfdc:delete config-ref="mySalesforceConfig">
+    <sfdc:ids>
+        <sfdc:id>001...</sfdc:id>
+    </sfdc:ids>
+</sfdc:delete>
+<!-- END_INCLUDE(sfdc:delete) -->
+<!-- BEGIN_INCLUDE(sfdc:describe-global) -->
+<sfdc:describe-global config-ref="mySalesforceConfig"/>
+<!-- END_INCLUDE(sfdc:describe-global) -->
+<!-- BEGIN_INCLUDE(sfdc:describe-sobject) -->
+<sfdc:describe-sobject config-ref="mySalesforceConfig" type="Account"/>
+<!-- END_INCLUDE(sfdc:describe-sobject) -->
+<!-- BEGIN_INCLUDE(sfdc:empty-recycle-bin) -->
+<sfdc:empty-recycle-bin config-ref="mySalesforceConfig">
+    <sfdc:ids>
+        <sfdc:id>001...</sfdc:id>
+    </sfdc:ids>
+</sfdc:empty-recycle-bin>
+<!-- END_INCLUDE(sfdc:empty-recycle-bin) -->
+<!-- BEGIN_INCLUDE(sfdc:get-updated-range) -->
+<sfdc:get-updated-range config-ref="mySalesforceConfig" type="Account" startTime="#[variable:startTime]" endTime="#[variable:endTime]"/>
+<!-- END_INCLUDE(sfdc:get-updated-range) -->
+<!-- BEGIN_INCLUDE(sfdc:get-deleted-range) -->
+<sfdc:get-deleted-range config-ref="mySalesforceConfig" type="Account" startTime="#[variable:startTime]" endTime="#[variable:endTime]"/>
+<!-- END_INCLUDE(sfdc:get-deleted-range) -->
+<!-- BEGIN_INCLUDE(sfdc:publish-topic) -->
+<sfdc:publish-topic config-ref="mySalesforceConfig" topicName="AccountTopic" query="SELECT Id FROM Account"/>
+<!-- END_INCLUDE(sfdc:publish-topic) -->
+<!-- BEGIN_INCLUDE(sfdc:paginated-query) -->
+<sfdc:paginated-query config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/>
+<!-- END_INCLUDE(sfdc:paginated-query) -->
+<!-- BEGIN_INCLUDE(sfdc:query) -->
+<sfdc:query config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/>
+<!-- END_INCLUDE(sfdc:query) -->
+<!-- BEGIN_INCLUDE(sfdc:query-single) -->
+<sfdc:query-single config-ref="mySalesforceConfig" query="SELECT Id FROM Account"/>
+<!-- END_INCLUDE(sfdc:query-single) -->
+<!-- BEGIN_INCLUDE(sfdc:search) -->
+<sfdc:search config-ref="mySalesforceConfig" query="Find {salesforce} RETURNING Solution(id, SolutionName, SolutionNumber, Mule_Version__c, Product__c)" />
+<!-- END_INCLUDE(sfdc:search) -->
+<!-- BEGIN_INCLUDE(sfdc:update) -->
+<sfdc:update config-ref="mySalesforceConfig" type="Account">
+    <sfdc:objects>
+        <sfdc:object ref="#[payload]"/>
+    </sfdc:objects>
+</sfdc:update>
+<!-- END_INCLUDE(sfdc:update) -->
+<!-- BEGIN_INCLUDE(sfdc:update-single) -->
+<sfdc:update-single config-ref="mySalesforceConfig" type="Account">
+    <sfdc:object ref="#[payload]"/>
+</sfdc:update-single>
+<!-- END_INCLUDE(sfdc:update-single) -->
+<!-- BEGIN_INCLUDE(sfdc:update-bulk) -->
+<sfdc:update-bulk config-ref="mySalesforceConfig" type="Account">
+    <sfdc:objects>
+        <sfdc:object ref="#[payload]"/>
+    </sfdc:objects>
+</sfdc:update-bulk>
+<!-- END_INCLUDE(sfdc:update-bulk) -->
+<!-- BEGIN_INCLUDE(sfdc:subscribe-topic) -->
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:spring="http://www.springframework.org/schema/beans"
+            xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+            xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+            http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
+
+    <flow name="sendSmsNotifications">
+        <sfdc:subscribe-topic config-ref="mySalesforceConfig"
+                              topic="/NewsFeedStream"/>
+        <logger level="INFO" message="Message received!"/>
+    </flow>
+</mule>
+<!-- END_INCLUDE(sfdc:subscribe-topic) -->
+<!-- BEGIN_INCLUDE(sfdc:get-updated) -->
+<sfdc:get-updated config-ref="mySalesforceConfig" type="#[map-payload:type]" duration="#[map-payload:duration]" />
+<!-- END_INCLUDE(sfdc:get-updated) -->
+<!-- BEGIN_INCLUDE(sfdc:get-deleted) -->
+<sfdc:get-deleted config-ref="mySalesforceConfig" type="#[map-payload:type]" duration="#[map-payload:duration]" />
+<!-- END_INCLUDE(sfdc:get-deleted) -->
+<!-- BEGIN_INCLUDE(sfdc:get-user-info) -->
+<sfdc:get-user-info config-ref="mySalesforceConfig"/>
+<!-- END_INCLUDE(sfdc:get-user-info) -->
+<!-- BEGIN_INCLUDE(sfdc:get-session-id) -->
+<sfdc:get-session-id config-ref="mySalesforceConfig"/>
+<!-- END_INCLUDE(sfdc:get-session-id) -->
+<!-- BEGIN_INCLUDE(sfdc:retrieve) -->
+<sfdc:retrieve config-ref="mySalesforceConfig" type="Account">
+     <sfdc:ids>
+         <sfdc:id>4323</sfdc:id>
+         <sfdc:id>4676</sfdc:id>
+     </sfdc:ids>
+     <sfdc:fields>
+         <sfdc:field>Id</sfdc:field>
+         <sfdc:field>Name</sfdc:field>
+     </sfdc:fields>
+</sfdc:retrieve>
+<!-- END_INCLUDE(sfdc:retrieve) -->
+<!-- BEGIN_INCLUDE(sfdc:get-updated-objects) -->
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:spring="http://www.springframework.org/schema/beans"
+            xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+            xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+            xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+            http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+            http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
+
+    <flow name="getSalesforceUpdatedAccountObjects">
+        <poll frequency="600000" >
+            <sfdc:get-updated-objects config-ref="mySalesforceConfig" type="Account" initialTimeWindow="120">
+                <sfdc:fields>
+                    <sfdc:field>Id</sfdc:field>
+                    <sfdc:field>Name</sfdc:field>
+                </sfdc:fields>
+            </sfdc:get-updated-objects>
+        </poll>
+        <vm:outbound-endpoint path="persistentQueue" exchange-pattern="one-way" connector-ref="persistentVmConnector" />
+    </flow>
+</mule>
+<!-- END_INCLUDE(sfdc:get-updated-objects) -->
+<!-- BEGIN_INCLUDE(sfdc:reset-updated-objects-timestamp) -->
+<sfdc:reset-updated-objects-timestamp config-ref="mySalesforceConfig" type="Account"/>
+<!-- END_INCLUDE(sfdc:reset-updated-objects-timestamp) -->
+<!-- BEGIN_INCLUDE(sfdc:hard-delete-bulk) -->
+<!-- Hard Delete Accounts -->
+<sfdc:hard-delete-bulk config-ref="mySalesforceConfig" type="Account">
+    <sfdc:objects>
+        <sfdc:object ref="#[payload]"/>
+    </sfdc:objects>
+</sfdc:hard-delete-bulk>
+<!-- END_INCLUDE(sfdc:hard-delete-bulk) -->
+<!-- BEGIN_INCLUDE(sfdc:create-job:example-1) -->
+<!-- Creating a job for Inserting Accounts -->
+<sfdc:create-job config-ref="mySalesforceConfig" operation="insert" type="Account" />
+<!-- END_INCLUDE(sfdc:create-job:example-1) -->
+<!-- BEGIN_INCLUDE(sfdc:create-job:example-2) -->
+<!-- Creating a job for Deleting Accounts -->
+<sfdc:create-job config-ref="mySalesforceConfig" operation="delete" type="Account" />
+<!-- END_INCLUDE(sfdc:create-job:example-2) -->
+<!-- BEGIN_INCLUDE(sfdc:create-job:example-3) -->
+<!-- Creating a job for Upserting Accounts -->
+<sfdc:create-job config-ref="mySalesforceConfig" operation="upsert" type="Account" externalIdFieldName="InternalAccountCode" />
+<!-- END_INCLUDE(sfdc:create-job:example-3) -->
+<!-- BEGIN_INCLUDE(sfdc:close-job) -->
+<sfdc:close-job config-ref="mySalesforceConfig" jobId="ID" />
+<!-- END_INCLUDE(sfdc:close-job) -->
+<!-- BEGIN_INCLUDE(sfdc:abort-job) -->
+<sfdc:abort-job config-ref="mySalesforceConfig" jobId="ID" />
+<!-- END_INCLUDE(sfdc:abort-job) -->
+<!-- BEGIN_INCLUDE(sfdc:create-batch) -->
+<sfdc:create-batch config-ref="mySalesforceConfig">
+    <sfdc:job-info id="#[flowVars['jobInfo']"/>
+    <sfdc:objects>
+        <sfdc:object ref="#[payload]" />
+    </sfdc:objects>
+</sfdc:create-batch>
+<!-- END_INCLUDE(sfdc:create-batch) -->
+<!-- BEGIN_INCLUDE(sfdc:create-batch-stream) -->
+<sfdc:create-batch-stream config-ref="mySalesforceConfig">
+    <sfdc:job-info id="#[flowVars['jobInfo']"/>
+</sfdc:create-batch-stream>
+<!-- END_INCLUDE(sfdc:create-batch-stream) -->
+<!-- BEGIN_INCLUDE(sfdc:set-password) -->
+<sfdc:set-password userId="#[payload['Id']]" config-ref="pepe" newPassword="#[newPassword]"/>
+<!-- END_INCLUDE(sfdc:set-password) -->
+<!-- BEGIN_INCLUDE(sfdc:create-batch-for-query) -->
+<sfdc:create-batch-for-query config-ref="mySalesforceConfig" query="#[payload]">
+    <sfdc:job-info id="#[flowVars['jobInfo']"/>
+</sfdc:create-batch-for-query>
+<!-- END_INCLUDE(sfdc:create-batch-for-query) -->
+
