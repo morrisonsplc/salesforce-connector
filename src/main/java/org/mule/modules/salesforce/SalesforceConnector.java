@@ -76,23 +76,6 @@ import com.sforce.ws.SessionRenewer;
 public class SalesforceConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceConnector.class);
 
-
-    /**
-     * This value could be used for specifing an active Salesforce session.
-     * <p>Please take into account you must specify all the connection parameters anyway since they will be used
-     * in case of needing a reconnection.</p>
-     */
-    @Optional
-    private String salesforceSessionId;
-
-    /**
-     * Specifies the service endpoint. This value will be only used in case of using sessionId configuration property.
-     * Otherwise the service endpoint will be retrieved from the login results.
-     */
-    @Optional
-    private String serviceEndpoint;
-
-
     @MetaDataKeyRetriever
     public List<MetaDataKey> getMetaDataKeys() throws Exception {
 
@@ -319,6 +302,11 @@ public class SalesforceConnector extends BaseSalesforceConnector {
      * @param proxyPort     Port of the proxy
      * @param proxyUsername Username used to authenticate against the proxy
      * @param proxyPassword Password used to authenticate against the proxy
+     * @param sessionId  This value could be used for specifing an active Salesforce session.
+     * Please take into account you must specify all the connection parameters anyway since they will be used
+     * in case of needing a reconnection.
+     * @param serviceEndpoint Specifies the service endpoint. This value will only be used in case of using sessionId configuration property.
+     * Otherwise the service endpoint will be retrieved from the login results.
      * @throws ConnectionException if a problem occurred while trying to create the session
      */
     @Connect
@@ -329,7 +317,9 @@ public class SalesforceConnector extends BaseSalesforceConnector {
                                      @Optional @Placement(group = "Proxy Settings") String proxyHost,
                                      @Optional @Placement(group = "Proxy Settings") @Default("80") int proxyPort,
                                      @Optional @Placement(group = "Proxy Settings") String proxyUsername,
-                                     @Optional @Placement(group = "Proxy Settings") @Password String proxyPassword) throws org.mule.api.ConnectionException {
+                                     @Optional @Placement(group = "Proxy Settings") @Password String proxyPassword,
+                                     @Optional @Placement(group = "Session") String sessionId,
+                                     @Optional @Placement(group = "Session") String serviceEndpoint) throws org.mule.api.ConnectionException {
 
         ConnectorConfig connectorConfig = createConnectorConfig(url, username, password + securityToken, proxyHost, proxyPort, proxyUsername, proxyPassword);
         if (LOGGER.isDebugEnabled()) {
@@ -355,10 +345,10 @@ public class SalesforceConnector extends BaseSalesforceConnector {
             throw new org.mule.api.ConnectionException(ConnectionExceptionCode.UNKNOWN, null, e.getMessage(), e);
         }
 
-        if (getSalesforceSessionId() != null && getServiceEndpoint() != null) {
-            connection.getSessionHeader().setSessionId(getSalesforceSessionId());
-            connection.getConfig().setSessionId(getSalesforceSessionId());
-            connection.getConfig().setServiceEndpoint(getServiceEndpoint());
+        if (sessionId != null && serviceEndpoint != null) {
+            connection.getSessionHeader().setSessionId(sessionId);
+            connection.getConfig().setSessionId(sessionId);
+            connection.getConfig().setServiceEndpoint(serviceEndpoint);
         }
         else {
             reconnect();
@@ -470,21 +460,5 @@ public class SalesforceConnector extends BaseSalesforceConnector {
     @Override
     protected BulkConnection getBulkConnection() {
         return bulkConnection;
-    }
-
-    public String getServiceEndpoint() {
-        return serviceEndpoint;
-    }
-
-    public void setServiceEndpoint(String serviceEndpoint) {
-        this.serviceEndpoint = serviceEndpoint;
-    }
-
-    public String getSalesforceSessionId() {
-        return salesforceSessionId;
-    }
-
-    public void setSalesforceSessionId(String salesforceSessionId) {
-        this.salesforceSessionId = salesforceSessionId;
     }
 }
