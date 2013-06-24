@@ -128,16 +128,17 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
 
     private Registry registry;
     
-    private static final List<PendingSuscription> pendingSuscriptions = new ArrayList<PendingSuscription>();
+    private static final List<Subscription> subscriptions = new ArrayList<Subscription>();
     
-    private static class PendingSuscription {
+    private static class Subscription {
     	private String topic;
-    	
     	private SourceCallback callback;
+        private boolean subscribed;
     	
-    	private PendingSuscription(String topic, SourceCallback callback) {
+    	private Subscription(String topic, SourceCallback callback, boolean subscribed) {
     		this.topic = topic;
     		this.callback = callback;
+            this.subscribed = subscribed;
     	}
     	
     	public SourceCallback getCallback() {
@@ -147,6 +148,10 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     	public String getTopic() {
 			return topic;
 		}
+
+        public boolean isSubscribed() {
+            return subscribed;
+        }
     }
 
     /**
@@ -1332,12 +1337,14 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @Category(name = "Streaming API", description = "Create topics, to which applications can subscribe, receiving asynchronous notifications of changes to data in Salesforce, via the Bayeux protocol.")
     public StopSourceCallback subscribeTopic(final String topic, final SourceCallback callback) {
        final String topicName = "/topic" + topic;
-       
+       boolean subscribed = false;
+
        if (this.isReadyToSubscribe()) {
     	   this.subscribe(topicName, callback);
-       } else {
-    	   pendingSuscriptions.add(new PendingSuscription(topicName, callback));
+           subscribed = true;
        }
+
+       subscriptions.add(new Subscription(topicName, callback, subscribed));
 
        return new StopSourceCallback() {
             @Override
@@ -1347,9 +1354,17 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         };
     }
     
-    protected void processPendingSuscriptions() {
-    	for (PendingSuscription p : pendingSuscriptions) {
-    		this.subscribe(p.getTopic(), p.getCallback());
+    protected void processSubscriptions() {
+    	boolean resubscribe = false;
+
+        if (this.bc == null) {
+            resubscribe = true;
+        }
+
+        for (Subscription p : subscriptions) {
+            if (resubscribe || !p.isSubscribed()) {
+    		    this.subscribe(p.getTopic(), p.getCallback());
+            }
     	}
     }
     

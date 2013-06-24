@@ -18,26 +18,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.mule.api.ConnectionExceptionCode;
-import org.mule.api.annotations.Connect;
-import org.mule.api.annotations.ConnectionIdentifier;
-import org.mule.api.annotations.Disconnect;
-import org.mule.api.annotations.MetaDataKeyRetriever;
-import org.mule.api.annotations.MetaDataRetriever;
-import org.mule.api.annotations.ValidateConnection;
+import org.mule.api.annotations.*;
 import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.display.Placement;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
-import org.mule.common.metadata.DefaultDefinedMapMetaDataModel;
-import org.mule.common.metadata.DefaultMetaData;
-import org.mule.common.metadata.DefaultMetaDataKey;
-import org.mule.common.metadata.DefaultPojoMetaDataModel;
-import org.mule.common.metadata.DefaultSimpleMetaDataModel;
-import org.mule.common.metadata.MetaData;
-import org.mule.common.metadata.MetaDataKey;
-import org.mule.common.metadata.MetaDataModel;
-import org.mule.common.metadata.datatype.DataType;
 
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.BulkConnection;
@@ -54,6 +40,8 @@ import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.MessageHandler;
 import com.sforce.ws.SessionRenewer;
+import org.mule.common.metadata.*;
+import org.mule.common.metadata.datatype.DataType;
 
 
 /**
@@ -282,6 +270,7 @@ public class SalesforceConnector extends BaseSalesforceConnector {
             } finally {
                 loginResult = null;
                 connection = null;
+                setBayeuxClient(null);
             }
         }
     }
@@ -364,7 +353,7 @@ public class SalesforceConnector extends BaseSalesforceConnector {
             throw new org.mule.api.ConnectionException(ConnectionExceptionCode.UNKNOWN_HOST, null, e.getMessage(), e);
         }
         
-        this.processPendingSuscriptions();
+        this.processSubscriptions();
     }
 
     public void reconnect() throws org.mule.api.ConnectionException {
