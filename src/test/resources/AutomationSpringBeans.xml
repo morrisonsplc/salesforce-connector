@@ -478,5 +478,48 @@
 				<value>automation-error-messages</value>
 		</property>
 	</bean>
+	
+	<!-- describe-global -->
+    
+    <util:list id="describeGlobalsObjectNames">
+	    <value>Account</value>
+	    <value>Contact</value>
+    </util:list> 
+    
+    <util:map id="describeGlobalTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="expectedSObjectNames" value-ref="describeGlobalsObjectNames"/>
+    </util:map>
+    
+	<!-- describe-sobject -->
+    
+    <util:map id="describeSObjectTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+    </util:map>
+    
+    <!-- get-updated-objects -->
+    
+    <util:list id="getUpdatedObjectsFieldsRef">
+	    <value>Id</value>
+	    <value>Name</value>
+    </util:list> 
+    
+    <util:map id="getUpdatedObjectsSObjectFieldMappings" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="Acme"/>
+        <entry key="BillingCity" value="San Francisco"/>
+        <entry key="Phone" value="111111111"/>
+        <entry key="Website" value="www.acme.com"/>
+    </util:map>
+    
+    <util:map id="getUpdatedObjectssalesforceSObjectsListFromMessage" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="Name" value="updatedName"/>
+    </util:map>
+
+    <util:map id="getUpdatedObjectsTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="type" value="Account"/>
+        <entry key="sObjectFieldMappingsFromMessage" value-ref="getUpdatedObjectsSObjectFieldMappings"/>
+        <entry key="salesforceObjectFromMessage" value-ref="getUpdatedObjectssalesforceSObjectsListFromMessage"/>
+        <entry key="initialTimeWindow" value="1"/>   
+        <entry key="fieldsRef" value-ref="getUpdatedObjectsFieldsRef"/>   
+    </util:map>
 
 </beans>

@@ -8,8 +8,9 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -24,11 +25,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import com.sforce.soap.partner.DeleteResult;
+import com.sforce.soap.partner.DeletedRecord;
+import com.sforce.soap.partner.GetDeletedResult;
+import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.SaveResult;
 
 
 
-public class RetrieveTestCases extends SalesforceTestParent {
+public class GetDeletedTestCases extends SalesforceTestParent {
 
 	@Before
 	public void setUp() {
@@ -37,14 +42,15 @@ public class RetrieveTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			testObjects = (HashMap<String,Object>) context.getBean("retrieveTestData");
+			testObjects = (HashMap<String,Object>) context.getBean("getDeletedTestData");
 			
 			flow = lookupFlowConstruct("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
-	        Iterator<SaveResult> saveResultsIter = saveResultsList.iterator();  
 	        
+	        Iterator<SaveResult> saveResultsIter = saveResultsList.iterator();  
+
 			while (saveResultsIter.hasNext()) {
 				
 				SaveResult saveResult = saveResultsIter.next();
@@ -52,24 +58,13 @@ public class RetrieveTestCases extends SalesforceTestParent {
 				
 			}
 
-			testObjects.put("idsToRetrieveFromMessage", sObjectsIds);
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
-  
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail();
-		}
-     
-	}
-	
-	@After
-	public void tearDown() {
-    	
-		try {
 			
 			flow = lookupFlowConstruct("delete-from-message");
 			flow.process(getTestEvent(testObjects));
+			
+			// because of the rounding applied to the seconds 
+			Thread.sleep(60000);
   
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -79,32 +74,26 @@ public class RetrieveTestCases extends SalesforceTestParent {
      
 	}
 	
-	@Category({SanityTests.class})
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
-	public void testRetrieveChildElementsFromMessage() {
+	public void testGetDeleted() {
 		
-		List<String> createdRecordIds = (List<String>) testObjects.get("idsToRetrieveFromMessage");
-		List<String> fieldsToRetrieve = (List<String>) testObjects.get("fieldsToRetrieveFromMessage");
+		List<String> createdRecordsIds = (List<String>) testObjects.get("idsToDeleteFromMessage");
 		
 		try {
 			
-			flow = lookupFlowConstruct("retrieve-from-message");
+			flow = lookupFlowConstruct("get-deleted");
 			response = flow.process(getTestEvent(testObjects));
 			
-			List<Map<String, Object>> records =  (List<Map<String, Object>>) response.getMessage().getPayload();
-	
-	        Iterator<Map<String, Object>> recordsIter = records.iterator();  
+			GetDeletedResult deletedResult =  (GetDeletedResult) response.getMessage().getPayload();
+			
+			DeletedRecord[] deletedRecords = deletedResult.getDeletedRecords();
+			
+			assertTrue(deletedRecords != null && deletedRecords.length > 0);
 
-			while (recordsIter.hasNext()) {
-				
-				Map<String, Object> sObject = recordsIter.next();
-				assertTrue(createdRecordIds.contains(sObject.get("Id").toString())); 
-				
-				for (int index = 0; index < fieldsToRetrieve.size(); index++) {
-					assertTrue(sObject.containsKey(fieldsToRetrieve.get(index).toString())); 
-			    }
-
-			}
+			for (int i = 0; i < deletedRecords.length; i++) {
+				assertTrue(createdRecordsIds.contains(((DeletedRecord) deletedRecords[i]).getId())); 
+		     }
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

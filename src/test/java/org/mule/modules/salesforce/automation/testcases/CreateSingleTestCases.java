@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import com.sforce.soap.partner.GetUserInfoResult;
@@ -29,36 +28,44 @@ import com.sforce.soap.partner.SaveResult;
 
 
 
-public class EmptyRecycleBinTestCases extends SalesforceTestParent {
+public class CreateSingleTestCases extends SalesforceTestParent {
 	
-    @Before
-	public void testCreateChildElementsFromMessage() {
+	@After
+	public void tearDown() {
+		
+		try {
+			
+	    flow = lookupFlowConstruct("delete-from-message");
+		flow.process(getTestEvent(testObjects));
+	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+				fail();
+		}
+		
+	}
+	
+    @Category({RegressionTests.class})
+	@Test
+	public void testCreateSingleChildElementsFromMessage() {
     	
     	List<String> sObjectsIds = new ArrayList<String>();
     	
 		try {
 			
-			testObjects = (HashMap<String,Object>) context.getBean("createRecord");
+			testObjects = (HashMap<String,Object>) context.getBean("createSingleRecord");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupFlowConstruct("create-single-from-message");
 	        response = flow.process(getTestEvent(testObjects));
-	        
-	        List<SaveResult> saveResults =  (List<SaveResult>) response.getMessage().getPayload();
-	        
-	        Iterator<SaveResult> iter = saveResults.iterator();  
 
-			while (iter.hasNext()) {
-				
-				SaveResult saveResult = iter.next();
-				assertTrue(saveResult.getSuccess());
-				sObjectsIds.add(saveResult.getId());
-				
-			}
-
-			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
+	        SaveResult saveResult = (SaveResult) response.getMessage().getPayload();
 			
-		    flow = lookupFlowConstruct("delete-from-message");
-			flow.process(getTestEvent(testObjects));
+	        assertTrue(saveResult.getSuccess());
+	        
+	        sObjectsIds.add(saveResult.getId());
+	        
+			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
 	        
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

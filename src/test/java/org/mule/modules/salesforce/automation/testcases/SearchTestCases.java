@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -28,7 +28,7 @@ import com.sforce.soap.partner.SaveResult;
 
 
 
-public class QueryTestCases extends SalesforceTestParent {
+public class SearchTestCases extends SalesforceTestParent {
 
 	@Before
 	public void setUp() {
@@ -37,27 +37,24 @@ public class QueryTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			testObjects = (HashMap<String,Object>) context.getBean("queryTestData");
+			testObjects = (HashMap<String,Object>) context.getBean("searchTestData");
 			
 			flow = lookupFlowConstruct("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
 	        Iterator<SaveResult> saveResultsIter = saveResultsList.iterator();  
-
-	        List<Map<String,Object>> sObjects = (List<Map<String,Object>>) testObjects.get("sObjectFieldMappingsFromMessage");
-			Iterator<Map<String,Object>> sObjectsIterator = sObjects.iterator();
 	        
 			while (saveResultsIter.hasNext()) {
 				
 				SaveResult saveResult = saveResultsIter.next();
-				Map<String,Object> sObject = (Map<String, Object>) sObjectsIterator.next();
 				sObjectsIds.add(saveResult.getId());
-		        sObject.put("Id", saveResult.getId());
 				
 			}
 
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
+			
+			Thread.sleep(60000);
   
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -83,21 +80,23 @@ public class QueryTestCases extends SalesforceTestParent {
      
 	}
 	
-	@Category({SanityTests.class})
+	@Category({RegressionTests.class})
 	@Test
-	public void testQuery() {
+	public void testSearch() {
 		
-		List<String> queriedRecordIds = (List<String>) testObjects.get("idsToDeleteFromMessage");
+		List<String> createdRecordIds = (List<String>) testObjects.get("idsToDeleteFromMessage");
 		List<String> returnedSObjectsIds = new ArrayList<String>();
 		
 		try {
 			
-			flow = lookupFlowConstruct("query");
+			flow = lookupFlowConstruct("search");
 			response = flow.process(getTestEvent(testObjects));
 			
-			List<Map<String, Object>> records =  (List<Map<String, Object>>) response.getMessage().getPayload();
+			List<Map<String, Object>> returnedRecordIds =  (List<Map<String, Object>>) response.getMessage().getPayload();
 	        
-	        Iterator<Map<String, Object>> iter = records.iterator();  
+			assertTrue(returnedRecordIds.size() > 0);
+			
+	        Iterator<Map<String, Object>> iter = returnedRecordIds.iterator();   
 
 			while (iter.hasNext()) {
 				
@@ -106,10 +105,8 @@ public class QueryTestCases extends SalesforceTestParent {
 				
 			}
 			
-			assertTrue(returnedSObjectsIds.size() > 0);
-
-			for (int index = 0; index < queriedRecordIds.size(); index++) {
-				assertTrue(returnedSObjectsIds.contains(queriedRecordIds.get(index).toString())); 
+			for (int index = 0; index < createdRecordIds.size(); index++) {
+				assertTrue(returnedSObjectsIds.contains(createdRecordIds.get(index).toString())); 
 		     }
 		
 		} catch (Exception e) {

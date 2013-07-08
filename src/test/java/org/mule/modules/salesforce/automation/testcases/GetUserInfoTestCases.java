@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -23,7 +23,7 @@ import com.sforce.soap.partner.GetUserInfoResult;
 
 public class GetUserInfoTestCases extends SalesforceTestParent {
      
-    @Category({SmokeTests.class, SanityTests.class})
+    @Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testGetUserInfo() {
     	

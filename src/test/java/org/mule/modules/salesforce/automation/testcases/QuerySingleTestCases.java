@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -28,7 +28,7 @@ import com.sforce.soap.partner.SaveResult;
 
 
 
-public class UpdateTestCases extends SalesforceTestParent {
+public class QuerySingleTestCases extends SalesforceTestParent {
 
 	@Before
 	public void setUp() {
@@ -37,7 +37,7 @@ public class UpdateTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			testObjects = (HashMap<String,Object>) context.getBean("updateCreateRecord");
+			testObjects = (HashMap<String,Object>) context.getBean("querySingleTestData");
 			
 			flow = lookupFlowConstruct("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
@@ -45,7 +45,7 @@ public class UpdateTestCases extends SalesforceTestParent {
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
 	        Iterator<SaveResult> saveResultsIter = saveResultsList.iterator();  
 
-	        List<Map<String,Object>> sObjects = (List<Map<String,Object>>) testObjects.get("salesforceSObjectsListFromMessage");
+	        List<Map<String,Object>> sObjects = (List<Map<String,Object>>) testObjects.get("sObjectFieldMappingsFromMessage");
 			Iterator<Map<String,Object>> sObjectsIterator = sObjects.iterator();
 	        
 			while (saveResultsIter.hasNext()) {
@@ -83,26 +83,22 @@ public class UpdateTestCases extends SalesforceTestParent {
      
 	}
 	
-	@Category({SanityTests.class})
+	@Category({RegressionTests.class})
 	@Test
-	public void testUpdateChildElementsFromMessage() {
-			
+	public void testQuerySingle() {
+		
+		List<String> queriedRecordIds = (List<String>) testObjects.get("idsToDeleteFromMessage");
+		List<String> returnedSObjectsIds = new ArrayList<String>();
+		
 		try {
 			
-			flow = lookupFlowConstruct("update-from-message");
+			flow = lookupFlowConstruct("query-single");
 			response = flow.process(getTestEvent(testObjects));
 			
-			List<SaveResult> saveResults =  (List<SaveResult>) response.getMessage().getPayload();
-	        
-	        Iterator<SaveResult> iter = saveResults.iterator();  
+			Map<String, Object> firstRecord =  (Map<String, Object>) response.getMessage().getPayload();
+			
+			assertTrue(queriedRecordIds.contains(firstRecord.get("Id").toString())); 
 
-			while (iter.hasNext()) {
-				
-				SaveResult saveResult = iter.next();
-				assertTrue(saveResult.getSuccess());
-				
-			}
-		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 				e.printStackTrace();

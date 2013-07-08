@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -28,7 +28,7 @@ import com.sforce.soap.partner.SaveResult;
 
 
 
-public class QuerySingleTestCases extends SalesforceTestParent {
+public class QueryTestCases extends SalesforceTestParent {
 
 	@Before
 	public void setUp() {
@@ -37,7 +37,7 @@ public class QuerySingleTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			testObjects = (HashMap<String,Object>) context.getBean("querySingleTestData");
+			testObjects = (HashMap<String,Object>) context.getBean("queryTestData");
 			
 			flow = lookupFlowConstruct("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
@@ -83,22 +83,35 @@ public class QuerySingleTestCases extends SalesforceTestParent {
      
 	}
 	
-	@Category({SanityTests.class})
+	@Category({RegressionTests.class})
 	@Test
-	public void testQuerySingle() {
+	public void testQuery() {
 		
 		List<String> queriedRecordIds = (List<String>) testObjects.get("idsToDeleteFromMessage");
 		List<String> returnedSObjectsIds = new ArrayList<String>();
 		
 		try {
 			
-			flow = lookupFlowConstruct("query-single");
+			flow = lookupFlowConstruct("query");
 			response = flow.process(getTestEvent(testObjects));
 			
-			Map<String, Object> firstRecord =  (Map<String, Object>) response.getMessage().getPayload();
-			
-			assertTrue(queriedRecordIds.contains(firstRecord.get("Id").toString())); 
+			List<Map<String, Object>> records =  (List<Map<String, Object>>) response.getMessage().getPayload();
+	        
+	        Iterator<Map<String, Object>> iter = records.iterator();  
 
+			while (iter.hasNext()) {
+				
+				Map<String, Object> sObject = iter.next();
+				returnedSObjectsIds.add(sObject.get("Id").toString());
+				
+			}
+			
+			assertTrue(returnedSObjectsIds.size() > 0);
+
+			for (int index = 0; index < queriedRecordIds.size(); index++) {
+				assertTrue(returnedSObjectsIds.contains(queriedRecordIds.get(index).toString())); 
+		     }
+		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 				e.printStackTrace();

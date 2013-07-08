@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,34 +21,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import com.sforce.soap.partner.DeleteResult;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.SaveResult;
 
 
 
-public class CreateTestCases extends SalesforceTestParent {
-	
-	@After
-	public void tearDown() {
-		
-		try {
-			
-	    flow = lookupFlowConstruct("delete-from-message");
-		flow.process(getTestEvent(testObjects));
-	
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-				e.printStackTrace();
-				fail();
-		}
-		
-	}
-	
-    @Category({SmokeTests.class, SanityTests.class})
-	@Test
-	public void testCreateChildElementsFromMessage() {
+public class DeleteTestCases extends SalesforceTestParent {
+
+	@Before
+	public void setUp() {
     	
     	List<String> sObjectsIds = new ArrayList<String>();
     	
@@ -66,7 +52,6 @@ public class CreateTestCases extends SalesforceTestParent {
 			while (iter.hasNext()) {
 				
 				SaveResult saveResult = iter.next();
-				assertTrue(saveResult.getSuccess());
 				sObjectsIds.add(saveResult.getId());
 				
 			}
@@ -79,6 +64,34 @@ public class CreateTestCases extends SalesforceTestParent {
 			fail();
 		}
      
+	}
+	
+	@Category({SmokeTests.class, RegressionTests.class})
+	@Test
+	public void testDeleteChildElementsFromMessage() {
+		
+		try {
+			
+	    flow = lookupFlowConstruct("delete-from-message");
+	    response = flow.process(getTestEvent(testObjects));
+		
+		List<DeleteResult> deleteResults =  (List<DeleteResult>) response.getMessage().getPayload();
+		
+		Iterator<DeleteResult> iter = deleteResults.iterator();  
+
+		while (iter.hasNext()) {
+			
+			DeleteResult deleteResult = iter.next();
+			assertTrue(deleteResult.getSuccess());
+			
+		}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+				fail();
+		}
+		
 	}
 
 }

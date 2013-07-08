@@ -8,14 +8,12 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,13 +28,8 @@ import com.sforce.soap.partner.GetUpdatedResult;
 import com.sforce.soap.partner.SaveResult;
 
 
-/* 
- * 
- * REMOVE PRINTLN!!! 
- * 
- */
 
-public class GetUpdatedRangeTestCases extends SalesforceTestParent {
+public class GetUpdatedTestCases extends SalesforceTestParent {
 
 	@Before
 	public void setUp() {
@@ -45,7 +38,7 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			testObjects = (HashMap<String,Object>) context.getBean("getUpdatedRangeTestData");
+			testObjects = (HashMap<String,Object>) context.getBean("getUpdatedTestData");
 			
 			flow = lookupFlowConstruct("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
@@ -68,26 +61,11 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
 			
 			flow = lookupFlowConstruct("update-from-message");
-			response = flow.process(getTestEvent(testObjects));
-
-			List<SaveResult> saveResults =  (List<SaveResult>) response.getMessage().getPayload();			
+			flow.process(getTestEvent(testObjects));
 			
-			flow = lookupFlowConstruct("get-updated");
-			response = flow.process(getTestEvent(testObjects));
-			
-			GetUpdatedResult updatedResult =  (GetUpdatedResult) response.getMessage().getPayload();
-			
-			System.out.println("### get-updated\n" + updatedResult);
-			
-			GregorianCalendar endTime = (GregorianCalendar) updatedResult.getLatestDateCovered();
-			endTime.add(GregorianCalendar.MINUTE, 1);
-			
-			GregorianCalendar startTime = (GregorianCalendar) endTime.clone(); 
-			startTime.add(GregorianCalendar.MINUTE, -(Integer.parseInt((String) testObjects.get("duration"))));
-			
-			testObjects.put("endTime", endTime);
-			testObjects.put("startTime", startTime);
-			
+			// because of the rounding applied to the seconds 
+			Thread.sleep(60000);
+  
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -112,21 +90,19 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
      
 	}
 	
-	@Category({SmokeTests.class, SanityTests.class})
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
-	public void testGetUpdatedRange() {
+	public void testGetUpdated() {
 		
 		List<String> createdRecordsIds = (List<String>) testObjects.get("idsToDeleteFromMessage");
 		
 		try {
 			
-			flow = lookupFlowConstruct("get-updated-range");
+			flow = lookupFlowConstruct("get-updated");
 			response = flow.process(getTestEvent(testObjects));
 			
 			GetUpdatedResult updatedResult =  (GetUpdatedResult) response.getMessage().getPayload();
-			
-			System.out.println("### get-updated-range\n" + updatedResult);
-			
+
 			String[] ids = updatedResult.getIds();
 			
 			assertTrue(ids != null && ids.length > 0);

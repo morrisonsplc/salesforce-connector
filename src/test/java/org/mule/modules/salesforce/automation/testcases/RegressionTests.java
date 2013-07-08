@@ -8,9 +8,9 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
-public interface SmokeTests {
+public interface RegressionTests {
 	
 	/* category marker */ 
 

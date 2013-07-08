@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -73,7 +73,7 @@ public class PaginatedQueryTestCases extends SalesforceTestParent {
      
 	}
 	
-	@Category({SanityTests.class})
+	@Category({RegressionTests.class})
 	@Test
 	public void testPaginatedQuery() {
 		
@@ -126,7 +126,7 @@ public class PaginatedQueryTestCases extends SalesforceTestParent {
 		
 	}
 	
-	@Category({SanityTests.class})
+	@Category({RegressionTests.class})
 	@Test
 	public void testPaginatedQueryWithDeletedRecords() {
 		

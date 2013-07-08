@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import java.util.Map;
 
@@ -28,6 +28,7 @@ public class SalesforceTestParent extends FunctionalTestCase {
 	protected MessageProcessor flow;
 	protected MuleEvent response;
 	protected Map<String,Object> testObjects;
+	public static final long DELAY = 60000;
 
 	
 	@Override

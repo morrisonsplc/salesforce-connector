@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package automation.testcases;
+package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -28,7 +28,7 @@ import com.sforce.soap.partner.SaveResult;
 
 
 
-public class UpdateSingleTestCases extends SalesforceTestParent {
+public class UpdateTestCases extends SalesforceTestParent {
 
 	@Before
 	public void setUp() {
@@ -37,16 +37,25 @@ public class UpdateSingleTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			testObjects = (HashMap<String,Object>) context.getBean("updateSingleTestData");
+			testObjects = (HashMap<String,Object>) context.getBean("updateCreateRecord");
 			
-			flow = lookupFlowConstruct("create-single-from-message");
-	        response = flow.process(getTestEvent(testObjects)); 
-			
-	        SaveResult saveResult = (SaveResult) response.getMessage().getPayload();
-	        Map<String,Object> sObject = (HashMap<String,Object>) testObjects.get("salesforceObjectFromMessage");
+			flow = lookupFlowConstruct("create-from-message");
+	        response = flow.process(getTestEvent(testObjects));
 	        
-	        sObjectsIds.add(saveResult.getId());
-	        sObject.put("Id", saveResult.getId());
+	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
+	        Iterator<SaveResult> saveResultsIter = saveResultsList.iterator();  
+
+	        List<Map<String,Object>> sObjects = (List<Map<String,Object>>) testObjects.get("salesforceSObjectsListFromMessage");
+			Iterator<Map<String,Object>> sObjectsIterator = sObjects.iterator();
+	        
+			while (saveResultsIter.hasNext()) {
+				
+				SaveResult saveResult = saveResultsIter.next();
+				Map<String,Object> sObject = (Map<String, Object>) sObjectsIterator.next();
+				sObjectsIds.add(saveResult.getId());
+		        sObject.put("Id", saveResult.getId());
+				
+			}
 
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
   
@@ -74,18 +83,25 @@ public class UpdateSingleTestCases extends SalesforceTestParent {
      
 	}
 	
-	@Category({SanityTests.class})
+	@Category({RegressionTests.class})
 	@Test
-	public void testUpdateSingleChildElementsFromMessage() {
+	public void testUpdateChildElementsFromMessage() {
 			
 		try {
 			
-			flow = lookupFlowConstruct("update-single-from-message");
+			flow = lookupFlowConstruct("update-from-message");
 			response = flow.process(getTestEvent(testObjects));
 			
-			SaveResult saveResult =  (SaveResult) response.getMessage().getPayload();
+			List<SaveResult> saveResults =  (List<SaveResult>) response.getMessage().getPayload();
+	        
+	        Iterator<SaveResult> iter = saveResults.iterator();  
 
-			assertTrue(saveResult.getSuccess());
+			while (iter.hasNext()) {
+				
+				SaveResult saveResult = iter.next();
+				assertTrue(saveResult.getSuccess());
+				
+			}
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
