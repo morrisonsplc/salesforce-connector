@@ -19,17 +19,13 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.sforce.soap.partner.DeleteResult;
 import com.sforce.soap.partner.DeletedRecord;
 import com.sforce.soap.partner.GetDeletedResult;
-import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.SaveResult;
 
 
@@ -45,7 +41,7 @@ public class GetDeletedRangeTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("getDeletedRangeTestData");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupMessageProcessor("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResults =  (List<SaveResult>) response.getMessage().getPayload();
@@ -61,10 +57,10 @@ public class GetDeletedRangeTestCases extends SalesforceTestParent {
 
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
 	
-			flow = lookupFlowConstruct("get-deleted");
+			flow = lookupMessageProcessor("get-deleted");
 			response = flow.process(getTestEvent(testObjects));
 			
 			GetDeletedResult deletedResult =  (GetDeletedResult) response.getMessage().getPayload();
@@ -95,7 +91,7 @@ public class GetDeletedRangeTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("get-deleted-range");
+			flow = lookupMessageProcessor("get-deleted-range");
 			response = flow.process(getTestEvent(testObjects));
 			
 			GetDeletedResult deletedResult =  (GetDeletedResult) response.getMessage().getPayload();

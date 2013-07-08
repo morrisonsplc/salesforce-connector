@@ -40,7 +40,7 @@ public class UpsertTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("upsertTestData");
 			
-			flow = lookupFlowConstruct("create-single-from-message");
+			flow = lookupMessageProcessor("create-single-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 
 	        SaveResult saveResult = (SaveResult) response.getMessage().getPayload();
@@ -65,7 +65,7 @@ public class UpsertTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -85,7 +85,7 @@ public class UpsertTestCases extends SalesforceTestParent {
 			
 		try {
 			
-			flow = lookupFlowConstruct("upsert-from-message");
+			flow = lookupMessageProcessor("upsert-from-message");
 			response = flow.process(getTestEvent(testObjects));
 			
 			List<UpsertResult> upsertResults =  (List<UpsertResult>) response.getMessage().getPayload();

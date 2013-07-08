@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.mule.api.ConnectionExceptionCode;
+import org.mule.api.MuleContext;
 import org.mule.api.annotations.Connect;
 import org.mule.api.annotations.ConnectionIdentifier;
 import org.mule.api.annotations.Disconnect;
@@ -26,17 +27,14 @@ import org.mule.api.annotations.MetaDataRetriever;
 import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.display.Placement;
+import org.mule.api.annotations.lifecycle.Start;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
-import org.mule.common.metadata.DefaultDefinedMapMetaDataModel;
-import org.mule.common.metadata.DefaultMetaData;
-import org.mule.common.metadata.DefaultMetaDataKey;
-import org.mule.common.metadata.DefaultPojoMetaDataModel;
-import org.mule.common.metadata.DefaultSimpleMetaDataModel;
-import org.mule.common.metadata.MetaData;
-import org.mule.common.metadata.MetaDataKey;
-import org.mule.common.metadata.MetaDataModel;
+import org.mule.api.construct.FlowConstruct;
+import org.mule.common.DefaultResult;
+import org.mule.common.Result;
+import org.mule.common.metadata.*;
 import org.mule.common.metadata.datatype.DataType;
 
 import com.sforce.async.AsyncApiException;
@@ -54,6 +52,11 @@ import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.MessageHandler;
 import com.sforce.ws.SessionRenewer;
+import org.mule.common.query.DsqlQueryVisitor;
+import org.mule.common.query.Query;
+import org.mule.construct.Flow;
+
+import javax.inject.Inject;
 
 
 /**
@@ -72,13 +75,12 @@ import com.sforce.ws.SessionRenewer;
  * @author MuleSoft, Inc.
  */
 
-@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.4")
+@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.5.0")
 public class SalesforceConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceConnector.class);
 
     @MetaDataKeyRetriever
     public List<MetaDataKey> getMetaDataKeys() throws Exception {
-
         List<MetaDataKey> keys = new ArrayList<MetaDataKey>();
         DescribeGlobalResult describeGlobal = describeGlobal();
 

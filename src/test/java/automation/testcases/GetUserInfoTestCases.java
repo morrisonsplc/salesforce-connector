@@ -31,7 +31,7 @@ public class GetUserInfoTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("getUserInfoResult");
 			
-			flow = lookupFlowConstruct("get-user-info");
+			flow = lookupMessageProcessor("get-user-info");
 	        response = flow.process(getTestEvent(null));
 	        
 	        GetUserInfoResult userInfoResult =  (GetUserInfoResult) response.getMessage().getPayload();

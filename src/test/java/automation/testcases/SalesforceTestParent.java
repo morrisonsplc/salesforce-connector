@@ -35,7 +35,7 @@ public class SalesforceTestParent extends FunctionalTestCase {
 		return "automation-test-flows.xml";
 	}
 	
-    protected MessageProcessor lookupFlowConstruct(String name) {
+    protected MessageProcessor lookupMessageProcessor(String name) {
         return (MessageProcessor) muleContext.getRegistry().lookupFlowConstruct(name);
     }
 	

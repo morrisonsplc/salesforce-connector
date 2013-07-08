@@ -23,12 +23,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.mule.api.MuleContext;
-import org.mule.api.annotations.Category;
-import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.InvalidateConnectionOn;
-import org.mule.api.annotations.Processor;
-import org.mule.api.annotations.Source;
-import org.mule.api.annotations.SourceThreadingModel;
+import org.mule.api.annotations.*;
 import org.mule.api.annotations.display.FriendlyName;
 import org.mule.api.annotations.display.Placement;
 import org.mule.api.annotations.oauth.OAuthInvalidateAccessTokenOn;
@@ -44,6 +39,8 @@ import org.mule.api.registry.Registry;
 import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
+import org.mule.common.query.DsqlQueryVisitor;
+import org.mule.common.query.Query;
 import org.springframework.util.StringUtils;
 
 import com.sforce.async.AsyncApiException;
@@ -746,7 +743,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
-    public List<Map<String, Object>> query(@Placement(group = "Query") String query) throws Exception {
+    public List<Map<String, Object>> query( @org.mule.api.annotations.Query @Placement(group = "Query") String query) throws Exception {
         QueryResult queryResult = getConnection().query(query);
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         while (queryResult != null) {
@@ -760,6 +757,13 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         }
 
         return result;
+    }
+
+    @QueryTranslator
+    public String toNativeQuery(Query query){
+        DsqlQueryVisitor visitor = new DsqlQueryVisitor();
+        query.accept(visitor);
+        return visitor.dsqlQuery();
     }
 
     /**

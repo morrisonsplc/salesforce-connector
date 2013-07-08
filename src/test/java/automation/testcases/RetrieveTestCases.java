@@ -39,7 +39,7 @@ public class RetrieveTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("retrieveTestData");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupMessageProcessor("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
@@ -68,7 +68,7 @@ public class RetrieveTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -88,7 +88,7 @@ public class RetrieveTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("retrieve-from-message");
+			flow = lookupMessageProcessor("retrieve-from-message");
 			response = flow.process(getTestEvent(testObjects));
 			
 			List<Map<String, Object>> records =  (List<Map<String, Object>>) response.getMessage().getPayload();

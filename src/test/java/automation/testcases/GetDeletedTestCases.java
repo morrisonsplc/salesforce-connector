@@ -18,17 +18,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.sforce.soap.partner.DeleteResult;
 import com.sforce.soap.partner.DeletedRecord;
 import com.sforce.soap.partner.GetDeletedResult;
-import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.SaveResult;
 
 
@@ -44,7 +40,7 @@ public class GetDeletedTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("getDeletedTestData");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupMessageProcessor("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
@@ -60,7 +56,7 @@ public class GetDeletedTestCases extends SalesforceTestParent {
 
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
 			
 			// because of the rounding applied to the seconds 
@@ -82,7 +78,7 @@ public class GetDeletedTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("get-deleted");
+			flow = lookupMessageProcessor("get-deleted");
 			response = flow.process(getTestEvent(testObjects));
 			
 			GetDeletedResult deletedResult =  (GetDeletedResult) response.getMessage().getPayload();

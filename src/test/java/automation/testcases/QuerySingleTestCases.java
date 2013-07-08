@@ -39,7 +39,7 @@ public class QuerySingleTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("querySingleTestData");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupMessageProcessor("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
@@ -72,7 +72,7 @@ public class QuerySingleTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -92,7 +92,7 @@ public class QuerySingleTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("query-single");
+			flow = lookupMessageProcessor("query-single");
 			response = flow.process(getTestEvent(testObjects));
 			
 			Map<String, Object> firstRecord =  (Map<String, Object>) response.getMessage().getPayload();

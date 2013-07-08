@@ -15,7 +15,6 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +38,7 @@ public class UpdateSingleTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("updateSingleTestData");
 			
-			flow = lookupFlowConstruct("create-single-from-message");
+			flow = lookupMessageProcessor("create-single-from-message");
 	        response = flow.process(getTestEvent(testObjects)); 
 			
 	        SaveResult saveResult = (SaveResult) response.getMessage().getPayload();
@@ -63,7 +62,7 @@ public class UpdateSingleTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -80,7 +79,7 @@ public class UpdateSingleTestCases extends SalesforceTestParent {
 			
 		try {
 			
-			flow = lookupFlowConstruct("update-single-from-message");
+			flow = lookupMessageProcessor("update-single-from-message");
 			response = flow.process(getTestEvent(testObjects));
 			
 			SaveResult saveResult =  (SaveResult) response.getMessage().getPayload();

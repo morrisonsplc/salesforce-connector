@@ -40,7 +40,7 @@ public class GetUpdatedTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("getUpdatedTestData");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupMessageProcessor("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
@@ -60,7 +60,7 @@ public class GetUpdatedTestCases extends SalesforceTestParent {
 
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
 			
-			flow = lookupFlowConstruct("update-from-message");
+			flow = lookupMessageProcessor("update-from-message");
 			flow.process(getTestEvent(testObjects));
 			
 			// because of the rounding applied to the seconds 
@@ -79,7 +79,7 @@ public class GetUpdatedTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -98,7 +98,7 @@ public class GetUpdatedTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("get-updated");
+			flow = lookupMessageProcessor("get-updated");
 			response = flow.process(getTestEvent(testObjects));
 			
 			GetUpdatedResult updatedResult =  (GetUpdatedResult) response.getMessage().getPayload();

@@ -14,7 +14,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -47,7 +46,7 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("getUpdatedRangeTestData");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupMessageProcessor("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
@@ -67,12 +66,12 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
 			
-			flow = lookupFlowConstruct("update-from-message");
+			flow = lookupMessageProcessor("update-from-message");
 			response = flow.process(getTestEvent(testObjects));
 
 			List<SaveResult> saveResults =  (List<SaveResult>) response.getMessage().getPayload();			
 			
-			flow = lookupFlowConstruct("get-updated");
+			flow = lookupMessageProcessor("get-updated");
 			response = flow.process(getTestEvent(testObjects));
 			
 			GetUpdatedResult updatedResult =  (GetUpdatedResult) response.getMessage().getPayload();
@@ -101,7 +100,7 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -120,7 +119,7 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("get-updated-range");
+			flow = lookupMessageProcessor("get-updated-range");
 			response = flow.process(getTestEvent(testObjects));
 			
 			GetUpdatedResult updatedResult =  (GetUpdatedResult) response.getMessage().getPayload();

@@ -39,7 +39,7 @@ public class SearchTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("searchTestData");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupMessageProcessor("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
@@ -69,7 +69,7 @@ public class SearchTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -89,7 +89,7 @@ public class SearchTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("search");
+			flow = lookupMessageProcessor("search");
 			response = flow.process(getTestEvent(testObjects));
 			
 			List<Map<String, Object>> returnedRecordIds =  (List<Map<String, Object>>) response.getMessage().getPayload();

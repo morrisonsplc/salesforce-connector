@@ -15,7 +15,6 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +43,7 @@ public class ConvertLeadTestCases extends SalesforceTestParent {
 			Map<String,Object> lead = (HashMap<String,Object>) testObjects.get("lead");
 			Map<String,Object> account = (HashMap<String,Object>) testObjects.get("account");
 			
-			flow = lookupFlowConstruct("create-single-from-message");
+			flow = lookupMessageProcessor("create-single-from-message");
 	        
 			response = flow.process(getTestEvent(lead)); 
 	        saveResult = (SaveResult) response.getMessage().getPayload();
@@ -71,7 +70,7 @@ public class ConvertLeadTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -88,7 +87,7 @@ public class ConvertLeadTestCases extends SalesforceTestParent {
 			
 		try {
 			
-			flow = lookupFlowConstruct("convert-lead-default-values");
+			flow = lookupMessageProcessor("convert-lead-default-values");
 			response = flow.process(getTestEvent(testObjects));
 			
 			LeadConvertResult leadConvertResult =  (LeadConvertResult) response.getMessage().getPayload();

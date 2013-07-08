@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -39,7 +38,7 @@ public class QueryAllTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("queryAllTestData");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupMessageProcessor("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResultsList =  (List<SaveResult>) response.getMessage().getPayload();
@@ -59,7 +58,7 @@ public class QueryAllTestCases extends SalesforceTestParent {
 
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -79,7 +78,7 @@ public class QueryAllTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("query-all");
+			flow = lookupMessageProcessor("query-all");
 			response = flow.process(getTestEvent(testObjects));
 			
 			List<Map<String, Object>> records =  (List<Map<String, Object>>) response.getMessage().getPayload();

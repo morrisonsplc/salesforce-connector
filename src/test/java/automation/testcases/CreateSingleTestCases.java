@@ -16,14 +16,11 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.SaveResult;
 
 
@@ -35,7 +32,7 @@ public class CreateSingleTestCases extends SalesforceTestParent {
 		
 		try {
 			
-	    flow = lookupFlowConstruct("delete-from-message");
+	    flow = lookupMessageProcessor("delete-from-message");
 		flow.process(getTestEvent(testObjects));
 	
 		} catch (Exception e) {
@@ -56,7 +53,7 @@ public class CreateSingleTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("createSingleRecord");
 			
-			flow = lookupFlowConstruct("create-single-from-message");
+			flow = lookupMessageProcessor("create-single-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 
 	        SaveResult saveResult = (SaveResult) response.getMessage().getPayload();

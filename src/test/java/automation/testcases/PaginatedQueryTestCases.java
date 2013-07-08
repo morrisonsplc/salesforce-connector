@@ -40,7 +40,7 @@ public class PaginatedQueryTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("paginatedQueryTestData");
 			
-			flow = lookupFlowConstruct("create-single-from-message");
+			flow = lookupMessageProcessor("create-single-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 
 	        SaveResult saveResult = (SaveResult) response.getMessage().getPayload();
@@ -62,7 +62,7 @@ public class PaginatedQueryTestCases extends SalesforceTestParent {
     	
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
@@ -86,7 +86,7 @@ public class PaginatedQueryTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("paginated-query");
+			flow = lookupMessageProcessor("paginated-query");
 			response = flow.process(getTestEvent(testObjects));
 			
 			do {
@@ -110,7 +110,7 @@ public class PaginatedQueryTestCases extends SalesforceTestParent {
 				
 				testObjects.put("queryResultObjectRef", queryResult);
 				
-				flow = lookupFlowConstruct("paginated-query-by-queryResultObject-ref");
+				flow = lookupMessageProcessor("paginated-query-by-queryResultObject-ref");
 				response = flow.process(getTestEvent(testObjects));
 				
 			} while (!returnedSObjectsIds.contains(queriedRecordId) && queryResult.hasMore());
@@ -139,12 +139,12 @@ public class PaginatedQueryTestCases extends SalesforceTestParent {
 		
 		try {
 			
-			flow = lookupFlowConstruct("delete-from-message");
+			flow = lookupMessageProcessor("delete-from-message");
 			flow.process(getTestEvent(testObjects));
 			
 			Thread.sleep(60000);
 			
-			flow = lookupFlowConstruct("paginated-query-with-deleted-records");
+			flow = lookupMessageProcessor("paginated-query-with-deleted-records");
 			response = flow.process(getTestEvent(testObjects));
 			
 			do {
@@ -168,7 +168,7 @@ public class PaginatedQueryTestCases extends SalesforceTestParent {
 				
 				testObjects.put("queryResultObjectRef", queryResult);
 				
-				flow = lookupFlowConstruct("paginated-query-by-queryResultObject-ref");
+				flow = lookupMessageProcessor("paginated-query-by-queryResultObject-ref");
 				response = flow.process(getTestEvent(testObjects));
 				
 			} while (!returnedSObjectsIds.contains(queriedRecordId) && queryResult.hasMore());

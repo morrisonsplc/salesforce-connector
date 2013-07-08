@@ -18,12 +18,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.SaveResult;
 
 
@@ -35,7 +33,7 @@ public class CreateTestCases extends SalesforceTestParent {
 		
 		try {
 			
-	    flow = lookupFlowConstruct("delete-from-message");
+	    flow = lookupMessageProcessor("delete-from-message");
 		flow.process(getTestEvent(testObjects));
 	
 		} catch (Exception e) {
@@ -56,7 +54,7 @@ public class CreateTestCases extends SalesforceTestParent {
 			
 			testObjects = (HashMap<String,Object>) context.getBean("createRecord");
 			
-			flow = lookupFlowConstruct("create-from-message");
+			flow = lookupMessageProcessor("create-from-message");
 	        response = flow.process(getTestEvent(testObjects));
 	        
 	        List<SaveResult> saveResults =  (List<SaveResult>) response.getMessage().getPayload();
