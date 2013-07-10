@@ -53,7 +53,7 @@ import com.sforce.ws.MessageHandler;
 @org.mule.api.annotations.Connector(name = "sfdc",
         schemaVersion = "5.0",
         friendlyName = "Salesforce (OAuth)",
-        minMuleVersion = "3.5.0",
+        minMuleVersion = "3.5",
         configElementName = "config-with-oauth")
 @OAuth2(authorizationUrl = "https://test.salesforce.com/services/oauth2/authorize",
         accessTokenUrl = "https://test.salesforce.com/services/oauth2/token",
