@@ -4,6 +4,9 @@ import com.sforce.soap.partner.sobject.SObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +42,18 @@ public class SalesforceConnectorTest {
         SObject parentRecord = (SObject) record.getField("Account");
         assertEquals("Account", parentRecord.getType());
         assertEquals(138, parentRecord.getField("ExternalId__c"));
+    }
 
+    @Test
+    public void shouldConvertAllMapKeysToStringsWhenConvertingToSObjectMap() throws MalformedURLException {
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        map.put(123, "number key");
+        map.put("abc", "string key");
+        map.put(new URL("http://localhost"), "url key");
+        Map<String, Object> sObjectMap = connector.toSObjectMap(map);
+        assertEquals("number key", sObjectMap.get("123"));
+        assertEquals("string key", sObjectMap.get("abc"));
+        assertEquals("url key", sObjectMap.get("http://localhost"));
     }
 
 }
