@@ -41,6 +41,7 @@ import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
 import org.mule.common.query.DsqlQueryVisitor;
 import org.mule.common.query.Query;
+import org.mule.common.query.QueryVisitor;
 import org.springframework.util.StringUtils;
 
 import com.sforce.async.AsyncApiException;
@@ -761,7 +762,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
 
     @QueryTranslator
     public String toNativeQuery(Query query){
-        DsqlQueryVisitor visitor = new DsqlQueryVisitor();
+        SfdcQueryVisitor visitor = new SfdcQueryVisitor();
         query.accept(visitor);
         return visitor.dsqlQuery();
     }

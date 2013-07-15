@@ -39,6 +39,7 @@
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="authorize"/>
         <sfdc:authorize config-ref="salesforce-oauth" display="POPUP" state="" />
         <set-session-variable value="#[flowVars['OAuthAccessTokenId']]" variableName="accessTokenId"/>
+        <logger message="#[flowVars['OAuthAccessTokenId']]"/>
     </flow>
 
     <flow name="create-single">
