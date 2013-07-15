@@ -24,6 +24,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.mule.api.MuleEvent;
+import org.mule.api.processor.MessageProcessor;
+
+import com.sforce.soap.partner.EmptyRecycleBinResult;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.SaveResult;
 
@@ -31,35 +35,59 @@ import com.sforce.soap.partner.SaveResult;
 
 public class EmptyRecycleBinTestCases extends SalesforceTestParent {
 	
-    @Before
-	public void testCreateChildElementsFromMessage() {
+	private MessageProcessor createFlow;
+	private MessageProcessor deleteFlow;
+	private MessageProcessor emptyRecycleBinFlow;
+
+	@Before
+	public void setUp() {
+		
+		createFlow = lookupFlowConstruct("create-from-message");
+		deleteFlow = lookupFlowConstruct("delete-from-message");
+		emptyRecycleBinFlow = lookupFlowConstruct("empty-recycle-bin");
+		
+	}
+	
+    @Category({RegressionTests.class})
+    @Test
+	public void testEmptyRecycleBin() {
+    	
+    	
     	
     	List<String> sObjectsIds = new ArrayList<String>();
     	
 		try {
 			
-			testObjects = (HashMap<String,Object>) context.getBean("createRecord");
+			testObjects = (HashMap<String,Object>) context.getBean("emptyRecycleBinTestData");
 			
-			flow = lookupFlowConstruct("create-from-message");
-	        response = flow.process(getTestEvent(testObjects));
-	        
-	        List<SaveResult> saveResults =  (List<SaveResult>) response.getMessage().getPayload();
-	        
-	        Iterator<SaveResult> iter = saveResults.iterator();  
+	        MuleEvent createResponse = createFlow.process(getTestEvent(testObjects));
+	        List<SaveResult> saveResults =  (List<SaveResult>) createResponse.getMessage().getPayload();
+	        Iterator<SaveResult> saveResultsIter = saveResults.iterator();  
 
-			while (iter.hasNext()) {
+			while (saveResultsIter.hasNext()) {
 				
-				SaveResult saveResult = iter.next();
-				assertTrue(saveResult.getSuccess());
+				SaveResult saveResult = saveResultsIter.next();
 				sObjectsIds.add(saveResult.getId());
 				
 			}
 
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
+			testObjects.put("idsRef", sObjectsIds);
 			
-		    flow = lookupFlowConstruct("delete-from-message");
-			flow.process(getTestEvent(testObjects));
+			deleteFlow.process(getTestEvent(testObjects));	
+			
+			MuleEvent emptyResponse = emptyRecycleBinFlow.process(getTestEvent(testObjects));
+	        List<EmptyRecycleBinResult> emptyRecycleBinResults =  (List<EmptyRecycleBinResult>) emptyResponse.getMessage().getPayload();
+	        Iterator<EmptyRecycleBinResult> emptyRecycleBinResultsIter = emptyRecycleBinResults.iterator(); 
 	        
+			while (emptyRecycleBinResultsIter.hasNext()) {
+				
+				EmptyRecycleBinResult emptyRecycleBinResult = emptyRecycleBinResultsIter.next();
+				assertTrue(emptyRecycleBinResult.getSuccess());
+				assertTrue(sObjectsIds.contains(emptyRecycleBinResult.getId()));
+				
+			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

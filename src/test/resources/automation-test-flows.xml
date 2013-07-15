@@ -18,37 +18,6 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		password="${salesforce.password}" username="${salesforce.username}"
 		securityToken="${salesforce.securityToken}" url="${salesforce.url}" />
 
-	<flow name="abort-job" doc:name="abort-job">
-		<sfdc:abort-job config-ref="Salesforce" doc:name="Abort job"
-			jobId="#[payload.jobId]">
-		</sfdc:abort-job>
-	</flow>
-
-	<flow name="batch-info" doc:name="batch-info">
-		<sfdc:batch-info config-ref="Salesforce" doc:name="Batch info">
-			<sfdc:batch-info ref="#[payload.batchInfoReference]" />
-		</sfdc:batch-info>
-	</flow>
-
-	<flow name="batch-result" doc:name="batch-result">
-		<sfdc:batch-result config-ref="Salesforce" doc:name="Batch result">
-			<sfdc:batch-info ref="#[payload.batchInfoReference]" />
-		</sfdc:batch-result>
-	</flow>
-
-	<flow name="batch-result-stream" doc:name="batch-result-stream">
-		<sfdc:batch-result-stream config-ref="Salesforce"
-			doc:name="Batch result stream">
-			<sfdc:batch-info ref="#[payload.batchInfoReference]" />
-		</sfdc:batch-result-stream>
-	</flow>
-
-	<flow name="close-job" doc:name="close-job">
-		<sfdc:close-job config-ref="Salesforce" doc:name="Close job"
-			jobId="#[payload.jobId]">
-		</sfdc:close-job>
-	</flow>
-
 	<flow name="convert-lead-default-values" doc:name="convert-lead-default-values">
 		<sfdc:convert-lead config-ref="Salesforce" doc:name="Salesforce"
 			contactId="#[payload.contactId]" convertedStatus="#[payload.convertedStatus]"
@@ -62,41 +31,6 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 			<sfdc:objects ref="#[payload.sObjectFieldMappingsFromMessage]">
 			</sfdc:objects>
 		</sfdc:create>
-	</flow>
-
-	<flow name="create-batch-from-message" doc:name="create-batch-from-message">
-		<sfdc:create-batch config-ref="Salesforce" doc:name="Create batch">
-			<sfdc:job-info ref="#[payload.jobInfoReference]" />
-			<sfdc:objects ref="#[payload.fromMessage]" />
-		</sfdc:create-batch>
-	</flow>
-
-	<flow name="create-batch-for-query" doc:name="create-batch-for-query">
-		<sfdc:create-batch-for-query config-ref="Salesforce"
-			doc:name="Create batch for query" query="#[payload.query]">
-			<sfdc:job-info ref="#[payload.jobInfoReference]" />
-		</sfdc:create-batch-for-query>
-	</flow>
-
-	<flow name="create-batch-stream" doc:name="create-batch-stream">
-		<sfdc:create-batch-stream config-ref="Salesforce"
-			doc:name="Create batch stream" stream-ref="#[payload.streamReference]">
-			<sfdc:job-info ref="#[payload.jobInfoReference]" />
-		</sfdc:create-batch-stream>
-	</flow>
-
-	<flow name="create-bulk-from-message" doc:name="create-bulk-from-message">
-		<sfdc:create-bulk config-ref="Salesforce" doc:name="Create bulk"
-			type="#[payload.sObjectType]">
-			<sfdc:objects ref="#[payload.fromMessage]" />
-		</sfdc:create-bulk>
-	</flow>
-
-	<flow name="create-job" doc:name="create-job">
-		<sfdc:create-job config-ref="Salesforce" doc:name="Create job"
-			type="#[payload.type]" concurrencyMode="Parallel" contentType="XML"
-			externalIdFieldName="#[payload.externalIdFieldName]" operation="hardDelete">
-		</sfdc:create-job>
 	</flow>
 
 	<flow name="create-single-from-message" doc:name="create-single-from-message">
@@ -125,10 +59,10 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 	</flow>
 
 
-	<flow name="empty-recycle-bin-from-message" doc:name="empty-recycle-bin-from-message">
+	<flow name="empty-recycle-bin" doc:name="empty-recycle-bin">
 		<sfdc:empty-recycle-bin config-ref="Salesforce"
 			doc:name="Empty recycle bin">
-			<sfdc:ids ref="#[payload.idsToDeleteFromMessage]" />
+			<sfdc:ids ref="#[payload.idsRef]" />
 		</sfdc:empty-recycle-bin>
 	</flow>
 
@@ -166,13 +100,6 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		</sfdc:get-user-info>
 	</flow>
 
-	<flow name="hard-delete-bulk-from-message" doc:name="hard-delete-bulk-from-message">
-		<sfdc:hard-delete-bulk config-ref="Salesforce"
-			doc:name="Hard delete bulk" type="#[payload.sObjectType]">
-			<sfdc:objects ref="#[payload.salesforceSObjectsListFromMessage]" />
-		</sfdc:hard-delete-bulk>
-	</flow>
-
 	<flow name="publish-topic" doc:name="publish-topic">
 		<sfdc:publish-topic config-ref="Salesforce"
 			doc:name="Publish topic" description="#[payload.description]" query="#[payload.query]"
@@ -190,13 +117,6 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		<sfdc:query-all config-ref="Salesforce" doc:name="Query all"
 			query="#[payload.query]">
 		</sfdc:query-all>
-	</flow>
-
-	<flow name="query-result-stream" doc:name="query-result-stream">
-		<sfdc:query-result-stream config-ref="Salesforce"
-			doc:name="Query result stream">
-			<sfdc:batch-info ref="#[payload.batchInfoReference]" />
-		</sfdc:query-result-stream>
 	</flow>
 
 	<flow name="query-single" doc:name="query-single">
@@ -241,13 +161,6 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		</sfdc:update>
 	</flow>
 
-	<flow name="update-bulk-from-message" doc:name="update-bulk-from-message">
-		<sfdc:update-bulk config-ref="Salesforce" doc:name="Update bulk"
-			type="#[payload.type]">
-			<sfdc:objects ref="#[payload.salesforceSObjectsListFromMessage]" />
-		</sfdc:update-bulk>
-	</flow>
-
 	<flow name="update-single-from-message" doc:name="update-single-from-message">
 		<sfdc:update-single config-ref="Salesforce"
 			doc:name="Udpate single" type="#[payload.type]">
@@ -260,13 +173,6 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 			externalIdFieldName="#[payload.externalIdFieldName]" type="#[payload.type]">
 			<sfdc:objects ref="#[payload.salesforceSObjectsListFromMessage]" />
 		</sfdc:upsert>
-	</flow>
-
-	<flow name="upsert-bulk-from-message" doc:name="upsert-bulk-from-message">
-		<sfdc:upsert-bulk config-ref="Salesforce" doc:name="Upsert bulk"
-			externalIdFieldName="#[payload.externalIdFieldName]" type="#[payload.type]">
-			<sfdc:objects ref="#[payload.salesforceSObjectsList]" />
-		</sfdc:upsert-bulk>
 	</flow>
 
 	<flow name="paginated-query" doc:name="paginated-query">
@@ -283,6 +189,102 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 	<flow name="paginated-query-by-queryResultObject-ref" doc:name="paginated-query-by-queryResultObject-ref">
 		<sfdc:paginated-query config-ref="Salesforce"
 			queryResultObject-ref="#[payload.queryResultObjectRef]" doc:name="Paginated query" withDeletedRecords="true" />
+	</flow>
+
+	<!--  Bulk API -->
+	
+	<flow name="create-bulk" doc:name="create-bulk">
+		<sfdc:create-bulk config-ref="Salesforce" doc:name="Create bulk"
+			type="#[payload.type]">
+			<sfdc:objects ref="#[payload.objectsRef]" />
+		</sfdc:create-bulk>
+	</flow>
+	
+	<flow name="update-bulk" doc:name="update-bulk">
+		<sfdc:update-bulk config-ref="Salesforce" doc:name="Update bulk"
+			type="#[payload.type]">
+			<sfdc:objects ref="#[payload.objectsRef]" />
+		</sfdc:update-bulk>
+	</flow>
+
+	<flow name="upsert-bulk" doc:name="upsert-bulk">
+		<sfdc:upsert-bulk config-ref="Salesforce" doc:name="Upsert bulk"
+			externalIdFieldName="#[payload.externalIdFieldName]" type="#[payload.type]">
+			<sfdc:objects ref="#[payload.objectsRef]" />
+		</sfdc:upsert-bulk>
+	</flow>
+	
+	<flow name="hard-delete-bulk" doc:name="hard-delete-bulk">
+		<sfdc:hard-delete-bulk config-ref="Salesforce"
+			doc:name="Hard delete bulk" type="#[payload.type]">
+			<sfdc:objects ref="#[payload.objectsRef]" />
+		</sfdc:hard-delete-bulk>
+	</flow>
+	
+	<flow name="create-job" doc:name="create-job">
+		<sfdc:create-job config-ref="Salesforce" doc:name="Create job"
+			type="#[payload.type]" concurrencyMode="#[payload.concurrencyMode]" contentType="#[payload.contentType]"
+			externalIdFieldName="#[payload.externalIdFieldName]" operation="#[payload.operation]">
+		</sfdc:create-job>
+	</flow>
+	
+	<flow name="close-job" doc:name="close-job">
+		<sfdc:close-job config-ref="Salesforce" doc:name="Close job"
+			jobId="#[payload.jobId]">
+		</sfdc:close-job>
+	</flow>
+	
+	<flow name="abort-job" doc:name="abort-job">
+		<sfdc:abort-job config-ref="Salesforce" doc:name="Abort job"
+			jobId="#[payload.jobId]">
+		</sfdc:abort-job>
+	</flow>
+
+	<flow name="batch-info" doc:name="batch-info">
+		<sfdc:batch-info config-ref="Salesforce" doc:name="Batch info">
+			<sfdc:batch-info ref="#[payload.batchInfoRef]" />
+		</sfdc:batch-info>
+	</flow>
+
+	<flow name="batch-result" doc:name="batch-result">
+		<sfdc:batch-result config-ref="Salesforce" doc:name="Batch result">
+			<sfdc:batch-info ref="#[payload.batchInfoRef]" />
+		</sfdc:batch-result>
+	</flow>
+
+	<flow name="batch-result-stream" doc:name="batch-result-stream">
+		<sfdc:batch-result-stream config-ref="Salesforce"
+			doc:name="Batch result stream">
+			<sfdc:batch-info ref="#[payload.batchInfoRef]" />
+		</sfdc:batch-result-stream>
+	</flow>
+	
+	<flow name="create-batch" doc:name="create-batch">
+		<sfdc:create-batch config-ref="Salesforce" doc:name="Create batch">
+			<sfdc:job-info ref="#[payload.jobInfoRef]" />
+			<sfdc:objects ref="#[payload.objectsRef]" />
+		</sfdc:create-batch>
+	</flow>
+
+	<flow name="create-batch-for-query" doc:name="create-batch-for-query">
+		<sfdc:create-batch-for-query config-ref="Salesforce"
+			doc:name="Create batch for query" query="#[payload.query]">
+			<sfdc:job-info ref="#[payload.jobInfoRef]" />
+		</sfdc:create-batch-for-query>
+	</flow>
+
+	<flow name="create-batch-stream" doc:name="create-batch-stream">
+		<sfdc:create-batch-stream config-ref="Salesforce"
+			doc:name="Create batch stream" stream-ref="#[payload.streamRef]">
+			<sfdc:job-info ref="#[payload.jobInfoRef]" />
+		</sfdc:create-batch-stream>
+	</flow>
+
+	<flow name="query-result-stream" doc:name="query-result-stream">
+		<sfdc:query-result-stream config-ref="Salesforce"
+			doc:name="Query result stream">
+			<sfdc:batch-info ref="#[payload.batchInfoRef]" />
+		</sfdc:query-result-stream>
 	</flow>
 
 </mule>

@@ -61,7 +61,7 @@ public class GetUpdatedObjectsTestCases extends SalesforceTestParent {
 			getUpdatedObjectsFlow.process(getTestEvent(testObjects));
 			
 			updateSingleFlow.process(getTestEvent(testObjects));
-			Thread.sleep(DELAY);
+			Thread.sleep(UPDATE_DELAY);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -91,7 +91,7 @@ public class GetUpdatedObjectsTestCases extends SalesforceTestParent {
 	public void testGetUpdatedObjects() {
 		
 		List<String> updatedRecordId = (List<String>) testObjects.get("idsToDeleteFromMessage");
-		List<String> returnedSObjectsIds = new ArrayList<String>();
+		List<String> returnedSObjectsIds;
 
 		try {
 
