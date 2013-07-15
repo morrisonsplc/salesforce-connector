@@ -1460,9 +1460,9 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
 
     protected SObject toSObject(String type, Map<String, Object> map) {
         SObject sObject = new SObject();
+        sObject.setType(type);
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
-        	sObject.setType(type);
             if (key.equals("fieldsToNull")) {
             	sObject.setFieldsToNull((String[]) entry.getValue());
             } else if (entry.getValue() instanceof Map) {
