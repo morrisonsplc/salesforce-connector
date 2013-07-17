@@ -66,4 +66,28 @@ public class SalesforceConnectorTest {
         assertEquals("url key", sObjectMap.get("http://localhost"));
     }
 
+    @Test
+    public void shouldUseTypeAttributeInsteadOfFieldNameToDetermineSObjectType() {
+        Map<String, Object> owner = new HashMap<String, Object>();
+        owner.put("ExternalId__c", 101);
+        owner.put("Custom1__c", "test");
+        owner.put("Custom2__c", "test");
+        owner.put("Custom3__c", "test");
+        owner.put("Custom4__c", "test");
+        owner.put("Custom5__c", "test");
+        owner.put("Custom6__c", "test");
+        owner.put("Custom7__c", "test");
+        owner.put("Custom8__c", "test");
+        owner.put("Custom9__c", "test");
+        owner.put("CustomA__c", "test");
+        owner.put("type", "User");
+
+        Map<String, Object> opportunity = new HashMap<String, Object>();
+        opportunity.put("Name", "Example Opportunity");
+        opportunity.put("Owner", owner);
+
+        SObject record = connector.toSObject("Opportunity", opportunity);
+        SObject convertedOwnerObject = (SObject) record.getField("Owner");
+        assertEquals("User", convertedOwnerObject.getType());
+    }
 }
