@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.*;
 
+import com.sforce.ws.bind.XmlObject;
 import org.apache.log4j.Logger;
 import org.mule.api.MuleContext;
 import org.mule.api.annotations.Category;
@@ -678,7 +679,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         if (sObjects != null) {
             for (SObject sObject : sObjects) {
-                result.add(sObject.toMap());
+                result.add(SalesforceUtils.toMap(sObject));
             }
         }
         return result;
@@ -752,7 +753,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         while (queryResult != null) {
             for (SObject object : queryResult.getRecords()) {
-                result.add(object.toMap());
+                result.add(SalesforceUtils.toMap(object));
             }
             if (queryResult.isDone()) {
                 break;
@@ -783,7 +784,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         while (queryResult != null) {
             for (SObject object : queryResult.getRecords()) {
-                result.add(object.toMap());
+                result.add(SalesforceUtils.toMap(object));
             }
             if (queryResult.isDone()) {
                 break;
@@ -814,7 +815,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         
         for (SearchRecord object : searchResult.getSearchRecords()) {
-            result.add(object.getRecord().toMap());
+            result.add(SalesforceUtils.toMap(object.getRecord()));
         }
 
         return result;
@@ -841,7 +842,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     public Map<String, Object> querySingle(@Placement(group = "Query") String query) throws Exception {
         SObject[] result = getConnection().query(query).getRecords();
         if (result.length > 0) {
-            return result[0].toMap();
+            return SalesforceUtils.toMap(result[0]);
         }
 
         return null;
@@ -1271,7 +1272,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         if (result.getSize() == 0) {
             SObject pushTopic = new SObject();
             pushTopic.setType("PushTopic");
-            pushTopic.setField("ApiVersion", "26.0");
+            pushTopic.setField("ApiVersion", "28.0");
             if (description != null) {
                 pushTopic.setField("Description", description);
             }

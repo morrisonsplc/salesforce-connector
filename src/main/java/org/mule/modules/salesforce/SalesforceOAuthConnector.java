@@ -136,13 +136,13 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
 
         config.setCompression(false);
 
-        String serviceEndpoint = "https://" + (new URL(instanceId)).getHost() + "/services/Soap/u/26.0";
+        String serviceEndpoint = "https://" + (new URL(instanceId)).getHost() + "/services/Soap/u/28.0";
         config.setServiceEndpoint(serviceEndpoint);
 
         this.partnerConnection = Connector.newConnection(config);
         setConnectionOptions(this.partnerConnection);
 
-        String restEndpoint = "https://" + (new URL(instanceId)).getHost() + "/services/async/26.0";
+        String restEndpoint = "https://" + (new URL(instanceId)).getHost() + "/services/async/28.0";
         config.setRestEndpoint(restEndpoint);
 
         this.bulkConnection = new BulkConnection(config);

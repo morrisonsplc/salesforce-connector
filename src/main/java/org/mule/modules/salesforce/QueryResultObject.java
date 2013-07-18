@@ -30,7 +30,7 @@ public class QueryResultObject {
     
     public List<Map<String, Object>> getData(){
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-        for (SObject object : queryResult.getRecords()) result.add(object.toMap());
+        for (SObject object : queryResult.getRecords()) result.add(SalesforceUtils.toMap(object));
         return result;
     }
 
