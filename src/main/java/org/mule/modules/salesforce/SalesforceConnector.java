@@ -284,6 +284,7 @@ public class SalesforceConnector extends BaseSalesforceConnector {
             } finally {
                 loginResult = null;
                 connection = null;
+                setBayeuxClient(null);
             }
         }
     }
@@ -366,7 +367,7 @@ public class SalesforceConnector extends BaseSalesforceConnector {
             throw new org.mule.api.ConnectionException(ConnectionExceptionCode.UNKNOWN_HOST, null, e.getMessage(), e);
         }
         
-        this.processPendingSuscriptions();
+        this.processSubscriptions();
     }
 
     public void reconnect() throws org.mule.api.ConnectionException {

@@ -147,7 +147,7 @@ public class SalesforceOAuthConnector extends BaseSalesforceConnector {
 
         this.bulkConnection = new BulkConnection(config);
         
-        this.processPendingSuscriptions();
+        this.processSubscriptions();
     }
 
     public String getConsumerKey() {

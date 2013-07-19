@@ -13,13 +13,9 @@ package org.mule.modules.salesforce;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.mule.api.MuleContext;
@@ -88,7 +84,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      */
     @Configurable
     @Optional
-    private ObjectStore timeObjectStore;
+    private ObjectStore<? extends Serializable> timeObjectStore;
 
     /**
      * Client ID for partners
@@ -126,16 +122,17 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
 
     private Registry registry;
     
-    private static final List<PendingSuscription> pendingSuscriptions = new ArrayList<PendingSuscription>();
+    private static final List<Subscription> subscriptions = new ArrayList<Subscription>();
     
-    private static class PendingSuscription {
+    private static class Subscription {
     	private String topic;
-    	
     	private SourceCallback callback;
+        private boolean subscribed;
     	
-    	private PendingSuscription(String topic, SourceCallback callback) {
+    	private Subscription(String topic, SourceCallback callback, boolean subscribed) {
     		this.topic = topic;
     		this.callback = callback;
+            this.subscribed = subscribed;
     	}
     	
     	public SourceCallback getCallback() {
@@ -145,6 +142,10 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     	public String getTopic() {
 			return topic;
 		}
+
+        public boolean isSubscribed() {
+            return subscribed;
+        }
     }
 
     /**
@@ -1337,12 +1338,14 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @Category(name = "Streaming API", description = "Create topics, to which applications can subscribe, receiving asynchronous notifications of changes to data in Salesforce, via the Bayeux protocol.")
     public StopSourceCallback subscribeTopic(final String topic, final SourceCallback callback) {
        final String topicName = "/topic" + topic;
-       
+       boolean subscribed = false;
+
        if (this.isReadyToSubscribe()) {
     	   this.subscribe(topicName, callback);
-       } else {
-    	   pendingSuscriptions.add(new PendingSuscription(topicName, callback));
+           subscribed = true;
        }
+
+       subscriptions.add(new Subscription(topicName, callback, subscribed));
 
        return new StopSourceCallback() {
             @Override
@@ -1352,9 +1355,17 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         };
     }
     
-    protected void processPendingSuscriptions() {
-    	for (PendingSuscription p : pendingSuscriptions) {
-    		this.subscribe(p.getTopic(), p.getCallback());
+    protected void processSubscriptions() {
+    	boolean resubscribe = false;
+
+        if (this.bc == null) {
+            resubscribe = true;
+        }
+
+        for (Subscription p : subscriptions) {
+            if (resubscribe || !p.isSubscribed()) {
+    		    this.subscribe(p.getTopic(), p.getCallback());
+            }
     	}
     }
     
@@ -1366,7 +1377,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         this.objectStoreManager = objectStoreManager;
     }
 
-    public void setTimeObjectStore(ObjectStore timeObjectStore) {
+    public void setTimeObjectStore(ObjectStore<? extends Serializable> timeObjectStore) {
         this.timeObjectStore = timeObjectStore;
     }
 
@@ -1452,18 +1463,33 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         return sObject;
     }
 
-    private SObject toSObject(String type, Map<String, Object> map) {
+    protected SObject toSObject(String type, Map<String, Object> map) {
         SObject sObject = new SObject();
+        sObject.setType(type);
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
-        	sObject.setType(type);
             if (key.equals("fieldsToNull")) {
             	sObject.setFieldsToNull((String[]) entry.getValue());
+            } else if (entry.getValue() instanceof Map) {
+                sObject.setField(key, toSObject(key, toSObjectMap((Map) entry.getValue())));
             } else {
-            	sObject.setField(key, entry.getValue());
+                sObject.setField(key, entry.getValue());
             }
         }
         return sObject;
+    }
+
+    /**
+     * Enforce map keys are converted to String to comply with generic signature in toSObject
+     *
+     * @see #toSObject(String, java.util.Map)
+     */
+    protected Map<String, Object> toSObjectMap(Map map) {
+        Map<String, Object> sObjectMap = new HashMap<String, Object>();
+        for(Object key : map.keySet()) {
+            sObjectMap.put(key.toString(), map.get(key));
+        }
+        return sObjectMap;
     }
 
     private synchronized ObjectStoreHelper getObjectStoreHelper(String username) {
@@ -1512,7 +1538,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
         }
     }
 
-    public ObjectStore getTimeObjectStore() {
+    public ObjectStore<? extends Serializable> getTimeObjectStore() {
         return timeObjectStore;
     }
 
