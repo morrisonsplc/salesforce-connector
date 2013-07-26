@@ -34,7 +34,6 @@ import org.mule.modules.salesforce.automation.testcases.*;
 	ConvertLeadTestCases.class,
 	DescribeSObjectTestCases.class,
 	PaginatedQueryTestCases.class,
-	CreateBatchForQueryTestCases.class,
 	EmptyRecycleBinTestCases.class,
 	QueryAllTestCases.class,
 	UpdateBulkTestCases.class,

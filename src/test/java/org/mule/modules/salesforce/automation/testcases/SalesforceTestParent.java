@@ -39,6 +39,7 @@ public class SalesforceTestParent extends FunctionalTestCase {
 	protected MessageProcessor flow;
 	protected MuleEvent response;
 	protected Map<String,Object> testObjects;
+	public static final long GET_DELAY = 60000;
 	public static final long UPDATE_DELAY = 60000;
 	public static final long BATCH_PROCESSING_DELAY = 10000;
 	

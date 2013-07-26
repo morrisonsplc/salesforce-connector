@@ -102,6 +102,8 @@ public class GetUpdatedObjectsTestCases extends SalesforceTestParent {
 			
 			resetUpdatedObjectsTimestampFlow.process(getTestEvent(testObjects));
 			
+			Thread.sleep(UPDATE_DELAY);
+			
 	        returnedSObjectsIds = getReturnedSObjectsIds(getUpdatedObjectsFlow.process(getTestEvent(testObjects)));
 			
 			assertTrue(!returnedSObjectsIds.containsAll(updatedRecordId)); 
