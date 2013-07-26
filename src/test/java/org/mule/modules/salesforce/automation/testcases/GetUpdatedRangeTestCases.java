@@ -14,7 +14,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,15 +25,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import com.sforce.soap.partner.DeletedRecord;
 import com.sforce.soap.partner.GetUpdatedResult;
 import com.sforce.soap.partner.SaveResult;
-
-
-/* 
- * 
- * REMOVE PRINTLN!!! 
- * 
- */
 
 public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 
@@ -68,16 +61,14 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 			testObjects.put("idsToDeleteFromMessage", sObjectsIds);
 			
 			flow = lookupFlowConstruct("update-from-message");
-			response = flow.process(getTestEvent(testObjects));
-
-			List<SaveResult> saveResults =  (List<SaveResult>) response.getMessage().getPayload();			
+			response = flow.process(getTestEvent(testObjects));		
+			
+			Thread.sleep(UPDATE_DELAY);
 			
 			flow = lookupFlowConstruct("get-updated");
 			response = flow.process(getTestEvent(testObjects));
 			
 			GetUpdatedResult updatedResult =  (GetUpdatedResult) response.getMessage().getPayload();
-			
-			System.out.println("### get-updated\n" + updatedResult);
 			
 			GregorianCalendar endTime = (GregorianCalendar) updatedResult.getLatestDateCovered();
 			endTime.add(GregorianCalendar.MINUTE, 1);
@@ -89,7 +80,6 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 			testObjects.put("startTime", startTime);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		}
@@ -105,7 +95,6 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 			flow.process(getTestEvent(testObjects));
   
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		}
@@ -117,6 +106,7 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 	public void testGetUpdatedRange() {
 		
 		List<String> createdRecordsIds = (List<String>) testObjects.get("idsToDeleteFromMessage");
+		List<String> updatedRecordsIds = new ArrayList<String>();
 		
 		try {
 			
@@ -125,20 +115,19 @@ public class GetUpdatedRangeTestCases extends SalesforceTestParent {
 			
 			GetUpdatedResult updatedResult =  (GetUpdatedResult) response.getMessage().getPayload();
 			
-			System.out.println("### get-updated-range\n" + updatedResult);
-			
 			String[] ids = updatedResult.getIds();
 			
 			assertTrue(ids != null && ids.length > 0);
 
-			for (int i = 0; i < ids.length; i++) {
-				assertTrue(createdRecordsIds.contains(ids[i].toString())); 
-		     }
+			for (int i = 0; i < ids.length; i++) {	
+				updatedRecordsIds.add(ids[i].toString()); 
+		    }
+			
+			assertTrue(updatedRecordsIds.containsAll(createdRecordsIds)); 
 		
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-				e.printStackTrace();
-				fail();
+			e.printStackTrace();
+			fail();
 		}
 		
 	}

@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -64,7 +65,7 @@ public class GetDeletedTestCases extends SalesforceTestParent {
 			flow.process(getTestEvent(testObjects));
 			
 			// because of the rounding applied to the seconds 
-			Thread.sleep(60000);
+			Thread.sleep(GET_DELAY);
   
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -79,6 +80,7 @@ public class GetDeletedTestCases extends SalesforceTestParent {
 	public void testGetDeleted() {
 		
 		List<String> createdRecordsIds = (List<String>) testObjects.get("idsToDeleteFromMessage");
+		List<String> deletedRecordsIds = new ArrayList<String>();
 		
 		try {
 			
@@ -90,10 +92,12 @@ public class GetDeletedTestCases extends SalesforceTestParent {
 			DeletedRecord[] deletedRecords = deletedResult.getDeletedRecords();
 			
 			assertTrue(deletedRecords != null && deletedRecords.length > 0);
-
-			for (int i = 0; i < deletedRecords.length; i++) {
-				assertTrue(createdRecordsIds.contains(((DeletedRecord) deletedRecords[i]).getId())); 
-		     }
+			
+			for (int i = 0; i < deletedRecords.length; i++) {	
+				deletedRecordsIds.add(((DeletedRecord) deletedRecords[i]).getId()); 
+		    }
+			
+			assertTrue(deletedRecordsIds.containsAll(createdRecordsIds)); 
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

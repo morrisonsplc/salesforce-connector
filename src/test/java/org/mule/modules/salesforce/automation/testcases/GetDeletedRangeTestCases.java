@@ -10,7 +10,6 @@
 
 package org.mule.modules.salesforce.automation.testcases;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -19,17 +18,13 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.sforce.soap.partner.DeleteResult;
 import com.sforce.soap.partner.DeletedRecord;
 import com.sforce.soap.partner.GetDeletedResult;
-import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.SaveResult;
 
 
@@ -64,23 +59,30 @@ public class GetDeletedRangeTestCases extends SalesforceTestParent {
 			flow = lookupFlowConstruct("delete-from-message");
 			flow.process(getTestEvent(testObjects));
 	
+			// because of the rounding applied to the seconds 
+			Thread.sleep(GET_DELAY);
+			
 			flow = lookupFlowConstruct("get-deleted");
 			response = flow.process(getTestEvent(testObjects));
 			
 			GetDeletedResult deletedResult =  (GetDeletedResult) response.getMessage().getPayload();
 			DeletedRecord[] deletedRecords = deletedResult.getDeletedRecords();
 			
-			GregorianCalendar endTime = (GregorianCalendar) ((DeletedRecord) deletedRecords[0]).getDeletedDate();
+			
+			
+			GregorianCalendar endTime = (GregorianCalendar) ((DeletedRecord) deletedRecords[deletedRecords.length-1]).getDeletedDate();
 			endTime.add(GregorianCalendar.MINUTE, 1);
 			
 			GregorianCalendar startTime = (GregorianCalendar) endTime.clone(); 
 			startTime.add(GregorianCalendar.MINUTE, -(Integer.parseInt((String) testObjects.get("duration"))));
 			
-			testObjects.put("endTime", endTime);
+			System.out.println("startTime " + startTime.getTimeInMillis());
+			System.out.println("endTime   " + endTime.getTimeInMillis());
+			
 			testObjects.put("startTime", startTime);
+			testObjects.put("endTime", endTime);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
 		}
@@ -92,6 +94,7 @@ public class GetDeletedRangeTestCases extends SalesforceTestParent {
 	public void testGetDeletedRange() {
 		
 		List<String> createdRecordsIds = (List<String>) testObjects.get("idsToDeleteFromMessage");
+		List<String> deletedRecordsIds = new ArrayList<String>();
 		
 		try {
 			
@@ -104,9 +107,11 @@ public class GetDeletedRangeTestCases extends SalesforceTestParent {
 			
 			assertTrue(deletedRecords != null && deletedRecords.length > 0);
 
-			for (int i = 0; i < deletedRecords.length; i++) {
-				assertTrue(createdRecordsIds.contains(((DeletedRecord) deletedRecords[i]).getId())); 
-		     }
+			for (int i = 0; i < deletedRecords.length; i++) {	
+				deletedRecordsIds.add(((DeletedRecord) deletedRecords[i]).getId()); 
+		    }
+			
+			assertTrue(deletedRecordsIds.containsAll(createdRecordsIds)); 
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
