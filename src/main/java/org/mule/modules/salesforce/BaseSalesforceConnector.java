@@ -10,18 +10,11 @@
 
 package org.mule.modules.salesforce;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.SequenceInputStream;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.util.*;
-
-import org.apache.log4j.Logger;
 import org.mule.api.MuleContext;
 import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.InvalidateConnectionOn;
+import org.mule.api.annotations.Pageable;
 import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.Source;
 import org.mule.api.annotations.SourceThreadingModel;
@@ -40,7 +33,8 @@ import org.mule.api.registry.Registry;
 import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
-import org.springframework.util.StringUtils;
+import org.mule.api.streaming.PagingConfiguration;
+import org.mule.api.streaming.PagingDelegate;
 
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.AsyncExceptionCode;
@@ -72,6 +66,22 @@ import com.sforce.soap.partner.SearchResult;
 import com.sforce.soap.partner.UpsertResult;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 
 public abstract class BaseSalesforceConnector implements MuleContextAware {
     private static final Logger LOGGER = Logger.getLogger(BaseSalesforceConnector.class);
@@ -737,6 +747,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * @param query Query string that specifies the object to query, the fields to return, and any conditions for
      *              including a specific object in the query. For more information, see Salesforce Object Query
      *              Language (SOQL).
+     * @param pagingConfiguration the paging configuration
      * @return An array of {@link SObject}s
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
@@ -747,20 +758,15 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
-    public List<Map<String, Object>> query(@Placement(group = "Query") String query) throws Exception {
-        QueryResult queryResult = getConnection().query(query);
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-        while (queryResult != null) {
-            for (SObject object : queryResult.getRecords()) {
-                result.add(object.toMap());
+    @Pageable
+    public PagingDelegate<Map<String, Object>> query(@Placement(group = "Query") final String query, final PagingConfiguration pagingConfiguration) throws Exception {
+        return new SalesforcePagingDelegate(this.getConnection(), query, pagingConfiguration) {
+            
+            @Override
+            protected QueryResult doQuery(String query) throws ConnectionException {
+                return getConnection().query(query);
             }
-            if (queryResult.isDone()) {
-                break;
-            }
-            queryResult = getConnection().queryMore(queryResult.getQueryLocator());
-        }
-
-        return result;
+        };
     }
 
     /**
@@ -769,6 +775,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
      * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:query}
      *
      * @param query Query string that specifies the object to query, the fields to return, and any conditions for including a specific object in the query. For more information, see Salesforce Object Query Language (SOQL).
+     * @param pagingConfiguration the paging configuration
      * @return An array of {@link SObject}s
      * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
      * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_calls_query.htm">query()</a>
@@ -778,20 +785,15 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
-    public List<Map<String, Object>> queryAll(@Placement(group = "Query") String query) throws Exception {
-        QueryResult queryResult = getConnection().queryAll(query);
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-        while (queryResult != null) {
-            for (SObject object : queryResult.getRecords()) {
-                result.add(object.toMap());
+    @Pageable
+    public PagingDelegate<Map<String, Object>> queryAll(@Placement(group = "Query") String query, PagingConfiguration pagingConfiguration) throws Exception {
+        return new SalesforcePagingDelegate(this.getConnection(), query, pagingConfiguration) {
+            
+            @Override
+            protected QueryResult doQuery(String query) throws ConnectionException {
+                return getConnection().queryAll(query);
             }
-            if (queryResult.isDone()) {
-                break;
-            }
-            queryResult = getConnection().queryMore(queryResult.getQueryLocator());
-        }
-
-        return result;
+        };
     }
 
     /**

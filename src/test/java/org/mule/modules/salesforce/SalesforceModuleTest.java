@@ -10,6 +10,10 @@
 
 package org.mule.modules.salesforce;
 
+import org.mule.api.streaming.PagingConfiguration;
+import org.mule.api.streaming.PagingDelegate;
+import org.mule.api.streaming.StreamingOutputUnit;
+
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.AsyncExceptionCode;
 import com.sforce.async.BatchInfo;
@@ -417,25 +421,27 @@ public class SalesforceModuleTest {
         SalesforceConnector connector = new SalesforceConnector();
         SObject sObject1 = Mockito.mock(SObject.class);
         SObject sObject2 = Mockito.mock(SObject.class);
-        QueryResult queryResult1 = Mockito.mock(QueryResult.class);
-        when(queryResult1.getRecords()).thenReturn(new SObject[]{sObject1});
-        when(queryResult1.isDone()).thenReturn(false);
-        when(queryResult1.getQueryLocator()).thenReturn("001");
-        QueryResult queryResult2 = Mockito.mock(QueryResult.class);
-        when(queryResult2.getRecords()).thenReturn(new SObject[]{sObject2});
-        when(queryResult2.isDone()).thenReturn(true);
-        when(queryResult2.getQueryLocator()).thenReturn("001");
+        QueryResult queryResult = Mockito.mock(QueryResult.class);
+        when(queryResult.getRecords()).thenReturn(new SObject[]{sObject1}).thenReturn(new SObject[]{sObject2});
+        when(queryResult.isDone()).thenReturn(false).thenReturn(true);
+        when(queryResult.getQueryLocator()).thenReturn("001").thenReturn(null);
+
         PartnerConnection partnerConnection = Mockito.mock(PartnerConnection.class);
         BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
         connector.setBulkConnection(bulkConnection);
         connector.setConnection(partnerConnection);
 
-        when(partnerConnection.query(eq(MOCK_QUERY))).thenReturn(queryResult1);
-        when(partnerConnection.queryMore(eq("001"))).thenReturn(queryResult2);
-
-        List<Map<String, Object>> result = connector.query(MOCK_QUERY);
-
-        assertEquals(2, result.size());
+        when(partnerConnection.query(eq(MOCK_QUERY))).thenReturn(queryResult);
+        when(partnerConnection.queryMore("001")).thenReturn(queryResult);
+        
+        PagingDelegate<Map<String, Object>> delegate = connector.query(MOCK_QUERY, new PagingConfiguration(1, 0, -1, StreamingOutputUnit.ELEMENT)); 
+        List<Map<String, Object>> result = delegate.getPage();
+        assertEquals(1, result.size());
+        
+        result = delegate.getPage();
+        assertEquals(1, result.size());
+        
+        assertNull(delegate.getPage());
     }
 
     @Test

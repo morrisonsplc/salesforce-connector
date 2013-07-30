@@ -60,7 +60,7 @@ import org.mule.common.metadata.datatype.DataType;
  * @author MuleSoft, Inc.
  */
 
-@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.4")
+@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.5")
 public class SalesforceConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceConnector.class);
 

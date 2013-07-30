@@ -11,7 +11,12 @@
 package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+
+import org.mule.streaming.ConsumerIterator;
+
+import com.sforce.soap.partner.SaveResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +28,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-
-import com.sforce.soap.partner.SaveResult;
 
 
 
@@ -95,18 +98,17 @@ public class QueryTestCases extends SalesforceTestParent {
 			flow = lookupFlowConstruct("query");
 			response = flow.process(getTestEvent(testObjects));
 			
-			List<Map<String, Object>> records =  (List<Map<String, Object>>) response.getMessage().getPayload();
-	        
-	        Iterator<Map<String, Object>> iter = records.iterator();  
-
+			ConsumerIterator<Map<String, Object>> iter =  (ConsumerIterator<Map<String, Object>>) response.getMessage().getPayload();
+			
+			int count = 0;
 			while (iter.hasNext()) {
-				
 				Map<String, Object> sObject = iter.next();
 				returnedSObjectsIds.add(sObject.get("Id").toString());
-				
+				count++;
 			}
 			
 			assertTrue(returnedSObjectsIds.size() > 0);
+			assertEquals(count, iter.size());
 
 			for (int index = 0; index < queriedRecordIds.size(); index++) {
 				assertTrue(returnedSObjectsIds.contains(queriedRecordIds.get(index).toString())); 
