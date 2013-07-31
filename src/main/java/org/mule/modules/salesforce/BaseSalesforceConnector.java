@@ -14,7 +14,7 @@ import org.mule.api.MuleContext;
 import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.InvalidateConnectionOn;
-import org.mule.api.annotations.Pageable;
+import org.mule.api.annotations.Paged;
 import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.Source;
 import org.mule.api.annotations.SourceThreadingModel;
@@ -758,7 +758,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
-    @Pageable
+    @Paged
     public PagingDelegate<Map<String, Object>> query(@Placement(group = "Query") final String query, final PagingConfiguration pagingConfiguration) throws Exception {
         return new SalesforcePagingDelegate(this.getConnection(), query, pagingConfiguration) {
             
@@ -785,7 +785,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
-    @Pageable
+    @Paged
     public PagingDelegate<Map<String, Object>> queryAll(@Placement(group = "Query") String query, PagingConfiguration pagingConfiguration) throws Exception {
         return new SalesforcePagingDelegate(this.getConnection(), query, pagingConfiguration) {
             
