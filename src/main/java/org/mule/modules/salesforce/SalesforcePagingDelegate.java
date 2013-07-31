@@ -29,7 +29,7 @@ public abstract class SalesforcePagingDelegate extends BasePagingDelegate<Map<St
     private PagingConfiguration pagingConfiguration;
     private String queryLocator = null;
     private int currentPage = 0;
-    private QueryResult queryResult = null;
+    private QueryResult cachedQueryResult = null;
     private PartnerConnection connection;
     
     public SalesforcePagingDelegate(PartnerConnection connection, String query, PagingConfiguration pagingConfiguration) {
@@ -41,15 +41,18 @@ public abstract class SalesforcePagingDelegate extends BasePagingDelegate<Map<St
     @Override
     protected List<Map<String, Object>> doGetPage() {
         
+        if (this.cachedQueryResult != null) {
+            List<Map<String, Object>> items = this.consume(this.cachedQueryResult);
+            this.cachedQueryResult = null;
+            
+            return items;
+        }
+        
         if (pagingConfiguration.getLastPage() > 0 && this.currentPage > pagingConfiguration.getLastPage()) {
             return null;
         }
         
-        try {
-            this.queryResult = this.queryLocator != null ? this.connection.queryMore(this.queryLocator) : this.doQuery(this.query); 
-        } catch (ConnectionException e) {
-            throw new RuntimeException(e);
-        }
+        QueryResult queryResult = getQueryResult();
             
         this.queryLocator = queryResult.isDone() ? null : queryResult.getQueryLocator();
         
@@ -67,6 +70,14 @@ public abstract class SalesforcePagingDelegate extends BasePagingDelegate<Map<St
                     throw new RuntimeException(e);
                 }
             }            
+        }
+    }
+
+    private QueryResult getQueryResult() {
+        try {
+            return this.queryLocator != null ? this.connection.queryMore(this.queryLocator) : this.doQuery(this.query); 
+        } catch (ConnectionException e) {
+            throw new RuntimeException(e);
         }
     }
     
@@ -88,12 +99,16 @@ public abstract class SalesforcePagingDelegate extends BasePagingDelegate<Map<St
 
     @Override
     protected void doClose() throws MuleException {
-        this.queryResult = null;
+        this.cachedQueryResult = null;
     }
     
     @Override
     public int getTotalResults() {
-        return this.queryResult != null ? this.queryResult.getSize() : -1;
+        if (this.cachedQueryResult == null) {
+            this.cachedQueryResult = this.getQueryResult();
+        }
+        
+        return this.cachedQueryResult.getSize();
     }
 
 }
