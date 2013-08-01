@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.util.*;
 
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.mule.api.MuleContext;
 import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Configurable;
@@ -1449,8 +1450,19 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     private com.sforce.async.SObject toAsyncSObject(Map<String, Object> map) {
         com.sforce.async.SObject sObject = new com.sforce.async.SObject();
         for (String key : map.keySet()) {
-            if (map.get(key) != null) {
-                sObject.setField(key, map.get(key).toString());
+
+            Object object = map.get(key);
+
+            if (object != null) {
+                if (object instanceof Map) {
+                    sObject.setFieldReference(key, toAsyncSObject(toSObjectMap((Map) object)));
+                }
+                else if (isDateField(object)) {
+                    sObject.setField(key, convertDateToString(object));
+                }
+                else {
+                    sObject.setField(key, object.toString());
+                }
             } else {
                 sObject.setField(key, null);
             }
@@ -1573,5 +1585,14 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     public void setMuleContext(MuleContext context) {
         setObjectStoreManager(((ObjectStoreManager) context.getRegistry().get(MuleProperties.OBJECT_STORE_MANAGER)));
         setRegistry((Registry) context.getRegistry());
+    }
+
+    protected boolean isDateField(Object object) {
+        return object instanceof Date || object instanceof GregorianCalendar
+                || object instanceof Calendar;
+    }
+
+    protected String convertDateToString(Object object) {
+        return new DateTime(object).toString();
     }
 }

@@ -31,6 +31,10 @@ public final class SObject {
         return fields.get(name);
     }
 
+    public SObject getFieldReference(String name) {
+        return fkRefs.get(name);
+    }
+
     public void setField(String name, String value) {
         fields.put(name, value);
     }

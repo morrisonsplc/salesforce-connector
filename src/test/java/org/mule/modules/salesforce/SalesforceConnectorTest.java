@@ -12,13 +12,13 @@
 package org.mule.modules.salesforce;
 
 import com.sforce.soap.partner.sobject.SObject;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -52,6 +52,53 @@ public class SalesforceConnectorTest {
         SObject parentRecord = (SObject) record.getField("Account");
         assertEquals("Account", parentRecord.getType());
         assertEquals(138, parentRecord.getField("ExternalId__c"));
+    }
+
+    @Test
+    public void shouldRecursivelyConvertMapsToSObjectsBulkAsync() {
+        Map<String, Object> account = new HashMap<String, Object>();
+        account.put("ExternalId__c", 138);
+        account.put("type", "Account");
+        Map<String, Object> contact = new HashMap<String, Object>();
+        contact.put("type", "Contact");
+        contact.put("ExternalId__c", "bmurray");
+        contact.put("FirstName", "Bill");
+        contact.put("LastName", "Murray");
+        contact.put("Account", account);
+
+        List<Map<String, Object>> listRecords = new ArrayList<Map<String, Object>>();
+        listRecords.add(contact);
+
+        com.sforce.async.SObject record = connector.toAsyncSObjectList(listRecords)[0];
+
+        assertEquals("Contact", record.getField("type"));
+        assertEquals("Bill", record.getField("FirstName"));
+        assertEquals("Murray", record.getField("LastName"));
+        assertEquals("bmurray", record.getField("ExternalId__c"));
+
+        com.sforce.async.SObject  parentRecord = record.getFieldReference("Account");
+        assertEquals("Account", parentRecord.getField("type"));
+        assertEquals("138", parentRecord.getField("ExternalId__c"));
+    }
+
+    @Test
+    public void testDateFieldsConvertMapAsyncSObject() {
+        Calendar birthDate = new GregorianCalendar();
+        String birthDateString = new DateTime(birthDate).toString();
+
+        Map<String, Object> account = new HashMap<String, Object>();
+        account.put("BirthDate", birthDate.getTime());
+        account.put("BirthDateCalendar", birthDate);
+        account.put("ExternalId__c", "bmurray");
+        account.put("FirstName", "Bill");
+        account.put("LastName", "Murray");
+
+        List<Map<String, Object>> listRecords = new ArrayList<Map<String, Object>>();
+        listRecords.add(account);
+
+        com.sforce.async.SObject record = connector.toAsyncSObjectList(listRecords)[0];
+        assertEquals(birthDateString, record.getField("BirthDate"));
+        assertEquals(birthDateString, record.getField("BirthDateCalendar"));
     }
 
     @Test
