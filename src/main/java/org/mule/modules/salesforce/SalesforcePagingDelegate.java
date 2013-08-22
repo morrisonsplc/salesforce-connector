@@ -10,20 +10,20 @@
 
 package org.mule.modules.salesforce;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.mule.api.MuleException;
-import org.mule.api.streaming.PagingConfiguration;
-import org.mule.streaming.BasePagingDelegate;
+import org.mule.streaming.PagingConfiguration;
+import org.mule.streaming.PagingDelegate;
 
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.soap.partner.QueryResult;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-public abstract class SalesforcePagingDelegate extends BasePagingDelegate<Map<String, Object>>
+public abstract class SalesforcePagingDelegate extends PagingDelegate<Map<String, Object>>
 {
     private String query;
     private PagingConfiguration pagingConfiguration;
@@ -39,7 +39,7 @@ public abstract class SalesforcePagingDelegate extends BasePagingDelegate<Map<St
     }
     
     @Override
-    protected List<Map<String, Object>> doGetPage() {
+    public List<Map<String, Object>> getPage() {
         
         if (this.cachedQueryResult != null) {
             List<Map<String, Object>> items = this.consume(this.cachedQueryResult);
@@ -98,7 +98,7 @@ public abstract class SalesforcePagingDelegate extends BasePagingDelegate<Map<St
     }
 
     @Override
-    protected void doClose() throws MuleException {
+    public void close() throws MuleException {
         this.cachedQueryResult = null;
     }
     
