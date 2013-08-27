@@ -12,23 +12,23 @@ package org.mule.modules.salesforce.automation.testcases;
 
 import static org.junit.Assert.assertTrue;
 
+import org.mule.api.MuleEvent;
+import org.mule.api.MuleException;
+import org.mule.api.processor.MessageProcessor;
+import org.mule.tck.junit4.FunctionalTestCase;
+
+import com.sforce.async.BatchInfo;
+import com.sforce.async.BatchResult;
+import com.sforce.async.Result;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.mule.api.MuleEvent;
-import org.mule.api.MuleException;
-import org.mule.api.processor.MessageProcessor;
-import org.mule.tck.junit4.FunctionalTestCase;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.sforce.async.BatchInfo;
-import com.sforce.async.BatchResult;
-import com.sforce.async.Result;
 
 
 
@@ -48,15 +48,9 @@ public class SalesforceTestParent extends FunctionalTestCase {
 		return "automation-test-flows.xml";
 	}
 	
-    protected MessageProcessor lookupFlowConstruct(String name) {
-        return (MessageProcessor) muleContext.getRegistry().lookupFlowConstruct(name);
-    }
-	
     @BeforeClass
     public static void beforeClass(){
-    	
     	context = new ClassPathXmlApplicationContext(SPRING_CONFIG_FILES);
-    	
     }
     
     protected BatchInfo getBatchInfoByOperation(MessageProcessor flow) throws MuleException, Exception {
