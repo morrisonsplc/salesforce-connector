@@ -759,7 +759,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     @Paged
     public PagingDelegate<Map<String, Object>> query(@Placement(group = "Query") final String query, final PagingConfiguration pagingConfiguration) throws Exception {
-        return new SalesforcePagingDelegate(this.getConnection(), query, pagingConfiguration) {
+        return new SalesforcePagingDelegate(this.getConnection(), query) {
             
             @Override
             protected QueryResult doQuery(String query) throws ConnectionException {
@@ -786,7 +786,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
     @Paged
     public PagingDelegate<Map<String, Object>> queryAll(@Placement(group = "Query") String query, PagingConfiguration pagingConfiguration) throws Exception {
-        return new SalesforcePagingDelegate(this.getConnection(), query, pagingConfiguration) {
+        return new SalesforcePagingDelegate(this.getConnection(), query) {
             
             @Override
             protected QueryResult doQuery(String query) throws ConnectionException {

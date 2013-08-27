@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.mule.api.MuleException;
-import org.mule.streaming.PagingConfiguration;
 import org.mule.streaming.PagingDelegate;
 
 import com.sforce.soap.partner.PartnerConnection;
@@ -26,16 +25,13 @@ import com.sforce.ws.ConnectionException;
 public abstract class SalesforcePagingDelegate extends PagingDelegate<Map<String, Object>>
 {
     private String query;
-    private PagingConfiguration pagingConfiguration;
     private String queryLocator = null;
-    private int currentPage = 0;
     private QueryResult cachedQueryResult = null;
     private PartnerConnection connection;
     
-    public SalesforcePagingDelegate(PartnerConnection connection, String query, PagingConfiguration pagingConfiguration) {
+    public SalesforcePagingDelegate(PartnerConnection connection, String query) {
         this.connection = connection;
         this.query = query;
-        this.pagingConfiguration = pagingConfiguration;
     }
     
     @Override
@@ -48,20 +44,12 @@ public abstract class SalesforcePagingDelegate extends PagingDelegate<Map<String
             return items;
         }
         
-        if (pagingConfiguration.getLastPage() > 0 && this.currentPage > pagingConfiguration.getLastPage()) {
-            return null;
-        }
-        
         QueryResult queryResult = getQueryResult();
             
         this.queryLocator = queryResult.isDone() ? null : queryResult.getQueryLocator();
         
         try {
-            if (this.currentPage++ < pagingConfiguration.getFirstPage()) {
-                return this.getPage();
-            } else {
-                return this.consume(queryResult);
-            }
+            return this.consume(queryResult);
         } finally {
             if (this.queryLocator == null) {
                 try {

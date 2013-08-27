@@ -49,7 +49,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.mule.streaming.PagingConfiguration;
 import org.mule.streaming.PagingDelegate;
-import org.mule.streaming.StreamingOutputUnit;
 
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.AsyncExceptionCode;
@@ -433,7 +432,7 @@ public class SalesforceModuleTest {
         when(partnerConnection.query(eq(MOCK_QUERY))).thenReturn(queryResult);
         when(partnerConnection.queryMore("001")).thenReturn(queryResult);
         
-        PagingDelegate<Map<String, Object>> delegate = connector.query(MOCK_QUERY, new PagingConfiguration(1, 0, -1, StreamingOutputUnit.ELEMENT)); 
+        PagingDelegate<Map<String, Object>> delegate = connector.query(MOCK_QUERY, new PagingConfiguration(1)); 
         List<Map<String, Object>> result = delegate.getPage();
         assertEquals(1, result.size());
         
