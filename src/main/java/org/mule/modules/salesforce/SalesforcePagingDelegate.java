@@ -77,7 +77,7 @@ public abstract class SalesforcePagingDelegate extends PagingDelegate<Map<String
 
         if (records != null && records.length > 0) {
             result = new ArrayList<Map<String, Object>>();
-            for (SObject object : queryResult.getRecords()) {
+            for (SObject object : records) {
                 result.add(object.toMap());
             }
         }

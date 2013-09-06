@@ -113,25 +113,25 @@ public class SalesforceModuleTest {
         BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
         connector.setBulkConnection(bulkConnection);
         ArgumentCaptor<JobInfo> expectedJobInfo = ArgumentCaptor.forClass(JobInfo.class);
-        
+
         Mockito.when(bulkConnection.createJob(Mockito.isA(JobInfo.class))).thenAnswer(new Answer<JobInfo>() {
             @Override
             public JobInfo answer(InvocationOnMock invocation) throws Throwable {
-              Object[] args = invocation.getArguments();
-              return (JobInfo) args[0];
+                Object[] args = invocation.getArguments();
+                return (JobInfo) args[0];
             }
-          });
+        });
 
         JobInfo actualJobInfo = connector.createJob(OperationEnum.upsert, "Account", "NewField", ContentType.CSV, null);
         Mockito.verify(bulkConnection).createJob(expectedJobInfo.capture());
-        
+
         assertEquals(expectedJobInfo.getValue(), actualJobInfo);
         assertEquals(OperationEnum.upsert, expectedJobInfo.getValue().getOperation());
         assertEquals(actualJobInfo.getObject(), expectedJobInfo.getValue().getObject());
         assertEquals(actualJobInfo.getExternalIdFieldName(), expectedJobInfo.getValue().getExternalIdFieldName());
         assertEquals(actualJobInfo.getContentType(), expectedJobInfo.getValue().getContentType());
     }
-    
+
     @Test
     public void testCloseJob() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
@@ -139,10 +139,10 @@ public class SalesforceModuleTest {
         connector.setBulkConnection(bulkConnection);
         JobInfo expectedJobInfo = new JobInfo();
         String jobId = "uVsd234k23neasd";
-        
+
         Mockito.when(bulkConnection.closeJob(jobId)).thenReturn(expectedJobInfo);
         JobInfo actualJobInfo = connector.closeJob(jobId);
-        
+
         assertEquals(expectedJobInfo, actualJobInfo);
     }
 
@@ -159,36 +159,36 @@ public class SalesforceModuleTest {
 
         assertEquals(expectedJobInfo, actualJobInfo);
     }
-    
+
     @Test
     public void testCreateBatch() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
         BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
         BatchRequest batchRequest = Mockito.mock(BatchRequest.class);
         connector.setBulkConnection(bulkConnection);
-        
-        JobInfo jobInfo = new JobInfo();        
+
+        JobInfo jobInfo = new JobInfo();
         List<Map<String, Object>> objects = new ArrayList<Map<String, Object>>();
-        
+
         BatchInfo expectedBatchInfo = new BatchInfo();
         Mockito.when(bulkConnection.createBatch(jobInfo)).thenReturn(batchRequest);
         Mockito.when(batchRequest.completeRequest()).thenReturn(expectedBatchInfo);
         BatchInfo actualBatchInfo = connector.createBatch(jobInfo, objects);
-        
+
         assertEquals(expectedBatchInfo, actualBatchInfo);
         Mockito.verify(batchRequest).addSObjects(connector.toAsyncSObjectList(objects));
     }
-    
+
     @Test(expected = ConnectionException.class)
     public void testCreateBatchWithConnectionException() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
         BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
         AsyncApiException exception = Mockito.mock(AsyncApiException.class);
         connector.setBulkConnection(bulkConnection);
-        
-        JobInfo jobInfo = new JobInfo();        
+
+        JobInfo jobInfo = new JobInfo();
         List<Map<String, Object>> objects = new ArrayList<Map<String, Object>>();
-        
+
         Mockito.when(exception.getExceptionCode()).thenReturn(AsyncExceptionCode.InvalidSessionId);
         Mockito.when(bulkConnection.createBatch(jobInfo)).thenThrow(exception);
         connector.createBatch(jobInfo, objects);
@@ -249,7 +249,7 @@ public class SalesforceModuleTest {
         connector.createBatchForQuery(actualJobInfo, query);
         assertEquals(expectedJobInfo.getValue(), actualJobInfo);
     }
-    
+
     @Test
     public void testCreate() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
@@ -417,10 +417,34 @@ public class SalesforceModuleTest {
     @Test
     public void testQuery() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
-        SObject sObject1 = Mockito.mock(SObject.class);
-        SObject sObject2 = Mockito.mock(SObject.class);
+        final SObject sObject1 = Mockito.mock(SObject.class);
+        final SObject sObject2 = Mockito.mock(SObject.class);
+        final SObject sObject3 = Mockito.mock(SObject.class);
+        when(sObject1.getId()).thenReturn("1");
+        when(sObject2.getId()).thenReturn("2");
+        when(sObject3.getId()).thenReturn("3");
         QueryResult queryResult = Mockito.mock(QueryResult.class);
-        when(queryResult.getRecords()).thenReturn(new SObject[]{sObject1}).thenReturn(new SObject[]{sObject2});
+        when(queryResult.getRecords()).thenAnswer(new Answer<Object>() {
+            int counter = 0;
+
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                SObject[] result = null;
+                switch (counter) {
+                    case 0:
+                        result = new SObject[]{sObject1};
+                        break;
+                    case 1:
+                        result = new SObject[]{sObject2, sObject3};
+                        break;
+                    case 2:
+                        result = new SObject[]{};
+                        break;
+                }
+                counter++;
+                return result;
+            }
+        });
         when(queryResult.isDone()).thenReturn(false).thenReturn(true);
         when(queryResult.getQueryLocator()).thenReturn("001").thenReturn(null);
 
@@ -431,14 +455,14 @@ public class SalesforceModuleTest {
 
         when(partnerConnection.query(eq(MOCK_QUERY))).thenReturn(queryResult);
         when(partnerConnection.queryMore("001")).thenReturn(queryResult);
-        
-        PagingDelegate<Map<String, Object>> delegate = connector.query(MOCK_QUERY, new PagingConfiguration(1)); 
+
+        PagingDelegate<Map<String, Object>> delegate = connector.query(MOCK_QUERY, new PagingConfiguration(1));
         List<Map<String, Object>> result = delegate.getPage();
         assertEquals(1, result.size());
-        
+
         result = delegate.getPage();
-        assertEquals(1, result.size());
-        
+        assertEquals(2, result.size());
+
         assertNull(delegate.getPage());
     }
 
@@ -550,7 +574,7 @@ public class SalesforceModuleTest {
 
     @Test
     public void testCreateBulk() throws Exception {
-    	SalesforceConnector connector = new SalesforceConnector();
+        SalesforceConnector connector = new SalesforceConnector();
         BatchInfo batchInfo = setupBulkConnection(connector);
 
         Map<String, Object> sObject = new HashMap<String, Object>();
@@ -566,7 +590,7 @@ public class SalesforceModuleTest {
 
     @Test
     public void testUpdateBulk() throws Exception {
-    	SalesforceConnector connector = new SalesforceConnector();
+        SalesforceConnector connector = new SalesforceConnector();
         BatchInfo batchInfo = setupBulkConnection(connector);
 
         Map<String, Object> sObject = new HashMap<String, Object>();
@@ -595,10 +619,10 @@ public class SalesforceModuleTest {
 
         assertEquals(batchInfo, returnedBatchInfo);
     }
-    
+
     @Test
     public void testHardDeleteBulk() throws Exception {
-    	SalesforceConnector connector = new SalesforceConnector();
+        SalesforceConnector connector = new SalesforceConnector();
         BatchInfo batchInfo = setupBulkConnection(connector);
 
         Map<String, Object> sObject = new HashMap<String, Object>();
@@ -617,10 +641,10 @@ public class SalesforceModuleTest {
         BatchInfo batchInfo = setupBulkConnection(connector);
         QueryResultList queryResultList = Mockito.mock(QueryResultList.class);
         BulkConnection bulkConnection = connector.getBulkConnection();
-        String[] queryResults = { "ID1", "ID2" };
-        byte[] a = { 'a' };
-        byte[] b = { 'b' };
-        InputStream[] sourceIs = { new ByteArrayInputStream(a), new ByteArrayInputStream(b) };
+        String[] queryResults = {"ID1", "ID2"};
+        byte[] a = {'a'};
+        byte[] b = {'b'};
+        InputStream[] sourceIs = {new ByteArrayInputStream(a), new ByteArrayInputStream(b)};
 
         when(bulkConnection.getQueryResultList(batchInfo.getJobId(), batchInfo.getId())).thenReturn(queryResultList);
         when(queryResultList.getResult()).thenReturn(queryResults);
@@ -993,8 +1017,8 @@ public class SalesforceModuleTest {
     }
 
     private BatchInfo setupBulkConnection(SalesforceConnector salesforceConnector) throws AsyncApiException {
-    	PartnerConnection partnerConnection = Mockito.mock(PartnerConnection.class);
-    	salesforceConnector.setConnection(partnerConnection);
+        PartnerConnection partnerConnection = Mockito.mock(PartnerConnection.class);
+        salesforceConnector.setConnection(partnerConnection);
         BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
         salesforceConnector.setBulkConnection(bulkConnection);
         JobInfo jobInfo = Mockito.mock(JobInfo.class);
@@ -1003,7 +1027,7 @@ public class SalesforceModuleTest {
         doReturn(jobInfo).when(bulkConnection).createJob(any(JobInfo.class));
         doReturn(batchRequest).when(bulkConnection).createBatch(any(JobInfo.class));
         doReturn(batchInfo).when(batchRequest).completeRequest();
-        
+
         return batchInfo;
     }
 
