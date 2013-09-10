@@ -240,6 +240,12 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 		</sfdc:abort-job>
 	</flow>
 
+	<flow name="job-info" doc:name="job-info">
+		<sfdc:job-info config-ref="Salesforce" doc:name="Job status"
+			jobId="#[payload.jobId]" >
+		</sfdc:job-info>
+	</flow>
+
 	<flow name="batch-info" doc:name="batch-info">
 		<sfdc:batch-info config-ref="Salesforce" doc:name="Batch info">
 			<sfdc:batch-info ref="#[payload.batchInfoRef]" />

@@ -273,6 +273,9 @@
     </sfdc:objects>
 </sfdc:create-batch>
 <!-- END_INCLUDE(sfdc:create-batch) -->
+<!-- BEGIN_INCLUDE(sfdc:job-info) -->
+<sfdc:job-info config-ref="mySalesforceConfig" jobId="ID" />
+<!-- END_INCLUDE(sfdc:job-info) -->
 <!-- BEGIN_INCLUDE(sfdc:create-batch-stream) -->
 <sfdc:create-batch-stream config-ref="mySalesforceConfig">
     <sfdc:job-info id="#[flowVars['jobInfo']"/>

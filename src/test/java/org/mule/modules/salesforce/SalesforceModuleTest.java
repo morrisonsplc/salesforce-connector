@@ -147,6 +147,20 @@ public class SalesforceModuleTest {
     }
 
     @Test
+    public void testJobInfo() throws Exception {
+        SalesforceConnector connector = new SalesforceConnector();
+        BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);
+        connector.setBulkConnection(bulkConnection);
+        JobInfo expectedJobInfo = new JobInfo();
+        String jobId = "uVsd234k23neasd";
+
+        Mockito.when(bulkConnection.getJobStatus(jobId)).thenReturn(expectedJobInfo);
+        JobInfo actualJobInfo = connector.jobInfo(jobId);
+
+        assertEquals(expectedJobInfo, actualJobInfo);
+    }
+
+    @Test
     public void testAbortJob() throws Exception {
         SalesforceConnector connector = new SalesforceConnector();
         BulkConnection bulkConnection = Mockito.mock(BulkConnection.class);

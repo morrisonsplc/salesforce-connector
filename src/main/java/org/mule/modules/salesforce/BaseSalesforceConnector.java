@@ -307,6 +307,26 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     }
 
     /**
+     * Access latest {@link JobInfo} of a submitted {@link JobInfo}. Allows to track execution status.
+     * <p/>
+     * {@sample.xml ../../../doc/mule-module-sfdc.xml.sample sfdc:job-info}
+     *
+     * @param jobId the {@link JobInfo} being monitored
+     * @return Latest {@link JobInfo} representing status of the job result.
+     * @throws Exception {@link com.sforce.ws.ConnectionException} when there is an error
+     * @api.doc <a href="http://www.salesforce.com/us/developer/docs/api_asynch/Content/asynch_api_jobs_get_details.htm">getJobInfo()</a>
+     * @since 5.0
+     */
+    @Processor
+    @OAuthProtected
+    @InvalidateConnectionOn(exception = ConnectionException.class)
+    @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
+    @Category(name = "Bulk API", description = "The Bulk API provides programmatic access to allow you to quickly load your organization's data into Salesforce.")
+    public JobInfo jobInfo(String jobId) throws Exception {
+        return getBulkConnection().getJobStatus(jobId);
+    }
+
+    /**
      * Creates a Batch using the given objects within the specified Job.
      * <p/>
      * This call uses the Bulk API. The operation will be done in asynchronous fashion.
